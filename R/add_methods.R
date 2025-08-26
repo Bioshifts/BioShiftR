@@ -12,8 +12,8 @@ add_methods <- function(data){
 
   methods <- readRDS(system.file("extdata", "methods.rds", package = "BioShiftR"))
 
-  return <- data %>%
-    left_join(methods,
+  return <- data |>
+    dplyr::left_join(methods,
               join_by(id, article_id, poly_id, type, param, method_id))
 
   return(return)

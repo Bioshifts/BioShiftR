@@ -12,8 +12,8 @@ add_taxo <- function(data){
 
   taxo <- readRDS(system.file("extdata", "taxo.rds", package = "BioShiftR"))
 
-  return <- data %>%
-    left_join(taxo,
+  return <- data |>
+    dplyr::left_join(taxo,
               join_by(sp_name_publication))
 
   return(return)

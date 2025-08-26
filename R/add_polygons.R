@@ -38,8 +38,8 @@ add_polygons <- function(data,
 
   polys <- readRDS(path)
 
-  return <- data %>%
-    left_join(polys, by = join_by(article_id, poly_id)) %>% sf::st_as_sf()
+  return <- data |>
+    dplyr::left_join(polys, by = dplyr::join_by(article_id, poly_id)) |> sf::st_as_sf()
 
 
   sf::st_crs(return) <- sf::st_crs(polys)

@@ -23,6 +23,13 @@ add_baselines(
 
 \item{res}{Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific res ("1km","25km","50km","110km"), or use "best" to ensure each shift has a matching temperature (see vignette)}
 }
+\value{
+Shifts database supplemented with selected temperature and/or precipitation baseline values within the study area or species-specific study area.
+}
 \description{
 Add baseline temperatures of species- or study-area polygons for each range shift
+}
+\examples{
+get_shifts() |> add_baselines()
+get_shifts(eco = "Mar") |> add_baselines(res = "25km")
 }

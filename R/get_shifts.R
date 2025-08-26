@@ -23,25 +23,26 @@ get_shifts <- function(group = "All",
   common_taxa <- readRDS(system.file("extdata","common_taxa.rds", package = "BioShiftR"))
 
 
+
   if(!identical(group,c("All"))){
 
-    shifts <- shifts %>%
-      filter(sp_name_publication %in% unname(unlist(common_taxa[c(group)])))
+    shifts <- shifts |>
+      dplyr::filter(sp_name_publication %in% unname(unlist(common_taxa[c(group)])))
 
   }
 
   if(!identical(realm,c("All"))){
 
-    shifts <- shifts %>% filter(eco == realm)
+    shifts <- shifts |> dplyr::filter(eco == realm)
     if(realm == "Mar"){warning("Note: Marine realm includes intertidal species, to differentiate, further filtering is required. Use column Eco.")}
     if(realm == "Ter"){warning("Note: Terrestrial realm includes Aquatic and Semi-Aquatic species, to differentiate, further filtering is required. Use Eco column.")}
   }
 
   if(!identical(continent,c("All"))){
 
-    shifts <- shifts %>%
-      mutate(cont_id = paste0(article_id,"_",poly_id)) %>%
-      filter(cont_id %in% unname(unlist(sa_cont[continent])))
+    shifts <- shifts |>
+      dplyr::mutate(cont_id = paste0(article_id,"_",poly_id)) |>
+      dplyr::filter(cont_id %in% unname(unlist(sa_cont[continent])))
   }
 
   if(nrow(shifts) == 0){
@@ -49,8 +50,8 @@ get_shifts <- function(group = "All",
   }
 
   # filter to selected type
-  shifts <- shifts %>%
-    filter(type %in% !!type)
+  shifts <- shifts |>
+    dplyr::filter(type %in% !!type)
 
   return(shifts)
 

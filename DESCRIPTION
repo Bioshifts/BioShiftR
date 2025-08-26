@@ -4,8 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Jake", "Lawlor", , "jake.lawlor@mail.mcgill.ca", role = c("aut", "cre"))
 Description: Access and manipulate data on published species' range shifts from scientific literature. This package allows for easy access to the BioShifts database of over 31,000 published range shift documentations, helper functions to manipulate the complex database, and autoplotting functions to quickly view data for select species. 
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
