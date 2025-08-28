@@ -59,8 +59,15 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, continent <span class="op">=</span> <span class="st">"Africa"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">add_articles</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_shifts(group = "Birds", continent = "Africa") %&gt;% add_articles():</span> could not find function "%&gt;%"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, continent <span class="op">=</span> <span class="st">"Africa"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_articles</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 18</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id          article_id poly_id method_id eco   type  param sp_name_publication</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A175_P1_LA… A175       P1      M01       Ter   LAT   O     Hirundo_rustica    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> A175_P2_LA… A175       P2      M01       Ter   LAT   O     Hirundo_rustica    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10 more variables: sp_name_checked &lt;chr&gt;, subsp_or_pop &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_rate &lt;dbl&gt;, calc_unit &lt;chr&gt;, direction &lt;chr&gt;, cont_id &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   article &lt;chr&gt;, doi &lt;chr&gt;, id_bioshifts_v1 &lt;dbl&gt;, id_core &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

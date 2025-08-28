@@ -64,7 +64,16 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioshifts.github.io/BioShiftR/">BioShiftR</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioshifts.github.io/BioShiftR/">BioShiftR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="using-bioshifr">Using BioShifR<a class="anchor" aria-label="anchor" href="#using-bioshifr"></a>
 </h2>
@@ -76,9 +85,40 @@ and, when available, within study regions clipped to species’
 ranges.</p>
 <p>Use this package’s helper functions to easily merge, subset, and
 manipulate the dataset for data organization and hypothesis testing.
-This vignette covers the workflow for censusing</p>
+This vignette covers the workflow for censusing shifts and adding
+relevant parameters.</p>
+<div class="section level3">
+<h3 id="get-bioshifts-shifts">Get BioShifts Shifts<a class="anchor" aria-label="anchor" href="#get-bioshifts-shifts"></a>
+</h3>
+<p>All BioShiftR workflows should begin with the
+<code><a href="../reference/get_shifts.html">get_shifts()</a></code> function, which uploads all, or a subset of,
+the 31,759 range shift observations within the BioShifts database. This
+function returns a minimal dataset showing only the range shift rates
+across latitude or elevation (<code>calc_rate</code>), as calculated in
+BioShifts in either m/year for elevational shifts, or km/year for
+latitudinal shifts (<code>calc_unit</code>), and necessary identifiers
+which connect to all other datasets.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_shifts.html">get_shifts</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 31,759</span></span>
+<span><span class="co">#&gt; Columns: 13</span></span>
+<span><span class="co">#&gt; $ id                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A001_P1_ELE_O_M1"<span style="color: #949494;">, </span>"A001_P1_ELE_O_M1"<span style="color: #949494;">, </span>"A001_P1_E…</span></span>
+<span><span class="co">#&gt; $ article_id          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A…</span></span>
+<span><span class="co">#&gt; $ poly_id             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P…</span></span>
+<span><span class="co">#&gt; $ method_id           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ eco                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ type                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ param               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>…</span></span>
+<span><span class="co">#&gt; $ sp_name_publication <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Aegithalos_caudatus"<span style="color: #949494;">, </span>"Certhia_familiaris"<span style="color: #949494;">, </span>"Dend…</span></span>
+<span><span class="co">#&gt; $ sp_name_checked     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Aegithalos_caudatus"<span style="color: #949494;">, </span>"Certhia_familiaris"<span style="color: #949494;">, </span>"Dend…</span></span>
+<span><span class="co">#&gt; $ subsp_or_pop        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Giffre Valley"<span style="color: #949494;">, </span>"Giffre Valley"<span style="color: #949494;">, </span>"Giffre Valley"<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ calc_rate           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -2.2128<span style="color: #949494;">, </span>-0.5106<span style="color: #949494;">, </span>-7.8723<span style="color: #949494;">, </span>-3.2340<span style="color: #949494;">, </span>4.8511<span style="color: #949494;">, </span>-1.319…</span></span>
+<span><span class="co">#&gt; $ calc_unit           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>…</span></span>
+<span><span class="co">#&gt; $ direction           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Lower Elevation"<span style="color: #949494;">, </span>"Lower Elevation"<span style="color: #949494;">, </span>"Lower Eleva…</span></span></code></pre></div>
 </div>
-  </main>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
