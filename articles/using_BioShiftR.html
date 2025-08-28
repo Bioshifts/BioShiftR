@@ -66,15 +66,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioshifts.github.io/BioShiftR/">BioShiftR</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="using-bioshiftr">Using BioShiftR<a class="anchor" aria-label="anchor" href="#using-bioshiftr"></a>
 </h2>
@@ -261,6 +253,19 @@ that this requires polygons to be downloaded locally with the
 </tr>
 </tbody>
 </table>
+<p>Each <code>add_</code> function adds on to the minimal shifts
+dataframe from <code><a href="../reference/get_shifts.html">get_shifts()</a></code>, using combinations of
+identifiers (<code>id</code>, <code>article_id</code>,
+<code>poly_id</code>, <code>method_id</code>, <code>eco</code>,
+<code>param</code>), and, when relevant, species names
+(<code>sp_name_publication</code>, <code>subsp_or_pop</code>). Different
+sub-dataframes connect to the shifts dataframe using different id keys
+(e.g., <code><a href="../reference/add_articles.html">add_articles()</a></code> connects by <code>article_id</code>
+but <code><a href="../reference/add_poly_info.html">add_poly_info()</a></code> connects by <code>article_id</code>,
+<code>poly_id</code>, and if requested, <code>sp_name_publication</code>
+and <code>subsp_or_pop</code>). These functions automate the merging of
+subdataframes to correctly match the shifts dataframe with any requested
+additional information.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
