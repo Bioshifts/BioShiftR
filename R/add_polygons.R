@@ -8,10 +8,7 @@
 #' @returns range shift dataframe with a geometry column containing the study-level or, when available, the species-specific polygon for each shift.
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' get_shifts(continent = "Africa") |> add_polygons()
-#' }
+#' @examples \dontrun{get_shifts(continent = "Africa") |> add_polygons()}
 add_polygons <- function(data,
                          type = "SA",
                          directory = "."){

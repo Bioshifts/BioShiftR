@@ -16,5 +16,5 @@ range shift dataframe supplemented with article identification information for e
 Add article identifiers to range shift data
 }
 \examples{
-get_shifts(group = "Birds", continent = "Africa") |> add_articles()
+get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::glimpse()
 }

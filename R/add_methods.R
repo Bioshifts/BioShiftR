@@ -14,7 +14,7 @@ add_methods <- function(data){
 
   return <- data |>
     dplyr::left_join(methods,
-              join_by(id, article_id, poly_id, type, param, method_id))
+              dplyr::join_by(id, article_id, poly_id, type, param, method_id))
 
   return(return)
 

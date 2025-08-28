@@ -20,7 +20,7 @@ library(dplyr)
 ```
 
 
-## Using BioShifR
+## Using BioShiftR
 
 BioShiftR is a helper package to facilitate easy use and manipulation of the BioShifts database, which includes over 31,000 species' range shift documentations from published scientific literature, as well as methodological, taxonomic, and climate variables within study regions and, when available, within study regions clipped to species' ranges. 
 
@@ -30,10 +30,20 @@ Use this package's helper functions to easily merge, subset, and manipulate the 
 
 All BioShiftR workflows should begin with the `get_shifts()` function, which uploads all, or a subset of, the 31,759 range shift observations within the BioShifts database. This function returns a minimal dataset showing only the range shift rates across latitude or elevation (`calc_rate`), as calculated in BioShifts in either m/year for elevational shifts, or km/year for latitudinal shifts (`calc_unit`), and necessary identifiers which connect to all other datasets. 
 
-```{r}
+```{r get shifts 1}
 get_shifts() %>% glimpse()
 ```
 
+`get_shifts()` has some built-in defaults to subset shifts by type, broad taxonomic groups, or continents. See the function help page for more options. For example, to select only latitudinal range shifts of birds in North America, we could use the following arguments. 
+
+```{r get shifts 2}
+# return all latitudinal range shifts for Birds in North America
+get_shifts(group = "Birds", type = "LAT", continent = "North America") %>% glimpse()
+
+# count how many have positive rates (moving towards the poles)
+get_shifts(group = "Birds", type = "LAT", continent = "North America") %>% count(calc_rate > 0)
+
+```
 
 
 

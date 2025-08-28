@@ -57,16 +57,16 @@ add_baselines <- function(data,
   cols <- purrr::map(.x = combinations,
                              .f = ~paste0("baseline_", apply(.x,1,paste,collapse = "_")))
 
-  data_split <- data %>% split(f = factor(data$type, levels = c("LAT","ELE")))
+  data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
 
   baselines2 <- purrr::map_dfr(
 
     .x = names(cols),
 
-    .f = ~data_split[[.x]] %>%
-      left_join(baselines %>% dplyr::select(article_id, poly_id, type, method_id, all_of(cols[[.x]])),
-                by = join_by(article_id, poly_id, method_id, type)) %>% mutate(baseline_res = res[[.x]]) %>%
-      rename_at(all_of(cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
+    .f = ~data_split[[.x]] |>
+      dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id, all_of(cols[[.x]])),
+                by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(baseline_res = res[[.x]]) %>%
+      dplyr::rename_at(dplyr::all_of(cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
 
   )
 

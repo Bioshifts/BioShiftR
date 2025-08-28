@@ -7,7 +7,7 @@
 #' @returns Range shifts dataset with added columns containing author-reported shift values, and the figure, table, or dataset in the original publication from which the shift values were pulled.
 #' @export
 #'
-#' @examples get_shifts() |> add_author_reported()
+#' @examples get_shifts() |> add_author_reported() |> dplyr::glimpse()
 add_author_reported <- function(data){
 
   author <- readRDS(system.file("extdata", "author_reported.rds", package = "BioShiftR"))

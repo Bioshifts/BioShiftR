@@ -16,5 +16,5 @@ Range shifts dataset with added columns containing author-reported shift values,
 The BioShifts package standardizes author-reported data in several forms to rates of change in the latitudinal or elevational direction over time. This function supplements the calculated shift rates with shift findings as reported by original study authors.
 }
 \examples{
-get_shifts() |> add_author_reported()
+get_shifts() |> add_author_reported() |> dplyr::glimpse()
 }

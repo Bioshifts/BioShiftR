@@ -5,7 +5,7 @@
 #' @returns range shift dataframe supplemented with article identification information for each shift (author, doi)
 #' @export
 #'
-#' @examples get_shifts(group = "Birds", continent = "Africa") |> add_articles()
+#' @examples get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::glimpse()
 add_articles <- function(data){
 
   articles <- readRDS(system.file("extdata", "articles.rds", package = "BioShiftR"))
