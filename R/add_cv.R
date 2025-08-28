@@ -18,7 +18,8 @@ add_cv <- function(data,
                            "ELE" = "1km")){
 
   # get baselines cv
-  cv <- readRDS(system.file("extdata", "cv.rds", package = "BioShiftR"))
+  cv <- readRDS(system.file("extdata", "cv.rds", package = "BioShiftR")) |>
+    dplyr::rename(cv_temp_var = temp_var)
 
   # specify res column - if only one is provided, make it the chosen res for both
   if(length(res) == 1 & is.null(names(res))){
@@ -43,7 +44,7 @@ add_cv <- function(data,
     .x = names(cols),
 
     .f = ~data_split[[.x]] |>
-      dplyr::left_join(cv |> dplyr::select(article_id, poly_id, type, method_id,along_gradient,temp_var, dplyr::all_of(cols[[.x]])),
+      dplyr::left_join(cv |> dplyr::select(article_id, poly_id, type, method_id,along_gradient, dplyr::all_of(cols[[.x]]),cv_temp_var),
                 by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(cv_res = res[[.x]]) |>
       dplyr::rename_at(dplyr::all_of(cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
 

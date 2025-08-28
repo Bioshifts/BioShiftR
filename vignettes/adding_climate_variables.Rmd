@@ -1,0 +1,20 @@
+---
+title: "Adding Climate Variables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Adding Climate Variables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(BioShiftR)
+library(dplyr)
+```

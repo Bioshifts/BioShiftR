@@ -45,6 +45,25 @@ get_shifts(group = "Birds", type = "LAT", continent = "North America") %>% count
 
 ```
 
+### Add BioShifts data
+
+`BioShiftR` includes various helper functions -- to be used individually or together -- that supplement the dataset from the `get_shifts()` function with other data values. View the table below to see all funcitons and the respective information that they add to the shifts dataframe. 
+
+
+| Function            | Description                           | New Column Names |
+|---------------------|---------------------------------------|------------------|
+| `add_articles(data)`    | Adds information identifying the source article for each specific shift        |  `article`, `doi`, `id_bioshifts_v1`, `id_core` |
+| `add_author_reported(data)`   | BioShifts recalculates range shifts as rates across latitude or elevation, and displays calculated rates in the `get_shifts()` function. This function adds columns identifying the original shift as reported by study authors. | `author_reported`, `author_reported_unit`, `author_reported_sig`, `author_reported_magnitude`, `author_reported_angle`, `author_source` |
+| `add_methods(data)`  | Shifts are measured using various methods which may affect the variability of detected shift rates. This function adds methodological parameters by which each individual shift was detected | `start_firstperiod`, `midpoint_firstperiod`, `end_firstperiod`, `start_secondperiod`, `midpoint_secondperiod`, `end_secondperiod`, `n_periods`, `duration`, `grain_size`, `sampling`, `category`, `obs_type`, `uncertainty_distribution`, `position_definition`, `position_definition_category` |
+| `add_baselines(data, type, stat, exp, res)`    | Adds the average(???) climate variable values (mean temperature or precipitation) within the study area (or the species-specific study area, see ___), over the study duration. | Variable combinations of statistic and exposure variable formatted as `baseline_stat_exposure(data, type, stat, exp, res)` (e.g., `baseline_mean_temp()`). Also `baseline_res` for the spatial resolution over which variables were calculated. See "Adding Climate Variables" for details.|
+| `add_trends(data, type, stat, exp, res)` | Adds the average change per year of climate variables (temperature or precipitation) in the study area (or species-specific study area) over the study duration. See "Adding climate Variables" vignette for more | Variable. Combinations of `trend_stat_exposure` (e.g., `trend_mean_temp`) for all requested trends, `trend_temp_var`, and `trend_res`. |
+| `add_cv()` | Adds the velocity of climate variables (temperature and precipitation) over space in the latitudinal or elevational directions within study area or species-specific study area over the study duration. See "Adding Climate Variables" vignette for more. | Variable. Combinations of `VelAlong_stat_exposure` (e.g., `VelAlong_mean_temp`) for all requested climate velocities, `cv_temp_var`, and `cv_res`. |
+| `add_poly_info(data, type)` | Supplements shifts dataframe with summary information of the study area or species-specific study area polygon in which each shift was detected. See "Working with Polygons" vignette for more. | `lat_min`, `lat_max`, `lat_cent_deg`, `lon_cent_deg`, `lat_extent_km`, `ele_mean_m`, `ele_min_m`, `ele_max_m`, `ele_extent_m`, `area_km2`, `study_area` |
+| `add_polygons(data, type)` | Supplements shifts dataframe with spatial polygons of study areas or species-specific study areas over which shifts were calculated. Note that this requires polygons to be downloaded locally with the `download_polygons()` function first. | `geom` |
+
+
+
+
 
 
 

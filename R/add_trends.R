@@ -21,7 +21,8 @@ add_trends <- function(data,
                                "ELE" = "1km")){
 
   # get baselines cv
-  trends <- readRDS(system.file("extdata", "trends.rds", package = "BioShiftR"))
+  trends <- readRDS(system.file("extdata", "trends.rds", package = "BioShiftR")) |>
+    dplyr::rename(trend_temp_var = temp_var)
 
   # specify res column - if only one is provided, make it the chosen res for both
   if(length(res) == 1 & is.null(names(res))){
@@ -46,7 +47,7 @@ add_trends <- function(data,
     .x = names(cols),
 
     .f = ~data_split[[.x]] |>
-      dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]]), temp_var),
+      dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]]), trend_temp_var),
                        by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(trend_res = res[[.x]]) |>
       dplyr::rename_at((cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
 
