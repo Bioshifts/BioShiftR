@@ -1,6 +1,10 @@
 url: https://bioshifts.github.io/BioShiftR/
 template:
   bootstrap: 5
+
 articles:
-  - using_BioShiftR
-  - adding_climate_variables
+  - title: "Articles"
+    navbar: ~
+    contents:
+      - using_BioShiftR
+      - adding_climate_variables
