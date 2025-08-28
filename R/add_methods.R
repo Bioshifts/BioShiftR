@@ -7,7 +7,7 @@
 #' @returns original shifts dataset, supplemented with methodological parameters for each individual range shift detection.
 #' @export
 #'
-#' @examples get_shifts() %>% add_taxo()
+#' @examples get_shifts() |> add_methods()
 add_methods <- function(data){
 
   methods <- readRDS(system.file("extdata", "methods.rds", package = "BioShiftR"))

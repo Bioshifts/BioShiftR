@@ -16,5 +16,5 @@ Range shifts dataset with added columns containing taxonomic classification info
 add_taxo() merges taxonomic classification to range shifts uploaded with the get_shifts() function.
 }
 \examples{
-get_shifts() \%>\% add_taxo()
+get_shifts() |> add_taxo()
 }

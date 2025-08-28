@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_shifts.R
 \name{get_shifts}
 \alias{get_shifts}
-\title{Get BioShifts Range Shifts}
+\title{Get BioShifts Range Shifts - Start Here.}
 \usage{
 get_shifts(
   group = "All",

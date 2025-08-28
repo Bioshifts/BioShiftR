@@ -1,4 +1,4 @@
-#' Get BioShifts Range Shifts
+#' Get BioShifts Range Shifts - Start Here.
 #'
 #' Get species' range shift values from the BioShifts database, filtered by taxon, study type or geography. BioShifts includes range shift observations of over 31,000 taxa within studies conducted around the world, published between
 #'

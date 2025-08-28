@@ -23,6 +23,12 @@ add_trends(
 
 \item{res}{Spatial resolution of climate grid cells with which the climate trends were calculated c("1km","25km","50km","110km"). Note that terrestrial latitudinal study areas are calculated at 1, 25, 50, 110km, marine latitudinal studies are calculated at 25, 50, 110km, and elevation studies are calculated only at 1km.}
 }
+\value{
+range shift dataframe supplemented with selected trends in temperature (°C/year) or precipitation (inches ???!? / year) within study areas or species-specific study areas throughout the duration of the original study.
+}
 \description{
 Add climate variable trends to range shift dataframe
+}
+\examples{
+get_shifts() |> add_trends() |> dplyr::glimpse()
 }
