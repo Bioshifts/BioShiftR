@@ -82,9 +82,23 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_cv</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in map(.x, .f, ...):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `loadNamespace()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> there is no package called ‘stringr’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31,759 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id         article_id poly_id method_id eco   type  param sp_name_publication</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ambloplites_rupest…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ameiurus_nebulosus </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Chrosomus_eos      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_gibbosus   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_macrochirus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Luxilus_cornutus   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_dolomi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_salmoi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notemigonus_crysol…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notropis_atherinoi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31,749 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 9 more variables: sp_name_checked &lt;chr&gt;, subsp_or_pop &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_rate &lt;dbl&gt;, calc_unit &lt;chr&gt;, direction &lt;chr&gt;, along_gradient &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   temp_var &lt;chr&gt;, VelAlong_mean_temp &lt;dbl&gt;, cv_res &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

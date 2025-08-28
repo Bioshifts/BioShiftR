@@ -82,9 +82,15 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_baselines</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data %&gt;% split(f = factor(data$type, levels = c("LAT", "ELE"))):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in map(.x, .f, ...):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `dplyr::mutate(dplyr::left_join(data_split[[.x]], dplyr::select(baselines,</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">    article_id, poly_id, type, method_id, all_of(cols[[.x]])), by = dplyr::join_by(</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">    article_id, poly_id, method_id, type)), baseline_res = res[[.x]]) %&gt;% dplyr::rename_at(</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">    dplyr::all_of(cols[[.x]]), function(col) stringr::str_replace(col, "_res.*",</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">      ""))`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> could not find function "%&gt;%"</span>
 <span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span>eco <span class="op">=</span> <span class="st">"Mar"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_baselines</span><span class="op">(</span>res <span class="op">=</span> <span class="st">"25km"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data %&gt;% split(f = factor(data$type, levels = c("LAT", "ELE"))):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_shifts(eco = "Mar"):</span> unused argument (eco = "Mar")</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
