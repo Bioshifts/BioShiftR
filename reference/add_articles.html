@@ -49,19 +49,19 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>range shift dataframe from get_shifts() function</p></dd>
+<dd><p>Range shifts dataframe from the <code><a href="get_shifts.html">get_shifts()</a></code> function</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>range shift dataframe supplemented with article identification information for each shift (author, doi)</p>
+    <p>Range shifts dataframe supplemented with article identification information for each shift: Author, DOI, and identifiers for the article within other datasets (BioShifts V1 and CoRE database of range shifts).</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, continent <span class="op">=</span> <span class="st">"Africa"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_articles</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ id                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A175_P1_LAT_O_M1"<span style="color: #949494;">, </span>"A175_P2_LAT_O_M1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ article_id          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A175"<span style="color: #949494;">, </span>"A175"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ poly_id             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "P1"<span style="color: #949494;">, </span>"P2"</span>
@@ -75,7 +75,6 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ calc_rate           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 3.45<span style="color: #949494;">, </span>-8.89</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ calc_unit           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "km/year"<span style="color: #949494;">, </span>"km/year"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ direction           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Towards Poles"<span style="color: #949494;">, </span>"Towards Equator"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ cont_id             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A175_P1"<span style="color: #949494;">, </span>"A175_P2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ article             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Ambrosini_al_2011_CR"<span style="color: #949494;">, </span>"Ambrosini_al_2011_CR"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ doi                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10.3354/cr01025"<span style="color: #949494;">, </span>"10.3354/cr01025"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ id_bioshifts_v1     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 209<span style="color: #949494;">, </span>209</span>

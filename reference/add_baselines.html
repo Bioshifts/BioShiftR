@@ -82,13 +82,23 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_baselines</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in map(.x, .f, ...):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `dplyr::mutate(dplyr::left_join(data_split[[.x]], dplyr::select(baselines,</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">    article_id, poly_id, type, method_id, all_of(cols[[.x]])), by = dplyr::join_by(</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">    article_id, poly_id, method_id, type)), baseline_res = res[[.x]]) %&gt;% dplyr::rename_at(</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">    dplyr::all_of(cols[[.x]]), function(col) stringr::str_replace(col, "_res.*",</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">      ""))`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> could not find function "%&gt;%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31,759 × 15</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id         article_id poly_id method_id eco   type  param sp_name_publication</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ambloplites_rupest…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ameiurus_nebulosus </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Chrosomus_eos      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_gibbosus   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_macrochirus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Luxilus_cornutus   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_dolomi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_salmoi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notemigonus_crysol…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notropis_atherinoi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31,749 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: sp_name_checked &lt;chr&gt;, subsp_or_pop &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_rate &lt;dbl&gt;, calc_unit &lt;chr&gt;, direction &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   baseline_mean_temp &lt;dbl&gt;, baseline_res &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span>eco <span class="op">=</span> <span class="st">"Mar"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_baselines</span><span class="op">(</span>res <span class="op">=</span> <span class="st">"25km"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_shifts(eco = "Mar"):</span> unused argument (eco = "Mar")</span>
 </code></pre></div>
