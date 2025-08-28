@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 library(BioShiftR)
 library(dplyr)
 ```
@@ -60,6 +60,8 @@ get_shifts(group = "Birds", type = "LAT", continent = "North America") %>% count
 | `add_cv()` | Adds the velocity of climate variables (temperature and precipitation) over space in the latitudinal or elevational directions within study area or species-specific study area over the study duration. See "Adding Climate Variables" vignette for more. | Variable. Combinations of `VelAlong_stat_exposure` (e.g., `VelAlong_mean_temp`) for all requested climate velocities, `cv_temp_var`, and `cv_res`. |
 | `add_poly_info(data, type)` | Supplements shifts dataframe with summary information of the study area or species-specific study area polygon in which each shift was detected. See "Working with Polygons" vignette for more. | `lat_min`, `lat_max`, `lat_cent_deg`, `lon_cent_deg`, `lat_extent_km`, `ele_mean_m`, `ele_min_m`, `ele_max_m`, `ele_extent_m`, `area_km2`, `study_area` |
 | `add_polygons(data, type)` | Supplements shifts dataframe with spatial polygons of study areas or species-specific study areas over which shifts were calculated. Note that this requires polygons to be downloaded locally with the `download_polygons()` function first. | `geom` |
+
+Each `add_` function adds on to the minimal shifts dataframe from `get_shifts()`, using combinations of identifiers (`id`, `article_id`, `poly_id`, `method_id`, `eco`, `param`), and, when relevant, species names (`sp_name_publication`, `subsp_or_pop`). Different sub-dataframes connect to the shifts dataframe using different id keys (e.g., `add_articles()` connects by `article_id` but `add_poly_info()` connects by `article_id`, `poly_id`, and if requested, `sp_name_publication` and `subsp_or_pop`). These functions automate the merging of subdataframes to correctly match the shifts dataframe with any requested additional information. 
 
 
 
