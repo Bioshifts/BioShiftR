@@ -14,7 +14,7 @@ add_taxo <- function(data){
 
   return <- data |>
     dplyr::left_join(taxo,
-              join_by(sp_name_publication))
+              dplyr::join_by(sp_name_publication))
 
   return(return)
 

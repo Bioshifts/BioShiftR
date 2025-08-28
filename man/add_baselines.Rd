@@ -9,7 +9,7 @@ add_baselines(
   type = "SA",
   stat = c("mean"),
   exp = c("temp"),
-  res = c("mean")
+  res = c(LAT = "25km", ELE = "1km")
 )
 }
 \arguments{

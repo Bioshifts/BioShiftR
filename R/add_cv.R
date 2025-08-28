@@ -9,7 +9,7 @@
 #' @returns dataframe of range shifts supplemented with selected columns of climate velocity.
 #' @export
 #'
-#' @examples
+#' @examples get_shifts() %>% add_cv()
 add_cv <- function(data,
                    type = "SA",
                    stat = c("mean"),
@@ -36,22 +36,22 @@ add_cv <- function(data,
                      .f = ~paste0("VelAlong_", apply(.x,1,paste,collapse = "_")))
 
   # split data by type (lat/ele)
-  data_split <- data %>% split(f = factor(data$type, levels = c("LAT","ELE")))
+  data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
 
   cv2 <- purrr::map_dfr(
 
     .x = names(cols),
 
-    .f = ~data_split[[.x]] %>%
-      left_join(cv %>% dplyr::select(article_id, poly_id, type, method_id,along_gradient,temp_var, all_of(cols[[.x]])),
-                by = join_by(article_id, poly_id, method_id, type)) %>% mutate(cv_res = res[[.x]]) %>%
-      rename_at(all_of(cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
+    .f = ~data_split[[.x]] |>
+      dplyr::left_join(cv |> dplyr::select(article_id, poly_id, type, method_id,along_gradient,temp_var, dplyr::all_of(cols[[.x]])),
+                by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(cv_res = res[[.x]]) |>
+      dplyr::rename_at(dplyr::all_of(cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
 
   )
 
   # print a warning if species-specific polys are missing
   if(type == "SP"){
-    n_missing <- sum(is.na(return[,c(str_replace(cols[1],"_res.*",""))]))
+    n_missing <- sum(is.na(return[,c(stringr::str_replace(cols[1],"_res.*",""))]))
     if(n_missing > 0){
       warning(paste0("Not all shifts have associated species-specific polygon values, or values at every resolution. ",n_missing," NAs returned."))
     }
