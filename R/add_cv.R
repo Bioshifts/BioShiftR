@@ -9,7 +9,7 @@
 #' @returns dataframe of range shifts supplemented with selected columns of climate velocity.
 #' @export
 #'
-#' @examples get_shifts() %>% add_cv()
+#' @examples get_shifts() |> add_cv()
 add_cv <- function(data,
                    type = "SA",
                    stat = c("mean"),

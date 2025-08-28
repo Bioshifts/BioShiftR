@@ -10,7 +10,10 @@
 #' @returns data folder for polygon storage
 #' @export
 #'
-#' @examples download_polyons(type = "SA")
+#' @examples
+#' \dontrun{
+#'  download_polyons(type = "SA")
+#'  }
 download_polygons <- function(type = "SA",
                               directory = ".",
                               timeout = 500,

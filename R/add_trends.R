@@ -10,7 +10,7 @@
 #' @returns range shift dataframe supplemented with selected trends in temperature (°C/year) or precipitation (inches ???!? / year) within study areas or species-specific study areas throughout the duration of the original study.
 #' @export
 #'
-#' @examples
+#' @examples get_shifts() |> add_trends() |> dplyr::glimpse()
 add_trends <- function(data,
                        type = "SA",
                        stat = c("mean"),

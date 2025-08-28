@@ -23,6 +23,8 @@ library(BioShiftR)
 
 BioShiftR is a helper package to facilitate easy use and manipulation of the BioShifts database, which includes over 31,000 species' range shift documentations from published scientific literature, as well as methodological, taxonomic, and climate variables within study regions and, when available, within study regions clipped to species' ranges. 
 
-Use this package's helper functions to easily merge, subset, and manipulate the dataset for htypothesis testing and 
+Use this package's helper functions to easily merge, subset, and manipulate the dataset for data organization and hypothesis testing. This vignette covers the workflow for censusing 
+
+
 
 
