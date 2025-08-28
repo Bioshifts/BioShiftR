@@ -30,13 +30,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/adding_climate_variables.html">Adding Climate Variables</a></li>
-    <li><a class="dropdown-item" href="../articles/using_BioShiftR.html">Using BioShiftR</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -64,10 +58,53 @@
 
     
     
+<div class="section level2">
+<h2 id="adding-climate-variables">Adding Climate Variables<a class="anchor" aria-label="anchor" href="#adding-climate-variables"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioshifts.github.io/BioShiftR/">BioShiftR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<p>Range shifts are hypothesized to be driven, in part, by changes in
+climate variables that affect species’ ability to survive, expand to new
+areas, or contract from their existing ranges. It is therefore logical
+that changes in climate variables contribute to the range changes
+documented in the BioShifts database.</p>
+<p>The BioShifts team has standardized calculations for changes in
+temperature and precipitation within the geographical regions that range
+shifts were recorded (hereafter, study areas), and, when available,
+within the study areas cropped to the range of the individual species
+(hereafter, species-specific study areas). within each study area and
+species-specific study area, we provide baseline temperature and
+precipitation over individual study durations, average trends
+(change/year) in temperature and precipitation, and the spatial velocity
+of climate change (km/year??) across latitudinal or elevational
+gradients (matching the gradient of each associated range shift).</p>
+<p>All climate data can be supplemented to selected range shifts with
+the <code><a href="../reference/add_baselines.html">add_baselines()</a></code>, <code><a href="../reference/add_trends.html">add_trends()</a></code>, and
+<code><a href="../reference/add_cv.html">add_cv()</a></code> functions, but raw climate data can also be
+accessed with <code>data(climate_variables)</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="understanding-resolutions">Understanding Resolutions<a class="anchor" aria-label="anchor" href="#understanding-resolutions"></a>
+</h2>
+<p>Climate data were collected and caculated with [[satelite??]] data at
+four different resolutions: 1km, 25km, 50km and 110km. Summary
+statistics calculated between the four different resolutions may vary in
+several ways, so we allow users the option to access data from whichever
+resolution they feel is appropriate.</p>
+<p>These four resolutions offer different trade-offs, because they
+affect both the variability of climate variables between grid cells
+(small resolutions will vary more, especially in heterogenous
+environments), but they will also affect velocities, since climate
+velocity is calculated as change in trends / spatial gradient of
+environmental values. Larger grid cells will generally result in flatter
+(smaller) spatial variability in temperature values, decreasing the
+denominators of climate velocity, and therefore resulting in larger
+velocity values, compared to climate velocity calculated between small
+grid cells.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

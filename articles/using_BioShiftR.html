@@ -30,13 +30,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/adding_climate_variables.html">Adding Climate Variables</a></li>
-    <li><a class="dropdown-item" href="../articles/using_BioShiftR.html">Using BioShiftR</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -64,12 +58,12 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioshifts.github.io/BioShiftR/">BioShiftR</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="using-bioshiftr">Using BioShiftR<a class="anchor" aria-label="anchor" href="#using-bioshiftr"></a>
 </h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioshifts.github.io/BioShiftR/">BioShiftR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <p>BioShiftR is a helper package to facilitate easy use and manipulation
 of the BioShifts database, which includes over 31,000 species’ range
 shift documentations from published scientific literature, as well as
@@ -110,12 +104,14 @@ which connect to all other datasets.</p>
 <span><span class="co">#&gt; $ direction           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Lower Elevation"<span style="color: #949494;">, </span>"Lower Elevation"<span style="color: #949494;">, </span>"Lower Eleva…</span></span></code></pre></div>
 <p><code><a href="../reference/get_shifts.html">get_shifts()</a></code> has some built-in defaults to subset shifts
 by type, broad taxonomic groups, or continents. See the function help
-page for more options. For example, to select only latitudinal range
-shifts of birds in North America, we could use the following
-arguments.</p>
+page for more options.</p>
+<p>For example, to select only latitudinal range shifts of birds in
+North America, we could use the following arguments.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># return all latitudinal range shifts for Birds in North America</span></span>
-<span><span class="fu"><a href="../reference/get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, type <span class="op">=</span> <span class="st">"LAT"</span>, continent <span class="op">=</span> <span class="st">"North America"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, </span>
+<span>           type <span class="op">=</span> <span class="st">"LAT"</span>, </span>
+<span>           continent <span class="op">=</span> <span class="st">"North America"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 2,382</span></span>
 <span><span class="co">#&gt; Columns: 13</span></span>
 <span><span class="co">#&gt; $ id                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A009_P1_LAT_LE_M1"<span style="color: #949494;">, </span>"A009_P1_LAT_LE_M1"<span style="color: #949494;">, </span>"A009_P1…</span></span>
@@ -130,10 +126,16 @@ arguments.</p>
 <span><span class="co">#&gt; $ subsp_or_pop        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span>…</span></span>
 <span><span class="co">#&gt; $ calc_rate           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 13.78<span style="color: #949494;">, </span>0.18<span style="color: #949494;">, </span>1.92<span style="color: #949494;">, </span>0.51<span style="color: #949494;">, </span>0.35<span style="color: #949494;">, </span>6.48<span style="color: #949494;">, </span>14.71<span style="color: #949494;">, </span>0.61<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">#&gt; $ calc_unit           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "km/year"<span style="color: #949494;">, </span>"km/year"<span style="color: #949494;">, </span>"km/year"<span style="color: #949494;">, </span>"km/year"<span style="color: #949494;">, </span>"km/ye…</span></span>
-<span><span class="co">#&gt; $ direction           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Expansion"<span style="color: #949494;">, </span>"Expansion"<span style="color: #949494;">, </span>"Expansion"<span style="color: #949494;">, </span>"Expansion"…</span></span>
-<span></span>
-<span><span class="co"># count how many have positive rates (moving towards the poles)</span></span>
-<span><span class="fu"><a href="../reference/get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, type <span class="op">=</span> <span class="st">"LAT"</span>, continent <span class="op">=</span> <span class="st">"North America"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">calc_rate</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $ direction           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Expansion"<span style="color: #949494;">, </span>"Expansion"<span style="color: #949494;">, </span>"Expansion"<span style="color: #949494;">, </span>"Expansion"…</span></span></code></pre></div>
+<p>Or we could do the same and quickly assess the number of latitudinal
+bird shifts in North America that have positive rates (moving towards
+the poles):</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># count how many have positive rates (moving towards the poles)</span></span>
+<span><span class="fu"><a href="../reference/get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, </span>
+<span>           type <span class="op">=</span> <span class="st">"LAT"</span>, </span>
+<span>           continent <span class="op">=</span> <span class="st">"North America"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">calc_rate</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   `calc_rate &gt; 0`     n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -145,9 +147,12 @@ arguments.</p>
 </h3>
 <p><code>BioShiftR</code> includes various helper functions – to be used
 individually or together – that supplement the dataset from the
-<code><a href="../reference/get_shifts.html">get_shifts()</a></code> function with other data values. View the
+<code><a href="../reference/get_shifts.html">get_shifts()</a></code> function with other relevant data. View the
 table below to see all funcitons and the respective information that
-they add to the shifts dataframe.</p>
+they add to the shifts dataframe. Each function adds directly to the
+shifts dataframe by combinations of ID keys. Some require additional
+arguments to specify data requests. See function help pages for
+details.</p>
 <table class="table">
 <colgroup>
 <col width="26%">
@@ -203,11 +208,10 @@ parameters by which each individual shift was detected</td>
 precipitation) within the study area (or the species-specific study
 area, see ___), over the study duration.</td>
 <td>Variable combinations of statistic and exposure variable formatted
-as <code>baseline_stat_exposure(data, type, stat, exp, res)</code>
-(e.g., <code>baseline_mean_temp()</code>). Also
-<code>baseline_res</code> for the spatial resolution over which
-variables were calculated. See “Adding Climate Variables” for
-details.</td>
+as <code>baseline_stat_exposure</code> (e.g.,
+<code>baseline_mean_temp()</code>). Also <code>baseline_res</code> for
+the spatial resolution over which variables were calculated. See “Adding
+Climate Variables” for details.</td>
 </tr>
 <tr class="odd">
 <td><code>add_trends(data, type, stat, exp, res)</code></td>
@@ -225,9 +229,10 @@ more</td>
 precipitation) over space in the latitudinal or elevational directions
 within study area or species-specific study area over the study
 duration. See “Adding Climate Variables” vignette for more.</td>
-<td>Variable. Combinations of <code>VelAlong_stat_exposure</code> (e.g.,
+<td>Variable combinations of <code>VelAlong_stat_exposure</code> (e.g.,
 <code>VelAlong_mean_temp</code>) for all requested climate velocities,
-<code>cv_temp_var</code>, and <code>cv_res</code>.</td>
+<code>cv_temp_var</code>, and <code>cv_res</code>. See “Adding Climate
+Variables” vignette for more.</td>
 </tr>
 <tr class="odd">
 <td><code>add_poly_info(data, type)</code></td>
