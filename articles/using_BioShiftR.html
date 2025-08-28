@@ -33,7 +33,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/using_BioShiftR.html">Using BioShiftR</a></li>
+<li><a class="dropdown-item" href="../articles/adding_climate_variables.html">Adding Climate Variables</a></li>
+    <li><a class="dropdown-item" href="../articles/using_BioShiftR.html">Using BioShiftR</a></li>
   </ul>
 </li>
       </ul>
@@ -146,6 +147,120 @@ arguments.</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> FALSE             948</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> TRUE             <span style="text-decoration: underline;">1</span>434</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="add-bioshifts-data">Add BioShifts data<a class="anchor" aria-label="anchor" href="#add-bioshifts-data"></a>
+</h3>
+<p><code>BioShiftR</code> includes various helper functions – to be used
+individually or together – that supplement the dataset from the
+<code><a href="../reference/get_shifts.html">get_shifts()</a></code> function with other data values. View the
+table below to see all funcitons and the respective information that
+they add to the shifts dataframe.</p>
+<table class="table">
+<colgroup>
+<col width="26%">
+<col width="50%">
+<col width="23%">
+</colgroup>
+<thead><tr class="header">
+<th>Function</th>
+<th>Description</th>
+<th>New Column Names</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>add_articles(data)</code></td>
+<td>Adds information identifying the source article for each specific
+shift</td>
+<td>
+<code>article</code>, <code>doi</code>,
+<code>id_bioshifts_v1</code>, <code>id_core</code>
+</td>
+</tr>
+<tr class="even">
+<td><code>add_author_reported(data)</code></td>
+<td>BioShifts recalculates range shifts as rates across latitude or
+elevation, and displays calculated rates in the
+<code><a href="../reference/get_shifts.html">get_shifts()</a></code> function. This function adds columns
+identifying the original shift as reported by study authors.</td>
+<td>
+<code>author_reported</code>, <code>author_reported_unit</code>,
+<code>author_reported_sig</code>,
+<code>author_reported_magnitude</code>,
+<code>author_reported_angle</code>, <code>author_source</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code>add_methods(data)</code></td>
+<td>Shifts are measured using various methods which may affect the
+variability of detected shift rates. This function adds methodological
+parameters by which each individual shift was detected</td>
+<td>
+<code>start_firstperiod</code>, <code>midpoint_firstperiod</code>,
+<code>end_firstperiod</code>, <code>start_secondperiod</code>,
+<code>midpoint_secondperiod</code>, <code>end_secondperiod</code>,
+<code>n_periods</code>, <code>duration</code>, <code>grain_size</code>,
+<code>sampling</code>, <code>category</code>, <code>obs_type</code>,
+<code>uncertainty_distribution</code>, <code>position_definition</code>,
+<code>position_definition_category</code>
+</td>
+</tr>
+<tr class="even">
+<td><code>add_baselines(data, type, stat, exp, res)</code></td>
+<td>Adds the average(???) climate variable values (mean temperature or
+precipitation) within the study area (or the species-specific study
+area, see ___), over the study duration.</td>
+<td>Variable combinations of statistic and exposure variable formatted
+as <code>baseline_stat_exposure(data, type, stat, exp, res)</code>
+(e.g., <code>baseline_mean_temp()</code>). Also
+<code>baseline_res</code> for the spatial resolution over which
+variables were calculated. See “Adding Climate Variables” for
+details.</td>
+</tr>
+<tr class="odd">
+<td><code>add_trends(data, type, stat, exp, res)</code></td>
+<td>Adds the average change per year of climate variables (temperature
+or precipitation) in the study area (or species-specific study area)
+over the study duration. See “Adding climate Variables” vignette for
+more</td>
+<td>Variable. Combinations of <code>trend_stat_exposure</code> (e.g.,
+<code>trend_mean_temp</code>) for all requested trends,
+<code>trend_temp_var</code>, and <code>trend_res</code>.</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/add_cv.html">add_cv()</a></code></td>
+<td>Adds the velocity of climate variables (temperature and
+precipitation) over space in the latitudinal or elevational directions
+within study area or species-specific study area over the study
+duration. See “Adding Climate Variables” vignette for more.</td>
+<td>Variable. Combinations of <code>VelAlong_stat_exposure</code> (e.g.,
+<code>VelAlong_mean_temp</code>) for all requested climate velocities,
+<code>cv_temp_var</code>, and <code>cv_res</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>add_poly_info(data, type)</code></td>
+<td>Supplements shifts dataframe with summary information of the study
+area or species-specific study area polygon in which each shift was
+detected. See “Working with Polygons” vignette for more.</td>
+<td>
+<code>lat_min</code>, <code>lat_max</code>,
+<code>lat_cent_deg</code>, <code>lon_cent_deg</code>,
+<code>lat_extent_km</code>, <code>ele_mean_m</code>,
+<code>ele_min_m</code>, <code>ele_max_m</code>,
+<code>ele_extent_m</code>, <code>area_km2</code>,
+<code>study_area</code>
+</td>
+</tr>
+<tr class="even">
+<td><code>add_polygons(data, type)</code></td>
+<td>Supplements shifts dataframe with spatial polygons of study areas or
+species-specific study areas over which shifts were calculated. Note
+that this requires polygons to be downloaded locally with the
+<code><a href="../reference/download_polygons.html">download_polygons()</a></code> function first.</td>
+<td><code>geom</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
