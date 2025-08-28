@@ -7,6 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+## Using BioShiftR
+
+
 ```{r, include = FALSE, message=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -18,9 +21,6 @@ knitr::opts_chunk$set(
 library(BioShiftR)
 library(dplyr)
 ```
-
-
-## Using BioShiftR
 
 BioShiftR is a helper package to facilitate easy use and manipulation of the BioShifts database, which includes over 31,000 species' range shift documentations from published scientific literature, as well as methodological, taxonomic, and climate variables within study regions and, when available, within study regions clipped to species' ranges. 
 
@@ -34,20 +34,29 @@ All BioShiftR workflows should begin with the `get_shifts()` function, which upl
 get_shifts() %>% glimpse()
 ```
 
-`get_shifts()` has some built-in defaults to subset shifts by type, broad taxonomic groups, or continents. See the function help page for more options. For example, to select only latitudinal range shifts of birds in North America, we could use the following arguments. 
+`get_shifts()` has some built-in defaults to subset shifts by type, broad taxonomic groups, or continents. See the function help page for more options. 
 
+For example, to select only latitudinal range shifts of birds in North America, we could use the following arguments. 
 ```{r get shifts 2}
-# return all latitudinal range shifts for Birds in North America
-get_shifts(group = "Birds", type = "LAT", continent = "North America") %>% glimpse()
-
-# count how many have positive rates (moving towards the poles)
-get_shifts(group = "Birds", type = "LAT", continent = "North America") %>% count(calc_rate > 0)
-
+get_shifts(group = "Birds", 
+           type = "LAT", 
+           continent = "North America") %>% 
+  glimpse()
 ```
+
+Or we could do the same and quickly assess the number of latitudinal bird shifts in North America that have positive rates (moving towards the poles):
+```{r get shifts 3}
+# count how many have positive rates (moving towards the poles)
+get_shifts(group = "Birds", 
+           type = "LAT", 
+           continent = "North America") %>% 
+  count(calc_rate > 0)
+```
+
 
 ### Add BioShifts data
 
-`BioShiftR` includes various helper functions -- to be used individually or together -- that supplement the dataset from the `get_shifts()` function with other data values. View the table below to see all funcitons and the respective information that they add to the shifts dataframe. 
+`BioShiftR` includes various helper functions -- to be used individually or together -- that supplement the dataset from the `get_shifts()` function with other relevant data. View the table below to see all funcitons and the respective information that they add to the shifts dataframe. Each function adds directly to the shifts dataframe by combinations of ID keys. Some require additional arguments to specify data requests. See function help pages for details.
 
 
 | Function            | Description                           | New Column Names |
@@ -55,14 +64,13 @@ get_shifts(group = "Birds", type = "LAT", continent = "North America") %>% count
 | `add_articles(data)`    | Adds information identifying the source article for each specific shift        |  `article`, `doi`, `id_bioshifts_v1`, `id_core` |
 | `add_author_reported(data)`   | BioShifts recalculates range shifts as rates across latitude or elevation, and displays calculated rates in the `get_shifts()` function. This function adds columns identifying the original shift as reported by study authors. | `author_reported`, `author_reported_unit`, `author_reported_sig`, `author_reported_magnitude`, `author_reported_angle`, `author_source` |
 | `add_methods(data)`  | Shifts are measured using various methods which may affect the variability of detected shift rates. This function adds methodological parameters by which each individual shift was detected | `start_firstperiod`, `midpoint_firstperiod`, `end_firstperiod`, `start_secondperiod`, `midpoint_secondperiod`, `end_secondperiod`, `n_periods`, `duration`, `grain_size`, `sampling`, `category`, `obs_type`, `uncertainty_distribution`, `position_definition`, `position_definition_category` |
-| `add_baselines(data, type, stat, exp, res)`    | Adds the average(???) climate variable values (mean temperature or precipitation) within the study area (or the species-specific study area, see ___), over the study duration. | Variable combinations of statistic and exposure variable formatted as `baseline_stat_exposure(data, type, stat, exp, res)` (e.g., `baseline_mean_temp()`). Also `baseline_res` for the spatial resolution over which variables were calculated. See "Adding Climate Variables" for details.|
+| `add_baselines(data, type, stat, exp, res)`    | Adds the average(???) climate variable values (mean temperature or precipitation) within the study area (or the species-specific study area, see ___), over the study duration. | Variable combinations of statistic and exposure variable formatted as `baseline_stat_exposure` (e.g., `baseline_mean_temp()`). Also `baseline_res` for the spatial resolution over which variables were calculated. See "Adding Climate Variables" for details.|
 | `add_trends(data, type, stat, exp, res)` | Adds the average change per year of climate variables (temperature or precipitation) in the study area (or species-specific study area) over the study duration. See "Adding climate Variables" vignette for more | Variable. Combinations of `trend_stat_exposure` (e.g., `trend_mean_temp`) for all requested trends, `trend_temp_var`, and `trend_res`. |
-| `add_cv()` | Adds the velocity of climate variables (temperature and precipitation) over space in the latitudinal or elevational directions within study area or species-specific study area over the study duration. See "Adding Climate Variables" vignette for more. | Variable. Combinations of `VelAlong_stat_exposure` (e.g., `VelAlong_mean_temp`) for all requested climate velocities, `cv_temp_var`, and `cv_res`. |
+| `add_cv()` | Adds the velocity of climate variables (temperature and precipitation) over space in the latitudinal or elevational directions within study area or species-specific study area over the study duration. See "Adding Climate Variables" vignette for more. | Variable combinations of `VelAlong_stat_exposure` (e.g., `VelAlong_mean_temp`) for all requested climate velocities, `cv_temp_var`, and `cv_res`. See "Adding Climate Variables" vignette for more. |
 | `add_poly_info(data, type)` | Supplements shifts dataframe with summary information of the study area or species-specific study area polygon in which each shift was detected. See "Working with Polygons" vignette for more. | `lat_min`, `lat_max`, `lat_cent_deg`, `lon_cent_deg`, `lat_extent_km`, `ele_mean_m`, `ele_min_m`, `ele_max_m`, `ele_extent_m`, `area_km2`, `study_area` |
 | `add_polygons(data, type)` | Supplements shifts dataframe with spatial polygons of study areas or species-specific study areas over which shifts were calculated. Note that this requires polygons to be downloaded locally with the `download_polygons()` function first. | `geom` |
 
 Each `add_` function adds on to the minimal shifts dataframe from `get_shifts()`, using combinations of identifiers (`id`, `article_id`, `poly_id`, `method_id`, `eco`, `param`), and, when relevant, species names (`sp_name_publication`, `subsp_or_pop`). Different sub-dataframes connect to the shifts dataframe using different id keys (e.g., `add_articles()` connects by `article_id` but `add_poly_info()` connects by `article_id`, `poly_id`, and if requested, `sp_name_publication` and `subsp_or_pop`). These functions automate the merging of subdataframes to correctly match the shifts dataframe with any requested additional information. 
-
 
 
 
