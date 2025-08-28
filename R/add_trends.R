@@ -1,6 +1,8 @@
 #' Add climate variable trends to range shift dataframe
 #'
-#' @param data dataframe of BioShifts range shifts from get_shifts() function
+#' `add_trends()` supplements the range shifts dataframe with annual change in climate trends (temperature and/or precipitation) within the study areas or species-specific study areas of the shift detection over the study duration.
+#'
+#' @param data dataframe of BioShifts range shifts from `get_shifts()` function
 #' @param type Type of area over which trends are calculated: Article study areas ("SA"), or study areas cropped to species' range polygons ("SP").
 #' @param stat Statistic of climate trends to add c("min", "1Q", "median", "mean", "3Q", "max").
 #' @param exp Exposure variable c("temp","precip")
@@ -44,7 +46,7 @@ add_trends <- function(data,
     .x = names(cols),
 
     .f = ~data_split[[.x]] |>
-      dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id,temp_var, dplyr::all_of(cols[[.x]])),
+      dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]]), temp_var),
                        by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(trend_res = res[[.x]]) |>
       dplyr::rename_at((cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
 

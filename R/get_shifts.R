@@ -42,7 +42,8 @@ get_shifts <- function(group = "All",
 
     shifts <- shifts |>
       dplyr::mutate(cont_id = paste0(article_id,"_",poly_id)) |>
-      dplyr::filter(cont_id %in% unname(unlist(sa_cont[continent])))
+      dplyr::filter(cont_id %in% unname(unlist(sa_cont[continent]))) |>
+      dplyr::select(-cont_id)
   }
 
   if(nrow(shifts) == 0){

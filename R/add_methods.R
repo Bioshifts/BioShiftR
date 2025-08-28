@@ -4,10 +4,10 @@
 #'
 #' @param data input data from get_shifts().
 #'
-#' @returns original shifts dataset, supplemented with methodological parameters for each individual range shift detection.
+#' @returns original shifts dataset, supplemented with methodological parameters for each individual range shift detection. See readme for details on methods columns.
 #' @export
 #'
-#' @examples get_shifts() |> add_methods()
+#' @examples get_shifts() |> add_methods() |> dplyr::glimpse()
 add_methods <- function(data){
 
   methods <- readRDS(system.file("extdata", "methods.rds", package = "BioShiftR"))

@@ -7,10 +7,10 @@
 add_articles(data)
 }
 \arguments{
-\item{data}{range shift dataframe from get_shifts() function}
+\item{data}{Range shifts dataframe from the \code{get_shifts()} function}
 }
 \value{
-range shift dataframe supplemented with article identification information for each shift (author, doi)
+Range shifts dataframe supplemented with article identification information for each shift: Author, DOI, and identifiers for the article within other datasets (BioShifts V1 and CoRE database of range shifts).
 }
 \description{
 Add article identifiers to range shift data

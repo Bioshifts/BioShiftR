@@ -65,7 +65,7 @@ add_baselines <- function(data,
 
     .f = ~data_split[[.x]] |>
       dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id, all_of(cols[[.x]])),
-                by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(baseline_res = res[[.x]]) %>%
+                by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(baseline_res = res[[.x]]) |>
       dplyr::rename_at(dplyr::all_of(cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
 
   )

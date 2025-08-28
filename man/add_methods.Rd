@@ -10,11 +10,11 @@ add_methods(data)
 \item{data}{input data from get_shifts().}
 }
 \value{
-original shifts dataset, supplemented with methodological parameters for each individual range shift detection.
+original shifts dataset, supplemented with methodological parameters for each individual range shift detection. See readme for details on methods columns.
 }
 \description{
 add_methods supplements the minimal shifts database with methodological information describing the methods by which individal shifts were documented. These include variables such as sampling years, definitions of range parameters, and more.
 }
 \examples{
-get_shifts() |> add_methods()
+get_shifts() |> add_methods() |> dplyr::glimpse()
 }

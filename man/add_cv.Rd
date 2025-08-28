@@ -30,5 +30,5 @@ dataframe of range shifts supplemented with selected columns of climate velocity
 Add Climate Velocity to shifts dataframe
 }
 \examples{
-get_shifts() |> add_cv()
+get_shifts() |> add_cv(stat = c("mean"), exp = c("temp"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()
 }

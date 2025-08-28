@@ -13,7 +13,7 @@ add_trends(
 )
 }
 \arguments{
-\item{data}{dataframe of BioShifts range shifts from get_shifts() function}
+\item{data}{dataframe of BioShifts range shifts from \code{get_shifts()} function}
 
 \item{type}{Type of area over which trends are calculated: Article study areas ("SA"), or study areas cropped to species' range polygons ("SP").}
 
@@ -27,7 +27,7 @@ add_trends(
 range shift dataframe supplemented with selected trends in temperature (°C/year) or precipitation (inches ???!? / year) within study areas or species-specific study areas throughout the duration of the original study.
 }
 \description{
-Add climate variable trends to range shift dataframe
+\code{add_trends()} supplements the range shifts dataframe with annual change in climate trends (temperature and/or precipitation) within the study areas or species-specific study areas of the shift detection over the study duration.
 }
 \examples{
 get_shifts() |> add_trends() |> dplyr::glimpse()
