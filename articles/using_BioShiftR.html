@@ -177,13 +177,67 @@ species/subspecies will never be represented more than once.</p>
 <th>Format</th>
 <th>Description</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody>
+<tr class="odd">
 <td><code>id</code></td>
+<td><code>AXXX_PX_type_param_MXX</code></td>
+<td>summary ID value, arranged as
+<code>article_poly_type_param_method</code>.</td>
+</tr>
+<tr class="even">
+<td><code>article_id</code></td>
 <td>
-<code>AXXX_PX_type_param_MXX |summary ID value, arranged as</code>article_poly_type_param_method<code>. | |</code>article_id<code>|</code>A001<code>,</code>A002<code>, ...</code>A244<code>| Identifier for the source publication in which the range shifts were originally documented. | |</code>poly_id<code>|</code>P1<code>,</code>P2<code>, ...</code>P9<code>| Identifier for the polygon within the source publication in which range shifts were documented. Most publications have one polygon (P1), but can have multiple when a publication detects range shifts in multiple locations (e.g.,  two separate mountains, three ocean basins, etc.) | |</code>type<code>|</code>LAT<code>,</code>ELE<code>| Identifier for the type of range shift -- latitudinal or elevational -- detected within a polygon. Usually, studies detect only one type of range shift, but in some cases census both. | |</code>param<code>|</code>LE<code>,</code>O<code>,</code>TE<code>| Identifier for the parameter of the species' range where the shift was detected: Leading Edge (LE), Trailing edge (TE), or range center (O). Here defined as the poleward or upslope edge, the equatorward or downslope edge, and various definitions of the range center (midpoint, center of gravity, etc.), respectively. | |</code>method_id<code>|</code>M01<code>,</code>M02<code>, ...</code>M24<code>|  Identifier for the method, within previous groups, of the range shifts detected. Usually, studies use only one method for all range shifts (M1), but in some cases, studies census range shifts across multiple timeframes (for example, 1950-1975, 1975-2000, 1950-2000), or by two different statistical methods (mean occurrence and median occurrence), resulting in detections with identical values of all preceding columns. Here, these cases will be separated into</code>_M1<code>,</code>_M2`,
-and so on.</td>
-<td></td>
-</tr></tbody>
+<code>A001</code>, <code>A002</code>, … <code>A244</code>
+</td>
+<td>Identifier for the source publication in which the range shifts were
+originally documented.</td>
+</tr>
+<tr class="odd">
+<td><code>poly_id</code></td>
+<td>
+<code>P1</code>, <code>P2</code>, … <code>P9</code>
+</td>
+<td>Identifier for the polygon within the source publication in which
+range shifts were documented. Most publications have one polygon (P1),
+but can have multiple when a publication detects range shifts in
+multiple locations (e.g., two separate mountains, three ocean basins,
+etc.)</td>
+</tr>
+<tr class="even">
+<td><code>type</code></td>
+<td>
+<code>LAT</code>, <code>ELE</code>
+</td>
+<td>Identifier for the type of range shift – latitudinal or elevational
+– detected within a polygon. Usually, studies detect only one type of
+range shift, but in some cases census both.</td>
+</tr>
+<tr class="odd">
+<td><code>param</code></td>
+<td>
+<code>LE</code>, <code>O</code>, <code>TE</code>
+</td>
+<td>Identifier for the parameter of the species’ range where the shift
+was detected: Leading Edge (LE), Trailing edge (TE), or range center
+(O). Here defined as the poleward or upslope edge, the equatorward or
+downslope edge, and various definitions of the range center (midpoint,
+center of gravity, etc.), respectively.</td>
+</tr>
+<tr class="even">
+<td><code>method_id</code></td>
+<td>
+<code>M01</code>, <code>M02</code>, … <code>M24</code>
+</td>
+<td>Identifier for the method, within previous groups, of the range
+shifts detected. Usually, studies use only one method for all range
+shifts (M1), but in some cases, studies census range shifts across
+multiple timeframes (for example, 1950-1975, 1975-2000, 1950-2000), or
+by two different statistical methods (mean occurrence and median
+occurrence), resulting in detections with identical values of all
+preceding columns. Here, these cases will be separated into
+<code>_M1</code>, <code>_M2</code>, and so on.</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="section level3">
