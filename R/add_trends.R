@@ -21,8 +21,11 @@ add_trends <- function(data,
                                "ELE" = "1km")){
 
   # get baselines cv
-  trends <- readRDS(system.file("extdata", "trends.rds", package = "BioShiftR")) |>
-    dplyr::rename(trend_temp_var = temp_var)
+  trends <- switch(
+    type,
+    "SA" = readRDS(system.file("extdata", "trends.rds", package = "BioShiftR")) |> dplyr::rename(trend_temp_var = temp_var),
+    "SP" = readRDS(system.file("extdata", "sp_trends.rds", package = "BioShiftR")) |> dplyr::rename(trend_temp_var = temp_var)
+  )
 
   # specify res column - if only one is provided, make it the chosen res for both
   if(length(res) == 1 & is.null(names(res))){
@@ -42,22 +45,32 @@ add_trends <- function(data,
   # split data by type (lat/ele)
   data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
 
-  trends2 <- purrr::map_dfr(
-
-    .x = names(cols),
-
-    .f = ~data_split[[.x]] |>
-      dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]]), trend_temp_var),
-                       by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(trend_res = res[[.x]]) |>
-      dplyr::rename_at((cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
-
+  trends2 <- switch(
+    type,
+    "SA" = purrr::map_dfr(
+      .x = names(cols),
+      .f = ~data_split[[.x]] |>
+        dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]]), trend_temp_var),
+                         by = dplyr::join_by(article_id, poly_id, method_id, type)) |>
+        dplyr::mutate(trend_res = res[[.x]]) |>
+        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+    ),
+    "SP" = purrr::map_dfr(
+      .x = names(cols),
+      .f = ~data_split[[.x]] |>
+        dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, dplyr::all_of(cols[[.x]]), trend_temp_var),
+                         by = dplyr::join_by(article_id, poly_id, method_id, type, sp_name_checked)) |>
+        dplyr::mutate(trend_res = res[[.x]]) |>
+        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+    )
   )
 
   # print a warning if species-specific polys are missing
   if(type == "SP"){
-    n_missing <- sum(is.na(return[,c(stringr::str_replace(cols[1],"_res.*",""))]))
+    n_missing <- sum(rowSums(is.na(trends2[,c(stringr::str_replace(cols[[1]],"_res.*",""))])) == length(cols[[1]]))
     if(n_missing > 0){
-      warning(paste0("Not all shifts have associated species-specific polygon values, or values at every resolution. ",n_missing," NAs returned."))
+      warning(call.=F,
+              paste0("Not all shifts have associated species-specific polygon values, or values at every resolution. ",n_missing," NAs returned."))
     }
   }
 

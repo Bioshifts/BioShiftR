@@ -19,11 +19,11 @@ download_polygons <- function(type = "SA",
   # get filename for species or study polygons
   filename <- switch(type,
                      "SA" = "sa_polygons_simplified.rds",
-                     "SP" = "sp_polys_simplified_5k.rds")
+                     "SP" = "sp_polygons_simplified.rds")
 
   size <- switch(type,
-                 "SA" = 5,
-                 "SP" = 518)
+                 "SA" = 4,
+                 "SP" = 435)
 
   # search for file in project directory
   # list all project files
@@ -60,8 +60,8 @@ download_polygons <- function(type = "SA",
 
   # find download link
   link <- switch(type,
-                 "SA" = "https://osf.io/download/68a882e2c46d647013bcbe94/",
-                 "SP" = "https://osf.io/download/6893303f7632cafe29b2168a/"
+                 "SA" = "https://osf.io/download/68b747593d97f9fb8567b34f/",
+                 "SP" = "https://osf.io/download/68b7469215dee6d2f490637d/"
   )
 
   # create directory if it doesn't exist

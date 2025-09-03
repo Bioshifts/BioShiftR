@@ -21,7 +21,13 @@ add_baselines <- function(data,
                                   "ELE" = "1km")){
 
   # get baselines df
-  baselines <- readRDS(system.file("extdata", "baselines.rds", package = "BioShiftR"))
+  baselines <- switch(
+    type,
+    "SA" = readRDS(system.file("extdata", "baselines.rds", package = "BioShiftR")) |>
+      dplyr::rename(baseline_temp_var = temp_var),
+    "SP" = readRDS(system.file("extdata", "sp_baselines.rds", package = "BioShiftR")) |>
+      dplyr::rename(baseline_temp_var = temp_var)
+  )
 
 
 
@@ -59,15 +65,24 @@ add_baselines <- function(data,
 
   data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
 
-  baselines2 <- purrr::map_dfr(
-
-    .x = names(cols),
-
-    .f = ~data_split[[.x]] |>
-      dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id, all_of(cols[[.x]])),
-                by = dplyr::join_by(article_id, poly_id, method_id, type)) |> dplyr::mutate(baseline_res = res[[.x]]) |>
-      dplyr::rename_at(dplyr::all_of(cols[[.x]]), function(col) stringr::str_replace(col,"_res.*",""))
-
+  baselines2 <- switch(
+    type,
+    "SA" = purrr::map_dfr(
+      .x = names(cols),
+      .f = ~data_split[[.x]] |>
+        dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id, all_of(cols[[.x]])),
+                         by = dplyr::join_by(article_id, poly_id, method_id, type)) |>
+        dplyr::mutate(baseline_res = res[[.x]]) |>
+        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+    ),
+    "SP" = purrr::map_dfr(
+      .x = names(cols),
+      .f = ~data_split[[.x]] |>
+        dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id,sp_name_checked, all_of(cols[[.x]])),
+                         by = dplyr::join_by(article_id, poly_id, method_id, type, sp_name_checked)) |>
+        dplyr::mutate(baseline_res = res[[.x]]) |>
+        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+    )
   )
 
   #baselines2 %>% glimpse()
@@ -100,9 +115,10 @@ add_baselines <- function(data,
 #
   # print a warning if species-specific polys are missing
   if(type == "SP"){
-    n_missing <- sum(is.na(return[,c(stringr::str_replace(cols[1],"_res.*",""))]))
+    n_missing <- sum(rowSums(is.na(baselines2[,c(stringr::str_replace(cols[[1]],"_res.*",""))])) == length(cols[[1]]))
     if(n_missing > 0){
-      warning(paste0("Not all shifts have associated species-specific polygon values. ",n_missing," NAs returned."))
+      warning(call. = F,
+              paste0("Not all shifts have associated species-specific polygon values. ",n_missing," NAs returned."))
     }
   }
 

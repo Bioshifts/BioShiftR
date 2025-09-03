@@ -15,7 +15,7 @@ add_polygons <- function(data,
 
   filename <- switch(type,
                      "SA" = "sa_polygons_simplified.rds",
-                     "SP" = "sp_polys_simplified_5k.rds")
+                     "SP" = "sp_polygons_simplified.rds")
 
 
   # check if polygon gpkg has already been downloaded
@@ -35,14 +35,28 @@ add_polygons <- function(data,
 
   path <- all_proj_files[which(stringr::str_detect(all_proj_files,filename))]
 
-
   polys <- readRDS(path)
 
-  return <- data |>
-    dplyr::left_join(polys, by = dplyr::join_by(article_id, poly_id)) |> sf::st_as_sf()
+  return <- switch(
+    type,
+    "SA" = data |>
+      dplyr::left_join(polys,
+                       by = dplyr::join_by(article_id, poly_id)) |>
+      sf::st_as_sf(),
+    "SP" = data |> dplyr::left_join(polys,
+                             by = dplyr::join_by(article_id, poly_id, sp_name_checked)) |>
+      sf::st_as_sf()
+  )
 
+  if(type == "SP" & any(return |> sf::st_is_empty())){
+
+    NAs <- sum(sf::st_is_empty(return))
+    warning(paste0("In add_polygons(). Some shifts lack species-specific ranges. ",NAs," NA values returned."), call. = F)
+
+  }
 
   sf::st_crs(return) <- sf::st_crs(polys)
+  rm(polys)
 
   return(return)
 
