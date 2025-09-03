@@ -59,7 +59,7 @@ Because the minimal shifts dataframe connects to several other dataframes (see b
 
 | ID Column  | Format | Description                      |
 |------------|--------|----------------------------------|
-| `id`   | `AXXX_PX_type_param_MXX |summary ID value, arranged as `article_poly_type_param_method`. |
+| `id`   | `AXXX_PX_type_param_MXX` |summary ID value, arranged as `article_poly_type_param_method`. |
 | `article_id` |`A001`, `A002`, ... `A244` | Identifier for the source publication in which the range shifts were originally documented. |
 | `poly_id`    |`P1`, `P2`, ... `P9`| Identifier for the polygon within the source publication in which range shifts were documented. Most publications have one polygon (P1), but can have multiple when a publication detects range shifts in multiple locations (e.g.,  two separate mountains, three ocean basins, etc.) |
 | `type`       |`LAT`, `ELE`| Identifier for the type of range shift -- latitudinal or elevational -- detected within a polygon. Usually, studies detect only one type of range shift, but in some cases census both. |
