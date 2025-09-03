@@ -149,6 +149,44 @@ the poles):</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> TRUE             <span style="text-decoration: underline;">1</span>434</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="understanding-ids">Understanding IDs<a class="anchor" aria-label="anchor" href="#understanding-ids"></a>
+</h3>
+<p>Because the minimal shifts dataframe connects to several other
+dataframes (see below), each containing data at different levels (e.g.,
+some additional information is at the “source article” level, while some
+is at the species or shift level), the minimal database contains five
+separate ID columns (<code>article_id</code>, <code>poly_id</code>,
+<code>type</code>, <code>param</code>, and <code>method_id</code>),
+which collectively make up the <code>group_id</code> column. These
+identifiers are nested such that each consecutive ID can– but doesn’t
+always– contain multiple of the next value. In other words, some
+articles contain multiple polygons, some polygons contain range shifts
+of multiple types, some range shift of the same type are studied at
+multiple range parameters, and so on. Different combinations of these
+identifiers merge the minimal shifts dataset to all other BioShifts
+data, and they are designed such that within a single group ID, a
+species/subspecies will never be represented more than once.</p>
+<table class="table">
+<colgroup>
+<col width="22%">
+<col width="14%">
+<col width="62%">
+</colgroup>
+<thead><tr class="header">
+<th>ID Column</th>
+<th>Format</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td><code>id</code></td>
+<td>
+<code>AXXX_PX_type_param_MXX |summary ID value, arranged as</code>article_poly_type_param_method<code>. | |</code>article_id<code>|</code>A001<code>,</code>A002<code>, ...</code>A244<code>| Identifier for the source publication in which the range shifts were originally documented. | |</code>poly_id<code>|</code>P1<code>,</code>P2<code>, ...</code>P9<code>| Identifier for the polygon within the source publication in which range shifts were documented. Most publications have one polygon (P1), but can have multiple when a publication detects range shifts in multiple locations (e.g.,  two separate mountains, three ocean basins, etc.) | |</code>type<code>|</code>LAT<code>,</code>ELE<code>| Identifier for the type of range shift -- latitudinal or elevational -- detected within a polygon. Usually, studies detect only one type of range shift, but in some cases census both. | |</code>param<code>|</code>LE<code>,</code>O<code>,</code>TE<code>| Identifier for the parameter of the species' range where the shift was detected: Leading Edge (LE), Trailing edge (TE), or range center (O). Here defined as the poleward or upslope edge, the equatorward or downslope edge, and various definitions of the range center (midpoint, center of gravity, etc.), respectively. | |</code>method_id<code>|</code>M01<code>,</code>M02<code>, ...</code>M24<code>|  Identifier for the method, within previous groups, of the range shifts detected. Usually, studies use only one method for all range shifts (M1), but in some cases, studies census range shifts across multiple timeframes (for example, 1950-1975, 1975-2000, 1950-2000), or by two different statistical methods (mean occurrence and median occurrence), resulting in detections with identical values of all preceding columns. Here, these cases will be separated into</code>_M1<code>,</code>_M2`,
+and so on.</td>
+<td></td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="add-bioshifts-data">Add BioShifts data<a class="anchor" aria-label="anchor" href="#add-bioshifts-data"></a>
 </h3>
 <p><code>BioShiftR</code> includes various helper functions – to be used
