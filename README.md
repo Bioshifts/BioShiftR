@@ -23,6 +23,6 @@ For detailed instructions and example workflows, see vignettes on the [package w
 
 ## Contact
 
-
+This package is currently unpublished and in-development. For questions and comments, please reach me at jake.lawlor@mail.mcgill.ca
 
 
