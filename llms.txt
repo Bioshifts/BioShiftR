@@ -1,0 +1,74 @@
+# BioShiftR (in development\*) ![](reference/figures/hex-BioShifts.png)
+
+### An R package to access, manipulate, and organize the BioShifts database.
+
+[BioShifts](https://figshare.com/articles/dataset/BioShifts_a_global_geodatabase_of_climate-induced_species_redistribution_over_land_and_sea/7413365)
+is a global database of over 31,000 changes in species’ range positions
+documented in scientific literature, spanning global geographies and
+taxonomic groups. The database contains documentations of range changes
+as listed in source publications, as well as standardized calculated
+rates of change along latitudinal and elevational gradients, and various
+supplemental data for hypothesis-testing.
+
+BioShifts is a rich resource for studying the effects of climate change
+on the biogeography of life on Earth, but accessing and manipulating the
+large and complex database can be daunting.
+
+`BioShiftR` offers a streamlined and simplified approach for accessing,
+organizing, and manipulating BioShifts range shift data, with functions
+for simple collation of raw data, stardized calculated values,
+associated climate velocities, taxonomy, and more.
+
+## Package Installation
+
+``` r
+install.packages("devtools")
+devtools::install_github("Bioshifts/BioShiftR")
+```
+
+## Usage
+
+For detailed instructions and example workflows, see vignettes on the
+[package website](https://bioshifts.github.io/BioShiftR/index.html)
+
+## Contact
+
+This package is currently unpublished and in-development. For questions
+and comments, please reach me at <jake.lawlor@mail.mcgill.ca>
+
+# Package index
+
+## All functions
+
+- [`add_articles()`](https://bioshifts.github.io/BioShiftR/reference/add_articles.md)
+  : Add article identifiers to range shift data
+- [`add_author_reported()`](https://bioshifts.github.io/BioShiftR/reference/add_author_reported.md)
+  : Add author-reported shift results to range shifts
+- [`add_baselines()`](https://bioshifts.github.io/BioShiftR/reference/add_baselines.md)
+  : Add baseline temperatures of species- or study-area polygons for
+  each range shift
+- [`add_cv()`](https://bioshifts.github.io/BioShiftR/reference/add_cv.md)
+  : Add Climate Velocity to shifts dataframe
+- [`add_methods()`](https://bioshifts.github.io/BioShiftR/reference/add_methods.md)
+  : Add methods to range shift documentations
+- [`add_poly_info()`](https://bioshifts.github.io/BioShiftR/reference/add_poly_info.md)
+  : Add polygon attributes to range shift dataframe
+- [`add_polygons()`](https://bioshifts.github.io/BioShiftR/reference/add_polygons.md)
+  : Add polygons to range shift database
+- [`add_taxo()`](https://bioshifts.github.io/BioShiftR/reference/add_taxo.md)
+  : Add taxonomy to range shifts
+- [`add_trends()`](https://bioshifts.github.io/BioShiftR/reference/add_trends.md)
+  : Add climate variable trends to range shift dataframe
+- [`download_polygons()`](https://bioshifts.github.io/BioShiftR/reference/download_polygons.md)
+  : Download spatial data from OSF
+- [`get_shifts()`](https://bioshifts.github.io/BioShiftR/reference/get_shifts.md)
+  : Get BioShifts Range Shifts - Start Here.
+
+# Articles
+
+### Articles
+
+- [Using
+  BioShiftR](https://bioshifts.github.io/BioShiftR/articles/using_BioShiftR.md):
+- [Adding Climate
+  Variables](https://bioshifts.github.io/BioShiftR/articles/adding_climate_variables.md):
