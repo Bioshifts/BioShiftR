@@ -1,4 +1,4 @@
-# BioShiftR (in development\*) ![](reference/figures/hex-BioShifts.png)
+# BioShiftR (in development\*) ![](reference/figures/BioShiftR_logo.png)
 
 ### An R package to access, manipulate, and organize the BioShifts database.
 
