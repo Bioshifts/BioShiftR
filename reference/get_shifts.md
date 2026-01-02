@@ -21,27 +21,29 @@ get_shifts(
 - group:
 
   Rough taxonomic subgroups for which to pull bioshifts data. Options
-  are Algae, Birds, Fish, Fungi, Mammals, Marine Invertebrates,
-  Nonvascular Plants, Reptiles and Amphibians, Terrestrial
-  Invertebrates, and Vascular Plants, or All (default). This shortcut is
-  meant to provide a coarse subsetting for data exploration, but for
-  more precise taxonomic filtering, see add_taxo().
+  are `Algae`, `Birds`, `Fish`, `Fungi`, `Mammals`,
+  `Marine Invertebrates`, `Nonvascular Plants`,
+  `Reptiles and Amphibians`, `Terrestrial Invertebrates`, and
+  `Vascular Plants`, or `All` (default). This shortcut is meant to
+  provide a coarse subsetting for data exploration, but for more precise
+  taxonomic filtering, see
+  [`add_taxo()`](https://bioshifts.github.io/BioShiftR/reference/add_taxo.md).
 
 - realm:
 
   Subset of study realms for which to uplaod range shift data. Options
-  are "Mar" (marine), "Ter" (terrestrial), or "All" (default).
+  are `Mar` (marine), `Ter` (terrestrial), or `All` (default).
 
 - continent:
 
   Continent of studies for which to upload BioShifts data. Options
-  include "North America", "South America", "Africa", "Europe", "Asia",
-  "Oceania", "High Seas", or "All".
+  include `North America`, `South America`, `Africa`, `Europe`, `Asia`,
+  `Oceania`, `High Seas`, or `All`.
 
 - type:
 
-  Gradient over which to extract range shifts. Options are "ELE" for
-  elevational shifts, or "LAT" for latitudinal shifts.
+  Gradient over which to extract range shifts. Options are `ELE` for
+  elevational shifts, or `LAT` for latitudinal shifts.
 
 ## Value
 
