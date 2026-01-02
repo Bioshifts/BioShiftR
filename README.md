@@ -2,6 +2,7 @@
 
 ### An R package to access, manipulate, and organize the BioShifts database.
 
+*please note: some data aspects within this package are not finalized. Please contact package maintainers if you would like to use the development version of the package*
 
 [BioShifts](https://figshare.com/articles/dataset/BioShifts_a_global_geodatabase_of_climate-induced_species_redistribution_over_land_and_sea/7413365) is a global database of over 31,000 changes in species' range positions documented in scientific literature, spanning global geographies and taxonomic groups. The database contains documentations of range changes as listed in source publications, as well as standardized calculated rates of change along latitudinal and elevational gradients, and various supplemental data for hypothesis-testing.
 
