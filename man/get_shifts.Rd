@@ -12,13 +12,13 @@ get_shifts(
 )
 }
 \arguments{
-\item{group}{Rough taxonomic subgroups for which to pull bioshifts data. Options are Algae, Birds, Fish, Fungi, Mammals, Marine Invertebrates, Nonvascular Plants, Reptiles and Amphibians, Terrestrial Invertebrates, and Vascular Plants, or All (default). This shortcut is meant to provide a coarse subsetting for data exploration, but for more precise taxonomic filtering, see add_taxo().}
+\item{group}{Rough taxonomic subgroups for which to pull bioshifts data. Options are \code{Algae}, \code{Birds}, \code{Fish}, \code{Fungi}, \code{Mammals}, \verb{Marine Invertebrates}, \verb{Nonvascular Plants}, \verb{Reptiles and Amphibians}, \verb{Terrestrial Invertebrates}, and \verb{Vascular Plants}, or \code{All} (default). This shortcut is meant to provide a coarse subsetting for data exploration, but for more precise taxonomic filtering, see \code{add_taxo()}.}
 
-\item{realm}{Subset of study realms for which to uplaod range shift data. Options are "Mar" (marine), "Ter" (terrestrial), or "All" (default).}
+\item{realm}{Subset of study realms for which to uplaod range shift data. Options are \code{Mar} (marine), \code{Ter} (terrestrial), or \code{All} (default).}
 
-\item{continent}{Continent of studies for which to upload BioShifts data. Options include "North America", "South America", "Africa", "Europe", "Asia", "Oceania", "High Seas", or "All".}
+\item{continent}{Continent of studies for which to upload BioShifts data. Options include \verb{North America}, \verb{South America}, \code{Africa}, \code{Europe}, \code{Asia}, \code{Oceania}, \verb{High Seas}, or \code{All}.}
 
-\item{type}{Gradient over which to extract range shifts. Options are "ELE" for elevational shifts, or "LAT" for latitudinal shifts.}
+\item{type}{Gradient over which to extract range shifts. Options are \code{ELE} for elevational shifts, or \code{LAT} for latitudinal shifts.}
 }
 \value{
 Minimal data frame of calculated and author-reported species range shift values.
