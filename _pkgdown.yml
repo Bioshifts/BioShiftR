@@ -8,3 +8,8 @@ articles:
     contents:
       - using_BioShiftR
       - adding_climate_variables
+
+repo:
+  url:
+    home: https://github.com/bioshifts/BioShiftR/
+  branch: master
