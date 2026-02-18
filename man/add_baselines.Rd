@@ -8,7 +8,6 @@ add_baselines(
   data,
   type = "SA",
   stat = c("mean"),
-  exp = c("temp"),
   res = c(LAT = "25km", ELE = "1km")
 )
 }
@@ -17,9 +16,7 @@ add_baselines(
 
 \item{type}{Choice of baseline temperatures from study area (SA) or species area (SP) polygons.}
 
-\item{stat}{Statistic of the given variable. Choices are min, 1Q, median, mean, 3Q, max.}
-
-\item{exp}{Exposure variable; Choices are "temp" (temperature") or "precip" (precipitation), or both.}
+\item{stat}{Statistic of the given variable. Choices are "mean" and "sd".}
 
 \item{res}{Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific res ("1km","25km","50km","110km"), or use "best" to ensure each shift has a matching temperature (see vignette)}
 }

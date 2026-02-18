@@ -2,20 +2,22 @@
 #'
 #' @param data Shifts dataframe from get_shifts() function
 #' @param type Choice of climate velocity values from study area (SA) or species-speficic study area (SP) polygons
-#' @param stat Statistic of climate velocity to add. c("min", "1Q", "median", "mean", "3Q", "max")
-#' @param exp Exposure variable. c("temp","precip")
+#' @param stat Statistic of climate velocity to add. c("q25", "median", "mean", "q75", "sd").
 #' @param res Spatial resolution with which climate velocities were calculated c("1km","25km","50km","110km"). Note that higher resolutions will generally have higher velocities, since climate velocity is calculated as climate trend / spatial gradient.
 #'
 #' @returns dataframe of range shifts supplemented with selected columns of climate velocity.
 #' @export
 #'
-#' @examples get_shifts() |> add_cv(stat = c("mean"), exp = c("temp"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()
+#' @examples get_shifts() |> add_cv(stat = c("mean"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()
 add_cv <- function(data,
                    type = "SA",
                    stat = c("mean"),
-                   exp = c("temp"),
                    res = c("LAT" = "25km",
                            "ELE" = "1km")){
+
+  if(!all(res %in% c("1km","25km","50km","110km"))){
+    stop("res must be one of: '1km', '25km','50km','110km")
+  }
 
   # get baselines cv
   cv <- switch(type,
@@ -34,11 +36,11 @@ add_cv <- function(data,
   # get input combinations of stat, exp, res
   combinations <-
     purrr::map(.x = res,
-               .f = ~expand.grid(stat, exp, paste0("res",.x)))
+               .f = ~expand.grid(stat, paste0("res",.x)))
 
   # paste combinations into colnames
   cols <- purrr::map(.x = combinations,
-                     .f = ~paste0("VelAlong_", apply(.x,1,paste,collapse = "_")))
+                     .f = ~paste0("cv_temp_", apply(.x,1,paste,collapse = "_")))
 
   # split data by type (lat/ele)
   data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
@@ -72,17 +74,11 @@ add_cv <- function(data,
   }
 
   # various warnings
-  if("ELE" %in% unique(data$type) & "precip" %in% exp){
-    warning("Elevation shifts do not include precipitation velocities. NAs returned")
-  }
-  if("Mar" %in% unique(data$eco) & "precip" %in% exp){
-    warning("Marine shifts do not include precipitation velocities. NAs returned")
-  }
   if("Mar" %in% unique(data$eco) & "1km" %in% res[["LAT"]]){
-    warning("Marine baselines do not include 1km resolutions. NAs returned")
+    warning(call. = F, "Marine baselines do not include 1km resolutions. NAs returned")
   }
   if("ELE" %in% unique(data$type) & any(c("25km","50km",'110km') %in% res[["ELE"]])){
-    warning("Elevation shifts do not include 25km, 50km, or 110km climate velocity resolutions. NAs returned.")
+    warning(call. = F, "Elevation shifts do not include 25km, 50km, or 110km climate velocity resolutions. NAs returned.")
   }
 
   return(cv2)

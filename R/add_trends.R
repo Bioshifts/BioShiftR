@@ -4,8 +4,7 @@
 #'
 #' @param data dataframe of BioShifts range shifts from `get_shifts()` function
 #' @param type Type of area over which trends are calculated: Article study areas ("SA"), or study areas cropped to species' range polygons ("SP").
-#' @param stat Statistic of climate trends to add c("min", "1Q", "median", "mean", "3Q", "max").
-#' @param exp Exposure variable c("temp","precip")
+#' @param stat Statistic of climate trends to add c("mean","sd").
 #' @param res Spatial resolution of climate grid cells with which the climate trends were calculated c("1km","25km","50km","110km"). Note that terrestrial latitudinal study areas are calculated at 1, 25, 50, 110km, marine latitudinal studies are calculated at 25, 50, 110km, and elevation studies are calculated only at 1km.
 #'
 #'
@@ -16,7 +15,6 @@
 add_trends <- function(data,
                        type = "SA",
                        stat = c("mean"),
-                       exp = c("temp"),
                        res = c("LAT" = "25km",
                                "ELE" = "1km")){
 
@@ -36,11 +34,11 @@ add_trends <- function(data,
   # get input combinations of stat, exp, res
   combinations <-
     purrr::map(.x = res,
-               .f = ~expand.grid(stat, exp, paste0("res",.x)))
+               .f = ~expand.grid(stat, paste0("res",.x)))
 
   # paste combinations into colnames
   cols <- purrr::map(.x = combinations,
-                     .f = ~paste0("trend_", apply(.x,1,paste,collapse = "_")))
+                     .f = ~paste0("trend_temp_", apply(.x,1,paste,collapse = "_")))
 
   # split data by type (lat/ele)
   data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
@@ -75,12 +73,6 @@ add_trends <- function(data,
   }
 
   # various warnings
-  if("ELE" %in% unique(data$type) & "precip" %in% exp){
-    warning("Elevation shifts do not include precipitation velocities. NAs returned")
-  }
-  if("Mar" %in% unique(data$eco) & "precip" %in% exp){
-    warning("Marine shifts do not include precipitation velocities. NAs returned")
-  }
   if("Mar" %in% unique(data$eco) & "1km" %in% res[["LAT"]]){
     warning("Marine baselines do not include 1km resolutions. NAs returned")
   }

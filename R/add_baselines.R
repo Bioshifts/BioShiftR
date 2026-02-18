@@ -4,8 +4,7 @@
 #'
 #' @param data input data from get_shifts()
 #' @param type Choice of baseline temperatures from study area (SA) or species area (SP) polygons.
-#' @param stat Statistic of the given variable. Choices are min, 1Q, median, mean, 3Q, max.
-#' @param exp Exposure variable; Choices are "temp" (temperature") or "precip" (precipitation), or both.
+#' @param stat Statistic of the given variable. Choices are "mean" and "sd".
 #' @param res Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific res ("1km","25km","50km","110km"), or use "best" to ensure each shift has a matching temperature (see vignette)
 #'
 #' @returns Shifts database supplemented with selected temperature and/or precipitation baseline values within the study area or species-specific study area.
@@ -16,7 +15,6 @@
 add_baselines <- function(data,
                           type = "SA",
                           stat = c("mean"),
-                          exp = c("temp"),
                           res = c("LAT" = "25km",
                                   "ELE" = "1km")){
 
@@ -58,10 +56,10 @@ add_baselines <- function(data,
 
   combinations <-
     purrr::map(.x = res,
-               .f = ~expand.grid(stat, exp, paste0("res",.x)))
+               .f = ~expand.grid(stat, paste0("res",.x)))
 
   cols <- purrr::map(.x = combinations,
-                             .f = ~paste0("baseline_", apply(.x,1,paste,collapse = "_")))
+                     .f = ~paste0("baseline_temp_", apply(.x,1,paste,collapse = "_")))
 
   data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
 
@@ -123,9 +121,6 @@ add_baselines <- function(data,
   }
 
   # various warnings
-  if("Mar" %in% unique(data$eco) & "precip" %in% exp){
-    warning("Marine shifts do not include precipitation values. NAs returned")
-  }
   if("Mar" %in% unique(data$eco) & "1km" %in% res[["LAT"]]){
     warning("Marine baselines do not include 1km resolutions. NAs returned")
   }

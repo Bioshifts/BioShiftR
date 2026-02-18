@@ -8,7 +8,6 @@ add_trends(
   data,
   type = "SA",
   stat = c("mean"),
-  exp = c("temp"),
   res = c(LAT = "25km", ELE = "1km")
 )
 }
@@ -17,9 +16,7 @@ add_trends(
 
 \item{type}{Type of area over which trends are calculated: Article study areas ("SA"), or study areas cropped to species' range polygons ("SP").}
 
-\item{stat}{Statistic of climate trends to add c("min", "1Q", "median", "mean", "3Q", "max").}
-
-\item{exp}{Exposure variable c("temp","precip")}
+\item{stat}{Statistic of climate trends to add c("mean","sd").}
 
 \item{res}{Spatial resolution of climate grid cells with which the climate trends were calculated c("1km","25km","50km","110km"). Note that terrestrial latitudinal study areas are calculated at 1, 25, 50, 110km, marine latitudinal studies are calculated at 25, 50, 110km, and elevation studies are calculated only at 1km.}
 }

@@ -14,7 +14,7 @@ add_author_reported <- function(data){
 
   return <- data |>
     dplyr::left_join(author,
-              dplyr::join_by(id,sp_name_publication, subsp_or_pop))
+              dplyr::join_by(id,sp_name_publication, subsp))
 
   return(return)
 

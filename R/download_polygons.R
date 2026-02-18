@@ -61,7 +61,7 @@ download_polygons <- function(type = "SA",
   # find download link
   link <- switch(type,
                  "SA" = "https://osf.io/download/68b747593d97f9fb8567b34f/",
-                 "SP" = "https://osf.io/download/68b7469215dee6d2f490637d/"
+                "SP" = "https://osf.io/download/6995b153995df5b3b6506702/"
   )
 
   # create directory if it doesn't exist

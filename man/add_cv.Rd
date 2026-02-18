@@ -4,22 +4,14 @@
 \alias{add_cv}
 \title{Add Climate Velocity to shifts dataframe}
 \usage{
-add_cv(
-  data,
-  type = "SA",
-  stat = c("mean"),
-  exp = c("temp"),
-  res = c(LAT = "25km", ELE = "1km")
-)
+add_cv(data, type = "SA", stat = c("mean"), res = c(LAT = "25km", ELE = "1km"))
 }
 \arguments{
 \item{data}{Shifts dataframe from get_shifts() function}
 
 \item{type}{Choice of climate velocity values from study area (SA) or species-speficic study area (SP) polygons}
 
-\item{stat}{Statistic of climate velocity to add. c("min", "1Q", "median", "mean", "3Q", "max")}
-
-\item{exp}{Exposure variable. c("temp","precip")}
+\item{stat}{Statistic of climate velocity to add. c("q25", "median", "mean", "q75", "sd").}
 
 \item{res}{Spatial resolution with which climate velocities were calculated c("1km","25km","50km","110km"). Note that higher resolutions will generally have higher velocities, since climate velocity is calculated as climate trend / spatial gradient.}
 }
@@ -30,5 +22,5 @@ dataframe of range shifts supplemented with selected columns of climate velocity
 Add Climate Velocity to shifts dataframe
 }
 \examples{
-get_shifts() |> add_cv(stat = c("mean"), exp = c("temp"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()
+get_shifts() |> add_cv(stat = c("mean"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()
 }
