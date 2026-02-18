@@ -79,7 +79,7 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_shifts</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31,759 × 13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31,761 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id         article_id poly_id method_id eco   type  param sp_name_publication</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A001_P1_E… A001       P1      M01       Ter   ELE   O     Aegithalos_caudatus</span>
@@ -92,26 +92,26 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A001_P1_E… A001       P1      M01       Ter   ELE   O     Nucifraga_caryocat…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A001_P1_E… A001       P1      M01       Ter   ELE   O     Parus_ater         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A001_P1_E… A001       P1      M01       Ter   ELE   O     Parus_caeruleus    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31,749 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: sp_name_checked &lt;chr&gt;, subsp_or_pop &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_rate &lt;dbl&gt;, calc_unit &lt;chr&gt;, direction &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31,751 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: sp_name_checked &lt;chr&gt;, subsp &lt;chr&gt;, calc_rate &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_unit &lt;chr&gt;, direction &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="fu">get_shifts</span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, continent <span class="op">=</span> <span class="st">"Asia"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 80 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id         article_id poly_id method_id eco   type  param sp_name_publication</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A048_P1_E… A048       P1      M01       Ter   ELE   LE    Eurylaimus_ochroma…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> A048_P1_E… A048       P1      M01       Ter   ELE   LE    Micropternus_brach…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> A048_P1_E… A048       P1      M01       Ter   ELE   LE    Oriolus_cruentus   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> A048_P1_E… A048       P1      M01       Ter   ELE   LE    Rhipidura_albicoll…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> A048_P1_E… A048       P1      M10       Ter   ELE   LE    Pellorneum_pyrroge…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> A048_P1_E… A048       P1      M11       Ter   ELE   LE    Phaenicophaeus_cur…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> A048_P1_E… A048       P1      M12       Ter   ELE   LE    Phylloscopus_trivi…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A048_P1_E… A048       P1      M13       Ter   ELE   LE    Pycnonotus_flavesc…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A048_P1_E… A048       P1      M14       Ter   ELE   LE    Reinwardtipicus_va…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A048_P1_E… A048       P1      M02       Ter   ELE   LE    Alophoixus_ochrace…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A048_P1_E… A048       P1      M1        Ter   ELE   LE    Accipiter_trivirga…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> A048_P1_E… A048       P1      M11       Ter   ELE   LE    Arachnothera_longi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> A048_P1_E… A048       P1      M12       Ter   ELE   LE    Pellorneum_pyrroge…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> A048_P1_E… A048       P1      M13       Ter   ELE   LE    Glaucidium_brodiei </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> A048_P1_E… A048       P1      M14       Ter   ELE   LE    Eurylaimus_ochroma…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> A048_P1_E… A048       P1      M14       Ter   ELE   LE    Micropternus_brach…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> A048_P1_E… A048       P1      M14       Ter   ELE   LE    Oriolus_cruentus   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A048_P1_E… A048       P1      M14       Ter   ELE   LE    Rhipidura_albicoll…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A048_P1_E… A048       P1      M15       Ter   ELE   LE    Geokichla_citrina  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A048_P1_E… A048       P1      M2        Ter   ELE   LE    Phylloscopus_trivi…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 70 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: sp_name_checked &lt;chr&gt;, subsp_or_pop &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_rate &lt;dbl&gt;, calc_unit &lt;chr&gt;, direction &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: sp_name_checked &lt;chr&gt;, subsp &lt;chr&gt;, calc_rate &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_unit &lt;chr&gt;, direction &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="fu">get_shifts</span><span class="op">(</span>continent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"North America"</span>,<span class="st">"South America"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"ELE"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7,475 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id         article_id poly_id method_id eco   type  param sp_name_publication</span>
@@ -127,8 +127,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A011_P1_E… A011       P1      M01       Ter   ELE   O     Arctostaphylos_vis…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A011_P1_E… A011       P1      M01       Ter   ELE   O     Artemisia_tridenta…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7,465 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: sp_name_checked &lt;chr&gt;, subsp_or_pop &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_rate &lt;dbl&gt;, calc_unit &lt;chr&gt;, direction &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: sp_name_checked &lt;chr&gt;, subsp &lt;chr&gt;, calc_rate &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_unit &lt;chr&gt;, direction &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

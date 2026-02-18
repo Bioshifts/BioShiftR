@@ -10,7 +10,6 @@ add_baselines(
   data,
   type = "SA",
   stat = c("mean"),
-  exp = c("temp"),
   res = c(LAT = "25km", ELE = "1km")
 )
 ```
@@ -28,13 +27,7 @@ add_baselines(
 
 - stat:
 
-  Statistic of the given variable. Choices are min, 1Q, median, mean,
-  3Q, max.
-
-- exp:
-
-  Exposure variable; Choices are "temp" (temperature") or "precip"
-  (precipitation), or both.
+  Statistic of the given variable. Choices are "mean" and "sd".
 
 - res:
 
@@ -54,7 +47,7 @@ study area.
 
 ``` r
 get_shifts() |> add_baselines()
-#> # A tibble: 31,759 × 15
+#> # A tibble: 31,761 × 15
 #>    id         article_id poly_id method_id eco   type  param sp_name_publication
 #>    <chr>      <chr>      <chr>   <chr>     <chr> <chr> <chr> <chr>              
 #>  1 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ambloplites_rupest…
@@ -67,10 +60,10 @@ get_shifts() |> add_baselines()
 #>  8 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_salmoi…
 #>  9 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notemigonus_crysol…
 #> 10 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notropis_atherinoi…
-#> # ℹ 31,749 more rows
-#> # ℹ 7 more variables: sp_name_checked <chr>, subsp_or_pop <chr>,
-#> #   calc_rate <dbl>, calc_unit <chr>, direction <chr>,
-#> #   baseline_mean_temp <dbl>, baseline_res <chr>
+#> # ℹ 31,751 more rows
+#> # ℹ 7 more variables: sp_name_checked <chr>, subsp <chr>, calc_rate <dbl>,
+#> #   calc_unit <chr>, direction <chr>, baseline_temp_mean <dbl>,
+#> #   baseline_res <chr>
 get_shifts(eco = "Mar") |> add_baselines(res = "25km")
 #> Error in get_shifts(eco = "Mar"): unused argument (eco = "Mar")
 ```

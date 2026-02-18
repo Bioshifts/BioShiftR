@@ -47,7 +47,6 @@
 <span>  <span class="va">data</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"SA"</span>,</span>
 <span>  stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span><span class="op">)</span>,</span>
-<span>  exp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"temp"</span><span class="op">)</span>,</span>
 <span>  res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>LAT <span class="op">=</span> <span class="st">"25km"</span>, ELE <span class="op">=</span> <span class="st">"1km"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -65,11 +64,7 @@
 
 
 <dt id="arg-stat">stat<a class="anchor" aria-label="anchor" href="#arg-stat"></a></dt>
-<dd><p>Statistic of the given variable. Choices are min, 1Q, median, mean, 3Q, max.</p></dd>
-
-
-<dt id="arg-exp">exp<a class="anchor" aria-label="anchor" href="#arg-exp"></a></dt>
-<dd><p>Exposure variable; Choices are "temp" (temperature") or "precip" (precipitation), or both.</p></dd>
+<dd><p>Statistic of the given variable. Choices are "mean" and "sd".</p></dd>
 
 
 <dt id="arg-res">res<a class="anchor" aria-label="anchor" href="#arg-res"></a></dt>
@@ -84,7 +79,7 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_baselines</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31,759 × 15</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31,761 × 15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id         article_id poly_id method_id eco   type  param sp_name_publication</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ambloplites_rupest…</span>
@@ -97,10 +92,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_salmoi…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notemigonus_crysol…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notropis_atherinoi…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31,749 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: sp_name_checked &lt;chr&gt;, subsp_or_pop &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_rate &lt;dbl&gt;, calc_unit &lt;chr&gt;, direction &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   baseline_mean_temp &lt;dbl&gt;, baseline_res &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31,751 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: sp_name_checked &lt;chr&gt;, subsp &lt;chr&gt;, calc_rate &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_unit &lt;chr&gt;, direction &lt;chr&gt;, baseline_temp_mean &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   baseline_res &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span>eco <span class="op">=</span> <span class="st">"Mar"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_baselines</span><span class="op">(</span>res <span class="op">=</span> <span class="st">"25km"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_shifts(eco = "Mar"):</span> unused argument (eco = "Mar")</span>
 </code></pre></div>

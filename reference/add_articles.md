@@ -28,7 +28,7 @@ within other datasets (BioShifts V1 and CoRE database of range shifts).
 get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::glimpse()
 #> Rows: 2
 #> Columns: 17
-#> $ id                  <chr> "A175_P1_LAT_O_M1", "A175_P2_LAT_O_M1"
+#> $ id                  <chr> "A175_P1_LAT_O_M01", "A175_P2_LAT_O_M01"
 #> $ article_id          <chr> "A175", "A175"
 #> $ poly_id             <chr> "P1", "P2"
 #> $ method_id           <chr> "M01", "M01"
@@ -37,7 +37,7 @@ get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::gl
 #> $ param               <chr> "O", "O"
 #> $ sp_name_publication <chr> "Hirundo_rustica", "Hirundo_rustica"
 #> $ sp_name_checked     <chr> "Hirundo_rustica", "Hirundo_rustica"
-#> $ subsp_or_pop        <chr> "Cluster North", "Cluster South"
+#> $ subsp               <chr> NA, NA
 #> $ calc_rate           <dbl> 3.45, -8.89
 #> $ calc_unit           <chr> "km/year", "km/year"
 #> $ direction           <chr> "Towards Poles", "Towards Equator"
