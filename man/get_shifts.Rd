@@ -12,7 +12,7 @@ get_shifts(
 )
 }
 \arguments{
-\item{group}{Rough taxonomic subgroups for which to pull bioshifts data. Options are \code{Algae}, \code{Birds}, \code{Fish}, \code{Fungi}, \code{Mammals}, \verb{Marine Invertebrates}, \verb{Nonvascular Plants}, \verb{Reptiles and Amphibians}, \verb{Terrestrial Invertebrates}, and \verb{Vascular Plants}, or \code{All} (default). This shortcut is meant to provide a coarse subsetting for data exploration, but for more precise taxonomic filtering, see \code{add_taxo()}.}
+\item{group}{Rough taxonomic subgroups for which to pull bioshifts data. Options are \code{Algae}, \code{Birds}, \code{Fish}, \code{Fungi}, \code{Mammals}, \verb{Marine Invertebrates}, \verb{Mosses and liverworts}, \verb{Reptiles and Amphibians}, \verb{Terrestrial Invertebrates}, and \verb{Vascular Plants}, or \code{All} (default). This shortcut is meant to provide a coarse subsetting for data exploration, but for more precise taxonomic filtering, see \code{add_taxo()}.}
 
 \item{realm}{Subset of study realms for which to uplaod range shift data. Options are \code{Mar} (marine), \code{Ter} (terrestrial), or \code{All} (default).}
 
