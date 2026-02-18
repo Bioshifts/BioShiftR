@@ -22,7 +22,7 @@ get_shifts(
 
   Rough taxonomic subgroups for which to pull bioshifts data. Options
   are `Algae`, `Birds`, `Fish`, `Fungi`, `Mammals`,
-  `Marine Invertebrates`, `Nonvascular Plants`,
+  `Marine Invertebrates`, `Mosses and liverworts`,
   `Reptiles and Amphibians`, `Terrestrial Invertebrates`, and
   `Vascular Plants`, or `All` (default). This shortcut is meant to
   provide a coarse subsetting for data exploration, but for more precise
