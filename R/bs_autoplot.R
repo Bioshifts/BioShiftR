@@ -18,12 +18,11 @@ bs_autoplot <- function(species = c("Troglodytes troglodytes","Fringilla coelebs
 
   sp <- stringr::str_replace(species, " ","_")
 
-  sp_find <- get_shifts() |>
+  sp_find <- get_shifts(type = type) |>
     filter(sp_name_checked %in% sp |
              sp_name_publication %in% sp) |>
     mutate(same = sp_name_checked == sp_name_publication)
 
-  count(sp_find,same)
 
   if(any(sp_find$same == F)){
     n <- sum(sp_find$same == F)
