@@ -27,7 +27,7 @@ within other datasets (BioShifts V1 and CoRE database of range shifts).
 ``` r
 get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::glimpse()
 #> Rows: 2
-#> Columns: 17
+#> Columns: 18
 #> $ id                  <chr> "A175_P1_LAT_O_M01", "A175_P2_LAT_O_M01"
 #> $ article_id          <chr> "A175", "A175"
 #> $ poly_id             <chr> "P1", "P2"
@@ -42,7 +42,8 @@ get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::gl
 #> $ calc_unit           <chr> "km/year", "km/year"
 #> $ direction           <chr> "Towards Poles", "Towards Equator"
 #> $ article             <chr> "Ambrosini_al_2011_CR", "Ambrosini_al_2011_CR"
-#> $ doi                 <chr> "10.3354/cr01025", "10.3354/cr01025"
-#> $ id_bioshifts_v1     <dbl> 209, 209
 #> $ id_core             <dbl> 424, 424
+#> $ id_bioshifts_v1     <chr> "A209", "A209"
+#> $ doi_url             <chr> "https://doi.org/10.3354/cr01025", "https://doi.or…
+#> $ reference           <chr> "R. Ambrosini et al., Climate change and the long-…
 ```
