@@ -32,28 +32,36 @@ add_cv <- function(data,
     stop("type must be 'SA' or 'SP'.")
   }
   # make sure there is only one resolution if adding suffix
-  if(length(res) > 1 & suffix == T){
-    stop("use suffix only when selecting a single resolution of climate data (in res = c())")
+  if(length(res) > 1 & suffix == T ){
+    stop("use suffix only when selecting a single resolution of climate data (with res = c())")
   }
 
 
   # check if cv columns already exist -----------------------------------
-  check_cols <- c(
+  check_cols_important <- c(
     paste0("cv_temp_",stat),
-    "cv_temp_var",
-    "cv_res",
-    "along_gradient")
+    "cv_res")
 
-  if(any(check_cols %in% colnames(data))){
-    existing_col <- check_cols[which(check_cols %in% colnames(data))]
-    existing_col_text <- paste0(existing_col, collapse = ", ")
-    warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate data."))
-    data <- data %>% select(-all_of(existing_col))
+  check_cols_unimportant <- c(
+    "cv_temp_var",
+    "along_gradient"
+  )
+
+  if(any(c(check_cols_important, check_cols_unimportant) %in% colnames(data))){
+    # if cv_temp_var or along_gradient exist, remove them.
+    existing_unimportant <- check_cols_unimportant[which(check_cols_unimportant %in% colnames(data))]
+    data <- data %>% select(-all_of(existing_unimportant))
+
+    # if real cv cols exist, remove and warn
+    existing_important <- check_cols_important[which(check_cols_important %in% colnames(data))]
+    existing_col_text <- glue::glue_collapse(existing_important, sep = ", ", last = ", and ")
+    if(nchar(existing_col_text) > 0 & suffix == F){
+      warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate data."))
+      data <- data %>% select(-all_of(existing_important))
+    }
   }
 
-
-
-  # get baselines cv
+  # get cv files (study- or species-specific)
   cv <- switch(type,
                "SA" =  readRDS(system.file("extdata", "cv.rds", package = "BioShiftR")) |>
                  dplyr::rename(cv_temp_var = temp_var),
@@ -66,6 +74,7 @@ add_cv <- function(data,
     res <- c("LAT" = res,
              "ELE" = res)
   }
+
 
   # get input combinations of stat, res
   combinations <-
@@ -85,29 +94,48 @@ add_cv <- function(data,
     # if type is "SA", add study-level CVs:
     "SA" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~data_split[[.x]] |>
-        dplyr::left_join(cv |> dplyr::select(article_id, poly_id, type, method_id,along_gradient, dplyr::all_of(cols[[.x]]),cv_temp_var),
-                         by = dplyr::join_by(article_id, poly_id, method_id, type)) |>
-        dplyr::mutate(cv_res = res[[.x]]) |>
-        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+      .f = ~{
+        out <- data_split[[.x]] |>
+          dplyr::left_join(cv |> dplyr::select(article_id, poly_id, type, method_id,along_gradient, dplyr::all_of(cols[[.x]]),cv_temp_var),
+                           by = dplyr::join_by(article_id, poly_id, method_id, type))
+        if(suffix == F){
+          out <- out |>
+            dplyr::mutate(cv_res = res[[.x]]) |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+        } else if(suffix == T){
+          out <- out |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
+        }
+        out
+      }
     ),
     # if type is "SP", add species-level CVs:
     "SP" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~data_split[[.x]] |>
-        dplyr::left_join(cv |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, along_gradient, dplyr::all_of(cols[[.x]]),cv_temp_var),
-                         by = dplyr::join_by(article_id, poly_id, type, method_id, sp_name_checked)) |>
-        dplyr::mutate(cv_res = res[[.x]]) |>
-        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+      .f = ~{
+        out <- data_split[[.x]] |>
+          dplyr::left_join(cv |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, along_gradient, dplyr::all_of(cols[[.x]]),cv_temp_var),
+                           by = dplyr::join_by(article_id, poly_id, type, method_id, sp_name_checked))
+        if(suffix == F){
+          out <- out |>
+            dplyr::mutate(cv_res = res[[.x]]) |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+        } else if(suffix == T){
+          out <- out |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
+        }
+        out
+      }
     )
   )
 
   # print a warning if species-specific shift rates are missing
   # (because they don't exist for some species)
   if(type == "SP"){
-    n_missing <- sum(rowSums(is.na(cv2[,c(stringr::str_replace(cols[[1]],"_res.*",""))])) == length(cols[[1]]))
+    cv_col <- ifelse(suffix, cols[[2]], stringr::str_replace(cols[[1]],"_res.*",""))
+    n_missing <- sum(sum(is.na(cv2[[cv_col]])))
     if(n_missing > 0){
-      warning(call. = F, paste0("Not all shifts have associated species-specific polygon values. ",n_missing," NAs returned."))
+      warning(call. = F, paste0("Not all shifts have associated species-specific polygon values. ",scales::comma(n_missing)," NAs returned."))
     }
   }
 
@@ -119,7 +147,7 @@ add_cv <- function(data,
     warning(call. = F, "Elevation shifts do not include 25km, 50km, or 110km climate velocity resolutions. NAs returned.")
   }
 
-
   return(cv2)
 
 }
+
