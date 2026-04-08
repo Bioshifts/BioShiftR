@@ -67,6 +67,8 @@ and comments, please reach me at <jake.lawlor@mail.mcgill.ca>
   : Download spatial data from OSF
 - [`get_shifts()`](https://bioshifts.github.io/BioShiftR/reference/get_shifts.md)
   : Get BioShifts Range Shifts - Start Here.
+- [`` `%>%` ``](https://bioshifts.github.io/BioShiftR/reference/grapes-greater-than-grapes.md)
+  : Pipe operator
 
 # Articles
 

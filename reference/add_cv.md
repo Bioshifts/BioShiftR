@@ -5,7 +5,13 @@ Add Climate Velocity to shifts dataframe
 ## Usage
 
 ``` r
-add_cv(data, type = "SA", stat = c("mean"), res = c(LAT = "25km", ELE = "1km"))
+add_cv(
+  data,
+  type = "SA",
+  stat = c("mean"),
+  res = c(LAT = "25km", ELE = "1km"),
+  suffix = F
+)
 ```
 
 ## Arguments
