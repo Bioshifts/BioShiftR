@@ -4,7 +4,13 @@
 \alias{add_cv}
 \title{Add Climate Velocity to shifts dataframe}
 \usage{
-add_cv(data, type = "SA", stat = c("mean"), res = c(LAT = "25km", ELE = "1km"))
+add_cv(
+  data,
+  type = "SA",
+  stat = c("mean"),
+  res = c(LAT = "25km", ELE = "1km"),
+  suffix = F
+)
 }
 \arguments{
 \item{data}{Shifts dataframe from get_shifts() function}
