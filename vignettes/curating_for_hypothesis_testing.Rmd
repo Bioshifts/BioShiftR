@@ -1,0 +1,143 @@
+---
+title: "Curating Data for Hypothesis Testing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Curating Data for Hypothesis Testing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Curating Data for Hypothesis Testing
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  message = F,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+library(BioShiftR)
+library(dplyr)
+```
+
+
+Here, we demonstrate how BioShifts and the BioShiftR package can be used to access, subset, and organize bioshifts data for research, hypothesis testing, and connecting to external data sources. 
+
+## Example Scenario
+
+Perhaps we want to evaluate the extent that bird ranges in Europe are shifting.
+
+### Built-in filter steps 
+
+Many of BioShiftR's functions provide simple methods for targeting, filtering, and subsetting range shift data. The `get_shifts()` function, for example, has arguments for continent, type (of range shift), and group (broad taxonomic and functional classifications); see the `get_shifts()` function page for details on options. 
+
+Other functions which merge values from other dataframes to the range shifts database also have filtering options, usually for selecting study-level or species-specific values. For example, the `add_cv()`, `add_baselines()`, and `add_poly_info()` functions all contain options to either add these values from species-level or study-level polygons. 
+
+### Get the data
+
+In this case, we can use `get_shifts()` to easily query the 32,000+ range shifts in the BioShifts database to our target group, target range shift type (here, *latitudinal*), and target continent. 
+
+```{r}
+
+library(BioShiftR)
+library(dplyr)
+
+# get shifts for only Birds in Europe
+eur_birds <- 
+  get_shifts(group = "Birds", # filter to birds
+             continent = "Europe", #  filter to Europe
+             type = c("LAT","ELE") # latitudinal shifts only
+             )  
+
+# view data
+eur_birds %>% glimpse()
+
+```
+
+
+This produces a dataset of `r scales::comma(nrow(eur_birds))` examples of bird range shifts, detected in study areas within the European continent.  
+
+### Assess directional trends
+
+First, we will summarize the proportion of estimated shifts that are in the "expected" directions: First, poleward and upslope. 
+
+
+```{r, message=F}
+
+library(ggplot2)
+eur_birds %>%
+  group_by(type) %>%
+  summarize(prop_expected = sum(calc_rate > 0)/n()*100) %>%
+  ggplot(aes(x = type, y = prop_expected)) +
+  geom_col(width = .5) +
+  theme_classic() +
+  coord_cartesian(xlim = c(.5, 2.5),
+                  ylim = c(0,100),
+                  expand = F) +
+  scale_y_continuous(label = scales::percent_format(scale = 1)) +
+  labs(x = NULL, 
+       y = "Proportion",
+       title = "Shifts going polewards or upslope") +
+  theme(plot.title.position = "plot")
+  
+
+
+```
+
+
+However, sometimes climate expectations can result in isotherm velocities that are not in the upslope or poleward directions. With `BioShiftR`, we can add the climate expectation to further resolve expected shift rates.
+
+```{r}
+
+# add climate velocity
+eur_birds_cv <- eur_birds %>%
+  # add climate velocity
+  add_cv() 
+  
+
+eur_birds_cv %>%
+  # find proprtion of shifts with same sign as cv
+  group_by(type) %>%
+  summarize(prop_same_sign = sum(sign(cv_temp_mean) == sign(calc_rate)) / n() * 100) %>%
+  
+  # plot
+    ggplot(aes(x = type, y = prop_same_sign)) +
+  geom_col(width = .5) +
+  theme_classic() +
+  coord_cartesian(xlim = c(.5, 2.5),
+                  ylim = c(0,100),
+                  expand = F) +
+  scale_y_continuous(label = scales::percent_format(scale = 1)) +
+  labs(x = NULL, 
+       y = "Proportion",
+       title = "Shifts going same direction as climate") +
+  theme(plot.title.position = "plot")
+
+```
+
+
+### Assess methodological variables
+
+Shifts are calculated with a wide variety of methods that can affect the precision of their estimates, or at least, limit the comparisons between shifts measured in different ways. 
+
+```{r}
+
+# add methods to birds database
+eur_birds_cv_methods <- 
+  eur_birds_cv %>%
+  add_methods()
+
+# plot based on sample type
+eur_birds_cv_methods %>%
+  ggplot(aes(x = category,
+             y = calc_rate)) +
+  geom_boxplot(outliers = F) +
+  facet_wrap(~type)
+
+
+
+```
+
+

@@ -6,8 +6,9 @@
 #' @param type Choice of baseline temperatures from study area (SA) or species area (SP) polygons.
 #' @param stat Statistic of the given variable. Choices are "mean" and "sd".
 #' @param res Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific res ("1km","25km","50km","110km"), or use "best" to ensure each shift has a matching temperature (see vignette)
+#' @param suffix Binary choice to add the resolution on to baseline variable columns. Use this if you plan to add multiple baseline resolutions to the same dataset.
 #'
-#' @returns Shifts database supplemented with selected temperature and/or precipitation baseline values within the study area or species-specific study area.
+#' @returns Shifts database supplemented with selected temperature baseline values within the study area or species-specific study area.
 #' @export
 #'
 #' @examples get_shifts() |> add_baselines()

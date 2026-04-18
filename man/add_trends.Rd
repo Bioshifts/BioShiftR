@@ -8,7 +8,8 @@ add_trends(
   data,
   type = "SA",
   stat = c("mean"),
-  res = c(LAT = "25km", ELE = "1km")
+  res = c(LAT = "25km", ELE = "1km"),
+  suffix = F
 )
 }
 \arguments{
@@ -19,9 +20,11 @@ add_trends(
 \item{stat}{Statistic of climate trends to add c("mean","sd").}
 
 \item{res}{Spatial resolution of climate grid cells with which the climate trends were calculated c("1km","25km","50km","110km"). Note that terrestrial latitudinal study areas are calculated at 1, 25, 50, 110km, marine latitudinal studies are calculated at 25, 50, 110km, and elevation studies are calculated only at 1km.}
+
+\item{suffix}{Binary choice to add the resolution on to trend variable columns. Use this if you plan to add multiple trend resolutions to the same dataset.}
 }
 \value{
-range shift dataframe supplemented with selected trends in temperature (°C/year) or precipitation (inches ???!? / year) within study areas or species-specific study areas throughout the duration of the original study.
+range shift dataframe supplemented with selected trends in temperature (°C/year) within study areas or species-specific study areas throughout the duration of the original study.
 }
 \description{
 \code{add_trends()} supplements the range shifts dataframe with annual change in climate trends (temperature and/or precipitation) within the study areas or species-specific study areas of the shift detection over the study duration.

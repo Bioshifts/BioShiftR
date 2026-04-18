@@ -15,14 +15,16 @@ add_cv(
 \arguments{
 \item{data}{Shifts dataframe from get_shifts() function}
 
-\item{type}{Choice of climate velocity values from study area (SA) or species-speficic study area (SP) polygons}
+\item{type}{Choice of climate velocity values from study area (SA) or species-specific study area (SP) polygons}
 
 \item{stat}{Statistic of climate velocity to add. c("q25", "median", "mean", "q75", "sd").}
 
 \item{res}{Spatial resolution with which climate velocities were calculated c("1km","25km","50km","110km"). Note that higher resolutions will generally have higher velocities, since climate velocity is calculated as climate trend / spatial gradient.}
+
+\item{suffix}{Binary choice to add the resolution on to climate velocity variable columns. Use this if you plan to add multiple climate velocity resolutions to the same dataset.}
 }
 \value{
-dataframe of range shifts supplemented with selected columns of climate velocity.
+dataframe of range shifts supplemented with selected columns of climate velocity standardized to positive values in the poleward or elevational directions.
 }
 \description{
 Add Climate Velocity to shifts dataframe

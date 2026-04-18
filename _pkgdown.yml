@@ -8,6 +8,7 @@ articles:
     contents:
       - using_BioShiftR
       - adding_climate_variables
+      - curating_for_hypothesis_testing
 
 repo:
   url:

@@ -1,11 +1,12 @@
 #' Add Climate Velocity to shifts dataframe
 #'
 #' @param data Shifts dataframe from get_shifts() function
-#' @param type Choice of climate velocity values from study area (SA) or species-speficic study area (SP) polygons
+#' @param type Choice of climate velocity values from study area (SA) or species-specific study area (SP) polygons
 #' @param stat Statistic of climate velocity to add. c("q25", "median", "mean", "q75", "sd").
 #' @param res Spatial resolution with which climate velocities were calculated c("1km","25km","50km","110km"). Note that higher resolutions will generally have higher velocities, since climate velocity is calculated as climate trend / spatial gradient.
+#' @param suffix Binary choice to add the resolution on to climate velocity variable columns. Use this if you plan to add multiple climate velocity resolutions to the same dataset.
 #'
-#' @returns dataframe of range shifts supplemented with selected columns of climate velocity.
+#' @returns dataframe of range shifts supplemented with selected columns of climate velocity standardized to positive values in the poleward or elevational directions.
 #' @export
 #'
 #' @examples get_shifts() |> add_cv(stat = c("mean"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()

@@ -1,4 +1,4 @@
-# BioShiftR (in development*)  <img align="right" src="man/figures/BioShiftR_logo.png" width=200>
+# BioShiftR (in development*)  <img align="right" src="man/figures/BioShiftR_logo.png" width=250>
 
 ### An R package to access, manipulate, and organize the BioShifts database.
 
@@ -15,6 +15,7 @@ BioShifts is a rich resource for studying the effects of climate change on the b
 ```r
 install.packages("devtools")
 devtools::install_github("Bioshifts/BioShiftR")
+library(BioShiftR)
 ```
 
 ## Usage
