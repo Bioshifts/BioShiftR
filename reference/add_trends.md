@@ -12,7 +12,8 @@ add_trends(
   data,
   type = "SA",
   stat = c("mean"),
-  res = c(LAT = "25km", ELE = "1km")
+  res = c(LAT = "25km", ELE = "1km"),
+  suffix = F
 )
 ```
 
@@ -41,12 +42,17 @@ add_trends(
   latitudinal studies are calculated at 25, 50, 110km, and elevation
   studies are calculated only at 1km.
 
+- suffix:
+
+  Binary choice to add the resolution on to trend variable columns. Use
+  this if you plan to add multiple trend resolutions to the same
+  dataset.
+
 ## Value
 
 range shift dataframe supplemented with selected trends in temperature
-(°C/year) or precipitation (inches ???!? / year) within study areas or
-species-specific study areas throughout the duration of the original
-study.
+(°C/year) within study areas or species-specific study areas throughout
+the duration of the original study.
 
 ## Examples
 

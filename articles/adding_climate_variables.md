@@ -29,8 +29,9 @@ All climate data can be supplemented to selected range shifts with the
 [`add_trends()`](https://bioshifts.github.io/BioShiftR/reference/add_trends.md),
 and
 [`add_cv()`](https://bioshifts.github.io/BioShiftR/reference/add_cv.md)
-functions, but raw climate data can also be accessed with
-`data(climate_variables)`.
+functions.
+
+![](images/cv_methods_fig.png)
 
 ## Understanding Resolutions
 
@@ -46,9 +47,19 @@ These four resolutions offer different trade-offs, because they affect
 both the variability of climate variables between grid cells (small
 resolutions will vary more, especially in heterogeneous environments),
 but they will also affect velocities, since climate velocity is
-calculated as change in temperature / the spatial gradient of
+calculated as change in temperature divided by the spatial gradient of
 environmental values. Larger grid cells will generally result in flatter
 (smaller) spatial variability in temperature values, decreasing the
 denominators of climate velocity, and therefore resulting in larger
 velocity values, compared to climate velocity calculated between small
 grid cells.
+
+![](images/resolution_cv_fig_annotated.png)
+
+Therefore, climate velocity values calculated at increasing input data
+resolutions will usually exhibit a gradient of increasing values. These
+represent both the statistical realities of calculating spatial
+information from multiple resolutions of data, but may also be useful
+for pinpointing effects experienced by species, since species of
+different sizes and mobility characteristics might interact with their
+environments at different scales.

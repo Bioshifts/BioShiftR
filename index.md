@@ -28,6 +28,7 @@ associated climate velocities, taxonomy, and more.
 ``` r
 install.packages("devtools")
 devtools::install_github("Bioshifts/BioShiftR")
+library(BioShiftR)
 ```
 
 ## Usage

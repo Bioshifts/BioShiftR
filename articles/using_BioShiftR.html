@@ -40,6 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/using_BioShiftR.html">Using BioShiftR</a></li>
     <li><a class="dropdown-item" href="../articles/adding_climate_variables.html">Adding Climate Variables</a></li>
+    <li><a class="dropdown-item" href="../articles/curating_for_hypothesis_testing.html">Curating Data for Hypothesis Testing</a></li>
   </ul>
 </li>
       </ul>
@@ -307,38 +308,51 @@ parameters by which each individual shift was detected</td>
 </td>
 </tr>
 <tr class="even">
-<td><code>add_baselines(data, type, stat, exp, res)</code></td>
-<td>Adds the average(???) climate variable values (mean temperature or
-precipitation) within the study area (or the species-specific study
-area, see ___), over the study duration.</td>
-<td>Variable combinations of statistic and exposure variable formatted
-as <code>baseline_stat_exposure</code> (e.g.,
-<code>baseline_mean_temp()</code>). Also <code>baseline_res</code> for
-the spatial resolution over which variables were calculated. See “Adding
-Climate Variables” for details.</td>
+<td><code>add_taxo(data)</code></td>
+<td>Shifts are reported with the species name as reported by authors
+(<code>sp_name_publication</code>) and the species name, checked for
+validity and harmonized (<code>sp_name_checked</code>). This function
+adds additional taxonomic information for each species.</td>
+<td>
+<code>kingdom</code>, <code>phylum</code>, <code>class</code>,
+<code>family</code>, <code>taxon_id</code> (standard identifier),
+<code>taxon_method</code>
+</td>
 </tr>
 <tr class="odd">
-<td><code>add_trends(data, type, stat, exp, res)</code></td>
-<td>Adds the average change per year of climate variables (temperature
-or precipitation) in the study area (or species-specific study area)
-over the study duration. See “Adding climate Variables” vignette for
-more</td>
-<td>Variable. Combinations of <code>trend_stat_exposure</code> (e.g.,
-<code>trend_mean_temp</code>) for all requested trends,
-<code>trend_temp_var</code>, and <code>trend_res</code>.</td>
+<td><code>add_baselines(data, type, stat, res, suffix)</code></td>
+<td>Adds the average temperature value within the study area (or the
+species-specific study area), over the study duration.</td>
+<td>Variable combinations of statistic and exposure variable formatted
+as <code>baseline_{stat}_temp</code> (e.g.,
+<code>baseline_mean_temp</code>). Also <code>baseline_res</code> for the
+spatial resolution over which variables were calculated. See “Adding
+Climate Variables” for details. If suffix is TRUE, input raster
+resolution will be appended to the column name.</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/add_cv.html">add_cv()</a></code></td>
-<td>Adds the velocity of climate variables (temperature and
-precipitation) over space in the latitudinal or elevational directions
-within study area or species-specific study area over the study
-duration. See “Adding Climate Variables” vignette for more.</td>
+<td><code>add_trends(data, type, stat, res, suffix)</code></td>
+<td>Adds the average change per year of temperature within the study
+area (or species-specific study area) over the study duration. See
+“Adding climate Variables” vignette for more.</td>
+<td>Variable Combinations of <code>trend_{stat}_temp</code> (e.g.,
+<code>trend_mean_temp</code>) for all requested trends,
+<code>trend_temp_var</code>, and <code>trend_res</code>. If suffix is
+TRUE, input raster resolution will be appended to the column name.</td>
+</tr>
+<tr class="odd">
+<td><code>add_cv(data, type, stat, res, suffix)</code></td>
+<td>Adds the velocity of isotherm shifts over space in the latitudinal
+or elevational directions within study area or species-specific study
+area over the study duration. See “Adding Climate Variables” vignette
+for more.</td>
 <td>Variable combinations of <code>VelAlong_stat_exposure</code> (e.g.,
 <code>VelAlong_mean_temp</code>) for all requested climate velocities,
 <code>cv_temp_var</code>, and <code>cv_res</code>. See “Adding Climate
-Variables” vignette for more.</td>
+Variables” vignette for more. If suffix is TRUE, input raster resolution
+will be appended to the column name.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>add_poly_info(data, type)</code></td>
 <td>Supplements shifts dataframe with summary information of the study
 area or species-specific study area polygon in which each shift was
@@ -352,7 +366,7 @@ detected. See “Working with Polygons” vignette for more.</td>
 <code>study_area</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>add_polygons(data, type)</code></td>
 <td>Supplements shifts dataframe with spatial polygons of study areas or
 species-specific study areas over which shifts were calculated. Note
@@ -373,8 +387,8 @@ sub-dataframes connect to the shifts dataframe using different id keys
 but <code><a href="../reference/add_poly_info.html">add_poly_info()</a></code> connects by <code>article_id</code>,
 <code>poly_id</code>, and if requested, <code>sp_name_publication</code>
 and <code>subsp_or_pop</code>). These functions automate the merging of
-subdataframes to correctly match the shifts dataframe with any requested
-additional information.</p>
+sub-dataframes to correctly match the shifts dataframe with any
+requested additional information.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

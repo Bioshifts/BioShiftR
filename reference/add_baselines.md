@@ -10,7 +10,8 @@ add_baselines(
   data,
   type = "SA",
   stat = c("mean"),
-  res = c(LAT = "25km", ELE = "1km")
+  res = c(LAT = "25km", ELE = "1km"),
+  suffix = F
 )
 ```
 
@@ -37,11 +38,16 @@ add_baselines(
   values. Choose a specific res ("1km","25km","50km","110km"), or use
   "best" to ensure each shift has a matching temperature (see vignette)
 
+- suffix:
+
+  Binary choice to add the resolution on to baseline variable columns.
+  Use this if you plan to add multiple baseline resolutions to the same
+  dataset.
+
 ## Value
 
-Shifts database supplemented with selected temperature and/or
-precipitation baseline values within the study area or species-specific
-study area.
+Shifts database supplemented with selected temperature baseline values
+within the study area or species-specific study area.
 
 ## Examples
 

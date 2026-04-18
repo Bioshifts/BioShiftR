@@ -40,6 +40,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/using_BioShiftR.html">Using BioShiftR</a></li>
     <li><a class="dropdown-item" href="../articles/adding_climate_variables.html">Adding Climate Variables</a></li>
+    <li><a class="dropdown-item" href="../articles/curating_for_hypothesis_testing.html">Curating Data for Hypothesis Testing</a></li>
   </ul>
 </li>
       </ul>
@@ -93,8 +94,8 @@ latitudinal or elevational gradients (matching the gradient of each
 associated range shift).</p>
 <p>All climate data can be supplemented to selected range shifts with
 the <code><a href="../reference/add_baselines.html">add_baselines()</a></code>, <code><a href="../reference/add_trends.html">add_trends()</a></code>, and
-<code><a href="../reference/add_cv.html">add_cv()</a></code> functions, but raw climate data can also be
-accessed with <code>data(climate_variables)</code>.</p>
+<code><a href="../reference/add_cv.html">add_cv()</a></code> functions.</p>
+<p><img src="images/cv_methods_fig.png"></p>
 </div>
 <div class="section level2">
 <h2 id="understanding-resolutions">Understanding Resolutions<a class="anchor" aria-label="anchor" href="#understanding-resolutions"></a>
@@ -110,12 +111,20 @@ resolution they feel is appropriate.</p>
 affect both the variability of climate variables between grid cells
 (small resolutions will vary more, especially in heterogeneous
 environments), but they will also affect velocities, since climate
-velocity is calculated as change in temperature / the spatial gradient
-of environmental values. Larger grid cells will generally result in
-flatter (smaller) spatial variability in temperature values, decreasing
-the denominators of climate velocity, and therefore resulting in larger
-velocity values, compared to climate velocity calculated between small
-grid cells.</p>
+velocity is calculated as change in temperature divided by the spatial
+gradient of environmental values. Larger grid cells will generally
+result in flatter (smaller) spatial variability in temperature values,
+decreasing the denominators of climate velocity, and therefore resulting
+in larger velocity values, compared to climate velocity calculated
+between small grid cells.</p>
+<p><img src="images/resolution_cv_fig_annotated.png"></p>
+<p>Therefore, climate velocity values calculated at increasing input
+data resolutions will usually exhibit a gradient of increasing values.
+These represent both the statistical realities of calculating spatial
+information from multiple resolutions of data, but may also be useful
+for pinpointing effects experienced by species, since species of
+different sizes and mobility characteristics might interact with their
+environments at different scales.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

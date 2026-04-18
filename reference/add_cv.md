@@ -23,7 +23,7 @@ add_cv(
 - type:
 
   Choice of climate velocity values from study area (SA) or
-  species-speficic study area (SP) polygons
+  species-specific study area (SP) polygons
 
 - stat:
 
@@ -37,10 +37,17 @@ add_cv(
   generally have higher velocities, since climate velocity is calculated
   as climate trend / spatial gradient.
 
+- suffix:
+
+  Binary choice to add the resolution on to climate velocity variable
+  columns. Use this if you plan to add multiple climate velocity
+  resolutions to the same dataset.
+
 ## Value
 
 dataframe of range shifts supplemented with selected columns of climate
-velocity.
+velocity standardized to positive values in the poleward or elevational
+directions.
 
 ## Examples
 
