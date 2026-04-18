@@ -16,9 +16,47 @@ add_trends <- function(data,
                        type = "SA",
                        stat = c("mean"),
                        res = c("LAT" = "25km",
-                               "ELE" = "1km")){
+                               "ELE" = "1km"),
+                       suffix = F){
 
-  # get baselines cv
+  # make sure inputs are valid ----------------
+  # make sure selected resolutions are valid
+  if(!all(res %in% c("1km","25km","50km","110km"))){
+    stop("res must be one of: '1km', '25km','50km','110km")
+  }
+  # make sure selected statistics are valid
+  if(!all(stat %in% c("q25", "median", "mean", "q75", "sd"))){
+    stop('stat must be any of: "q25", "median", "mean", "q75", "sd".')
+  }
+  # make sure type is valid
+  if(!type %in% c("SA","SP")){
+    stop("type must be 'SA' or 'SP'.")
+  }
+  # make sure there is only one resolution if adding suffix
+  if(length(res) > 1 & suffix == T ){
+    stop("use suffix only when selecting a single resolution of climate data (with res = c())")
+  }
+
+
+  # check if trends columns already exist -----------------------------------
+  check_cols_important <- c(
+    paste0("trend_temp_",stat),
+    "trend_res")
+
+
+  if(any(c(check_cols_important) %in% colnames(data))){
+    # if trend cols exist, remove and warn
+    existing_important <- check_cols_important[which(check_cols_important %in% colnames(data))]
+    existing_col_text <- glue::glue_collapse(existing_important, sep = ", ", last = ", and ")
+    if(nchar(existing_col_text) > 0 & suffix == F){
+      warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate trends data."))
+      data <- data %>% select(-all_of(existing_important))
+    }
+  }
+
+
+
+  # get trends dataset cv
   trends <- switch(
     type,
     "SA" = readRDS(system.file("extdata", "trends.rds", package = "BioShiftR")) |> dplyr::rename(trend_temp_var = temp_var),
@@ -43,25 +81,48 @@ add_trends <- function(data,
   # split data by type (lat/ele)
   data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
 
+
+  # add trends to bioshifts
   trends2 <- switch(
     type,
+    # if type is "SA", add study-level CVs:
     "SA" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~data_split[[.x]] |>
-        dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]]), trend_temp_var),
-                         by = dplyr::join_by(article_id, poly_id, method_id, type)) |>
-        dplyr::mutate(trend_res = res[[.x]]) |>
-        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+      .f = ~{
+        out <- data_split[[.x]] |>
+          dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]])),
+                           by = dplyr::join_by(article_id, poly_id, method_id, type))
+        if(suffix == F){
+          out <- out |>
+            dplyr::mutate(trend_res = res[[.x]]) |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+        } else if(suffix == T){
+          out <- out |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
+        }
+        out
+      }
     ),
+    # if type is "SP", add species-level CVs:
     "SP" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~data_split[[.x]] |>
-        dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, dplyr::all_of(cols[[.x]]), trend_temp_var),
-                         by = dplyr::join_by(article_id, poly_id, method_id, type, sp_name_checked)) |>
-        dplyr::mutate(trend_res = res[[.x]]) |>
-        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+      .f = ~{
+        out <- data_split[[.x]] |>
+          dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, dplyr::all_of(cols[[.x]])),
+                           by = dplyr::join_by(article_id, poly_id, type, method_id, sp_name_checked))
+        if(suffix == F){
+          out <- out |>
+            dplyr::mutate(trend_res = res[[.x]]) |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+        } else if(suffix == T){
+          out <- out |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
+        }
+        out
+      }
     )
   )
+
 
   # print a warning if species-specific polys are missing
   if(type == "SP"){
@@ -74,7 +135,7 @@ add_trends <- function(data,
 
   # various warnings
   if("Mar" %in% unique(data$eco) & "1km" %in% res[["LAT"]]){
-    warning("Marine baselines do not include 1km resolutions. NAs returned")
+    warning("Marine trends do not include 1km resolutions. NAs returned")
   }
   if("ELE" %in% unique(data$type) & any(c("25km","50km",'110km') %in% res[["ELE"]])){
     warning("Elevation shifts do not include 25km, 50km, or 110km climate variable resolutions. NAs returned.")

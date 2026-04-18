@@ -17,7 +17,6 @@ add_cv <- function(data,
                    suffix = F){
 
 
-
   # make sure inputs are valid ----------------
   # make sure selected resolutions are valid
   if(!all(res %in% c("1km","25km","50km","110km"))){

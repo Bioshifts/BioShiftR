@@ -16,7 +16,43 @@ add_baselines <- function(data,
                           type = "SA",
                           stat = c("mean"),
                           res = c("LAT" = "25km",
-                                  "ELE" = "1km")){
+                                  "ELE" = "1km"),
+                          suffix = F){
+
+  # make sure inputs are valid ----------------
+  # make sure selected resolutions are valid
+  if(!all(res %in% c("1km","25km","50km","110km"))){
+    stop("res must be one of: '1km', '25km','50km','110km")
+  }
+  # make sure selected statistics are valid
+  if(!all(stat %in% c("q25", "median", "mean", "q75", "sd"))){
+    stop('stat must be any of: "q25", "median", "mean", "q75", "sd".')
+  }
+  # make sure type is valid
+  if(!type %in% c("SA","SP")){
+    stop("type must be 'SA' or 'SP'.")
+  }
+  # make sure there is only one resolution if adding suffix
+  if(length(res) > 1 & suffix == T ){
+    stop("use suffix only when selecting a single resolution of climate data (with res = c())")
+  }
+
+  # check if baseline columns already exist -----------------------------------
+  check_cols_important <- c(
+    paste0("baseline_temp_",stat),
+    "baseline_res")
+
+
+  if(any(c(check_cols_important) %in% colnames(data))){
+    # if baseline cols exist, remove and warn
+    existing_important <- check_cols_important[which(check_cols_important %in% colnames(data))]
+    existing_col_text <- glue::glue_collapse(existing_important, sep = ", ", last = ", and ")
+    if(nchar(existing_col_text) > 0 & suffix == F){
+      warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of baseline climate data."))
+      data <- data %>% select(-all_of(existing_important))
+    }
+  }
+
 
   # get baselines df
   baselines <- switch(
@@ -28,95 +64,73 @@ add_baselines <- function(data,
   )
 
 
-
-#  default_res <- c(ELE = "1km", LAT = "25km")
-#
-#  data_split <- split(data, data$type)
-#
-#  # Join each split to df2 with the right resolution
-#  out <- map_dfr(names(data_split), function(grad) {
-#    dat <- data_split[[grad]]
-#
-#    # Decide resolution: user-supplied or default
-#    res <- resolution %||% default_res[[grad]]
-#
-#    # Select only the columns of df2 that match this resolution
-#    df2_res <- data2 %>% select(where(~!is.numeric(.))) %>%
-#      bind_cols(df2 %>% select(ends_with(res)))
-#
-#    # Merge (assuming they share some join keys, e.g. "species" or "id")
-#    left_join(dat, df2_res, by = "species")  # change 'species' to your join #key
-#  })
-
   # specify res column - if only one is provided, make it the chosen res for both
   if(length(res) == 1 & is.null(names(res))){
     res <- c("LAT" = res,
              "ELE" = res)
   }
 
+  # get input combinations of stat, res
   combinations <-
     purrr::map(.x = res,
                .f = ~expand.grid(stat, paste0("res",.x)))
 
+  # paste combinations into colnames
   cols <- purrr::map(.x = combinations,
                      .f = ~paste0("baseline_temp_", apply(.x,1,paste,collapse = "_")))
 
+  # split data by type (lat/ele)
   data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
 
+  # add baselinesto to bioshifts
   baselines2 <- switch(
     type,
+    # if type is "SA", add study-level baselines:
     "SA" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~data_split[[.x]] |>
-        dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id, all_of(cols[[.x]])),
-                         by = dplyr::join_by(article_id, poly_id, method_id, type)) |>
-        dplyr::mutate(baseline_res = res[[.x]]) |>
-        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+      .f = ~{
+        out <- data_split[[.x]] |>
+          dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]])),
+                           by = dplyr::join_by(article_id, poly_id, method_id, type))
+        if(suffix == F){
+          out <- out |>
+            dplyr::mutate(baseline_res = res[[.x]]) |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+        } else if(suffix == T){
+          out <- out |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
+        }
+        out
+      }
     ),
+    # if type is "SP", add species-level baselines:
     "SP" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~data_split[[.x]] |>
-        dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id,sp_name_checked, all_of(cols[[.x]])),
-                         by = dplyr::join_by(article_id, poly_id, method_id, type, sp_name_checked)) |>
-        dplyr::mutate(baseline_res = res[[.x]]) |>
-        dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+      .f = ~{
+        out <- data_split[[.x]] |>
+          dplyr::left_join(baselines |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, dplyr::all_of(cols[[.x]])),
+                           by = dplyr::join_by(article_id, poly_id, type, method_id, sp_name_checked))
+        if(suffix == F){
+          out <- out |>
+            dplyr::mutate(baseline_res = res[[.x]]) |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
+        } else if(suffix == T){
+          out <- out |>
+            dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
+        }
+        out
+      }
     )
   )
 
-  #baselines2 %>% glimpse()
-# -------------------------------------------------------------------------
 
 
-#
-#
-#  # get all combinations of var, stat, and exp
-#  combinations <- expand.grid( stat, exp, paste0("res",res))
-#
-#  # paste to colnames
-#  cols <- paste0("baseline_",apply(combinations, 1, paste, collapse = "_"))
-#
-#  baselines2 <- switch(
-#    type,
-#    "SA" =  baselines |> dplyr::select(article_id, poly_id, type, method_id, all_of(cols)),
-#    "SP" = baselines |> dplyr::select(ID, sp_name_publication, Eco, Type, all_of(cols))
-#  )
-#
-#
-#  # remove "res_" from colnames
-#  colnames(baselines2)[colnames(baselines2) %in% cols] <-  stringr::str_replace(cols,"_res.*","")
-#
-#  return <- switch(
-#    type,
-#    "SA" = data |> dplyr::left_join(baselines2, by = dplyr::join_by(article_id, poly_id, type, method_id)),
-#    "SP" = data |> dplyr::left_join(baselines2, by = dplyr::join_by(ID, Eco, Type, sp_name_publication))
-#  )
-#
   # print a warning if species-specific polys are missing
   if(type == "SP"){
-    n_missing <- sum(rowSums(is.na(baselines2[,c(stringr::str_replace(cols[[1]],"_res.*",""))])) == length(cols[[1]]))
+    baseline_col <- ifelse(suffix, cols[[2]], stringr::str_replace(cols[[1]],"_res.*",""))
+    n_missing <- sum(sum(is.na(baselines2[[baseline_col]])))
     if(n_missing > 0){
-      warning(call. = F,
-              paste0("Not all shifts have associated species-specific polygon values. ",n_missing," NAs returned."))
+      warning(call. = F, paste0("Not all shifts have associated species-specific polygon values. ",scales::comma(n_missing)," NAs returned."))
     }
   }
 
