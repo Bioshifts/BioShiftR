@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 library(BioShiftR)
 library(dplyr)
 library(ggplot2)
+library(ggallin)
 theme_set(theme_bw())
 
 ```
