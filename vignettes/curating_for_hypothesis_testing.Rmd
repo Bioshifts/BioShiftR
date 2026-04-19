@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Curating Data for Hypothesis Testing
+## Curating Data for Research and Hypothesis Testing
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -20,14 +20,17 @@ knitr::opts_chunk$set(
 ```{r setup, echo=FALSE}
 library(BioShiftR)
 library(dplyr)
+library(ggplot2)
+theme_set(theme_bw())
+
 ```
 
 
 Here, we demonstrate how BioShifts and the BioShiftR package can be used to access, subset, and organize bioshifts data for research, hypothesis testing, and connecting to external data sources. 
 
-## Example Scenario
+## Example Scenario: *do plants on faster-warming mountains shift at faster rates?*
 
-Perhaps we want to evaluate the extent that bird ranges in Europe are shifting.
+Perhaps we want to test whether faster-warming regions have faster range shifts across latitudes and elevations. Using BioShiftR, we can easily access and organize data to test targeted hypotheses.
 
 ### Built-in filter steps 
 
@@ -37,105 +40,116 @@ Other functions which merge values from other dataframes to the range shifts dat
 
 ### Get the data
 
-In this case, we can use `get_shifts()` to easily query the 32,000+ range shifts in the BioShifts database to our target group, target range shift type (here, *latitudinal*), and target continent. 
+In this case, we can use `get_shifts()` to easily query the ~32,000 range shifts in the BioShifts database to our target group, target range shift type, and target continent. Here, we will query latitudinal and elevational range shifts for plants. 
 
 ```{r}
 
 library(BioShiftR)
 library(dplyr)
 
-# get shifts for only Birds in Europe
-eur_birds <- 
-  get_shifts(group = "Birds", # filter to birds
-             continent = "Europe", #  filter to Europe
-             type = c("LAT","ELE") # latitudinal shifts only
-             )  
+# get shifts
+df <- get_shifts(type = "ELE",
+                 group = "Vascular Plants")
 
-# view data
-eur_birds %>% glimpse()
-
-```
-
-
-This produces a dataset of `r scales::comma(nrow(eur_birds))` examples of bird range shifts, detected in study areas within the European continent.  
-
-### Assess directional trends
-
-First, we will summarize the proportion of estimated shifts that are in the "expected" directions: First, poleward and upslope. 
-
-
-```{r, message=F}
-
-library(ggplot2)
-eur_birds %>%
-  group_by(type) %>%
-  summarize(prop_expected = sum(calc_rate > 0)/n()*100) %>%
-  ggplot(aes(x = type, y = prop_expected)) +
-  geom_col(width = .5) +
-  theme_classic() +
-  coord_cartesian(xlim = c(.5, 2.5),
-                  ylim = c(0,100),
-                  expand = F) +
-  scale_y_continuous(label = scales::percent_format(scale = 1)) +
-  labs(x = NULL, 
-       y = "Proportion",
-       title = "Shifts going polewards or upslope") +
-  theme(plot.title.position = "plot")
-  
+# plot a histogram
+df %>% ggplot(aes(x = calc_rate)) +
+  geom_histogram() +
+  facet_wrap(~type, nrow = 2,
+             scales= "free_x") +
+  geom_vline(xintercept = 0) +
+  scale_x_continuous(trans = ggallin::ssqrt_trans) +
+  labs(x = "Range Shift Rate (m/year)",
+       y = "Count",
+       title = "Elevation Shift Rates for Vascular Plants")
 
 
 ```
 
 
-However, sometimes climate expectations can result in isotherm velocities that are not in the upslope or poleward directions. With `BioShiftR`, we can add the climate expectation to further resolve expected shift rates.
+## Filter by methods
 
-```{r}
+Here, we are testing the effect of the warming trend within a study's duration on the range shift rates observed in species in that region. Because warming trend and range shift rates are both detected over time, usually with high amounts of interannual variation, we might assume that longer durations will produce more reliable signal-to-noise of both warming trend and range shift rate. 
+We will use this assumption as an example to demonstrate here how we can add and filter by methods using `BioShiftR`.
 
-# add climate velocity
-eur_birds_cv <- eur_birds %>%
-  # add climate velocity
-  add_cv() 
-  
+```{r, filter-by-duration}
 
-eur_birds_cv %>%
-  # find proprtion of shifts with same sign as cv
-  group_by(type) %>%
-  summarize(prop_same_sign = sum(sign(cv_temp_mean) == sign(calc_rate)) / n() * 100) %>%
-  
-  # plot
-    ggplot(aes(x = type, y = prop_same_sign)) +
-  geom_col(width = .5) +
-  theme_classic() +
-  coord_cartesian(xlim = c(.5, 2.5),
-                  ylim = c(0,100),
-                  expand = F) +
-  scale_y_continuous(label = scales::percent_format(scale = 1)) +
-  labs(x = NULL, 
-       y = "Proportion",
-       title = "Shifts going same direction as climate") +
-  theme(plot.title.position = "plot")
-
-```
-
-
-### Assess methodological variables
-
-Shifts are calculated with a wide variety of methods that can affect the precision of their estimates, or at least, limit the comparisons between shifts measured in different ways. 
-
-```{r}
-
-# add methods to birds database
-eur_birds_cv_methods <- 
-  eur_birds_cv %>%
+# add methodological variables to the shifts database
+df2 <- df %>%
   add_methods()
 
-# plot based on sample type
-eur_birds_cv_methods %>%
-  ggplot(aes(x = category,
-             y = calc_rate)) +
-  geom_boxplot(outliers = F) +
-  facet_wrap(~type)
+# filter to durations over 20 years
+df2 <- df2 %>% 
+  filter(duration >= 20)
 
+```
+
+### Add exposure variables
+
+Here, we will assess shift rates by climate exposure -- or the rate of warming in the study area and period over which teh shift was observed. `BioShiftR` includes three functions for adding climate exposure variables: `add_baselines()` to add the mean temperature of the regions, `add_trends()` to get the warming trend of the study, and `add_cv()` to add the velocity of isotherm shifts across the latitudinal or elevational gradients over which shifts are observed. 
+Here, we will use `add_trends()` to get the rate of warming within studies. 
+
+```{r}
+
+
+df3 <- df2 %>% 
+  # add warming trends: here, we use type = "SP" for species-specific rates
+  add_trends(type = "SP") %>%
+  # drop those for which we dont have species-specific rate
+  tidyr::drop_na(trend_temp_mean)
+
+
+```
+
+
+### Plot the Trend
+
+Here, we will use ggplot's default model (`geom_smooth()`) to do a "quick and dirty" assessment of our hypothesis. 
+
+```{r}
+
+# plot all data and basic model fit
+df3 %>%
+  ggplot(aes(x = trend_temp_mean, 
+             y = calc_rate)) +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  geom_point(alpha = .2) +
+  geom_smooth(method = "lm") +
+  scale_y_continuous(transform = ggallin::ssqrt_trans) +
+  labs(x = "Warming Rate (°C/year)",
+       y = "Shift Rate (m/year)",
+       title = "Exposure and Elevation Shifts")
+
+
+
+```
+
+### Addressing Non-Independence of Data
+
+Range shift estimates in BioShifts are collected from many unique studies that use different methods, are in different locations, and have different numbers of species within them. This means that data individual shifts are *not statistically independent*. To address this, we might use something like a mixed model with a random effect for the article or polygon in which shifts were identified. Here, we will simplify to study-level means. 
+
+
+```{r}
+
+df3 %>%
+  # group by article ID and polygon ID (polygons are within articles)
+  group_by(article_id, poly_id) %>%
+  # find mean rates
+  summarize(calc_rate = mean(calc_rate, na.rm= T),
+            trend_temp_mean = mean(trend_temp_mean, na.rm=T),,
+            n = n()) %>%
+  ggplot(aes(x = trend_temp_mean,
+             y = calc_rate)) +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  geom_point(aes(size = n)) +
+  # weight the model by number of shifts observed within a study. 
+  geom_smooth(method = "lm",
+              aes(weight = n)) +
+    labs(x = "Warming Rate (°C/year)",
+       y = "Shift Rate (m/year)",
+       title = "Exposure and Elevation Shifts -- Study Means",
+       size = "n in article")
 
 
 ```
