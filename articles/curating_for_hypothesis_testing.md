@@ -106,11 +106,11 @@ to get the rate of warming within studies.
 
 df3 <- df2 %>% 
   # add warming trends: here, we use type = "SP" for species-specific rates
-  add_trends(type = "SP") %>%
-  # drop those for which we dont have species-specific rate
-  tidyr::drop_na(trend_temp_mean)
+  add_trends(type = "SP") 
 #> Warning: Not all shifts have associated species-specific polygon values, or
 #> values at every resolution. 1526 NAs returned.
+
+df3 <- df3[!is.na(df3$trend_temp_mean),]
 ```
 
 ### Plot the Trend
