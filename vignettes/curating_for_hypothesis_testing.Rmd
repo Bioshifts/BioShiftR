@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 library(BioShiftR)
 library(dplyr)
 library(ggplot2)
+install.packages("tidyr")
 library(tidyr)
 theme_set(theme_bw())
 
