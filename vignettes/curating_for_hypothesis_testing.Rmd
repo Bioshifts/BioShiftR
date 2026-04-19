@@ -21,7 +21,6 @@ knitr::opts_chunk$set(
 library(BioShiftR)
 library(dplyr)
 library(ggplot2)
-install.packages("ggallin")
 theme_set(theme_bw())
 
 ```
@@ -58,7 +57,6 @@ df %>% ggplot(aes(x = calc_rate)) +
   facet_wrap(~type, nrow = 2,
              scales= "free_x") +
   geom_vline(xintercept = 0) +
-  scale_x_continuous(trans = ggallin::ssqrt_trans) +
   labs(x = "Range Shift Rate (m/year)",
        y = "Count",
        title = "Elevation Shift Rates for Vascular Plants")
@@ -116,7 +114,6 @@ df3 %>%
   geom_vline(xintercept = 0) +
   geom_point(alpha = .2) +
   geom_smooth(method = "lm") +
-  scale_y_continuous(transform = ggallin::ssqrt_trans) +
   labs(x = "Warming Rate (°C/year)",
        y = "Shift Rate (m/year)",
        title = "Exposure and Elevation Shifts")
