@@ -72,17 +72,19 @@
     
     
 <div class="section level2">
-<h2 id="curating-data-for-hypothesis-testing">Curating Data for Hypothesis Testing<a class="anchor" aria-label="anchor" href="#curating-data-for-hypothesis-testing"></a>
+<h2 id="curating-data-for-research-and-hypothesis-testing">Curating Data for Research and Hypothesis Testing<a class="anchor" aria-label="anchor" href="#curating-data-for-research-and-hypothesis-testing"></a>
 </h2>
 <p>Here, we demonstrate how BioShifts and the BioShiftR package can be
 used to access, subset, and organize bioshifts data for research,
 hypothesis testing, and connecting to external data sources.</p>
 </div>
 <div class="section level2">
-<h2 id="example-scenario">Example Scenario<a class="anchor" aria-label="anchor" href="#example-scenario"></a>
+<h2 id="example-scenario-do-plants-on-faster-warming-mountains-shift-at-faster-rates">Example Scenario: <em>do plants on faster-warming mountains shift at
+faster rates?</em><a class="anchor" aria-label="anchor" href="#example-scenario-do-plants-on-faster-warming-mountains-shift-at-faster-rates"></a>
 </h2>
-<p>Perhaps we want to evaluate the extent that bird ranges in Europe are
-shifting.</p>
+<p>Perhaps we want to test whether faster-warming regions have faster
+range shifts across latitudes and elevations. Using BioShiftR, we can
+easily access and organize data to test targeted hypotheses.</p>
 <div class="section level3">
 <h3 id="built-in-filter-steps">Built-in filter steps<a class="anchor" aria-label="anchor" href="#built-in-filter-steps"></a>
 </h3>
@@ -103,114 +105,124 @@ these values from species-level or study-level polygons.</p>
 <h3 id="get-the-data">Get the data<a class="anchor" aria-label="anchor" href="#get-the-data"></a>
 </h3>
 <p>In this case, we can use <code><a href="../reference/get_shifts.html">get_shifts()</a></code> to easily query
-the 32,000+ range shifts in the BioShifts database to our target group,
-target range shift type (here, <em>latitudinal</em>), and target
-continent.</p>
+the ~32,000 range shifts in the BioShifts database to our target group,
+target range shift type, and target continent. Here, we will query
+latitudinal and elevational range shifts for plants.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioshifts.github.io/BioShiftR/">BioShiftR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># get shifts for only Birds in Europe</span></span>
-<span><span class="va">eur_birds</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="../reference/get_shifts.html">get_shifts</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Birds"</span>, <span class="co"># filter to birds</span></span>
-<span>             continent <span class="op">=</span> <span class="st">"Europe"</span>, <span class="co">#  filter to Europe</span></span>
-<span>             type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LAT"</span>,<span class="st">"ELE"</span><span class="op">)</span> <span class="co"># latitudinal shifts only</span></span>
-<span>             <span class="op">)</span>  </span>
+<span><span class="co"># get shifts</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shifts.html">get_shifts</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"ELE"</span>,</span>
+<span>                 group <span class="op">=</span> <span class="st">"Vascular Plants"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># view data</span></span>
-<span><span class="va">eur_birds</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span> <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 2,569</span></span>
-<span><span class="co">#&gt; Columns: 13</span></span>
-<span><span class="co">#&gt; $ id                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A001_P1_ELE_O_M01"<span style="color: #949494;">, </span>"A001_P1_ELE_O_M01"<span style="color: #949494;">, </span>"A001_P1…</span></span>
-<span><span class="co">#&gt; $ article_id          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A001"<span style="color: #949494;">, </span>"A…</span></span>
-<span><span class="co">#&gt; $ poly_id             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P1"<span style="color: #949494;">, </span>"P…</span></span>
-<span><span class="co">#&gt; $ method_id           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"M01"<span style="color: #949494;">, </span>"…</span></span>
-<span><span class="co">#&gt; $ eco                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"Ter"<span style="color: #949494;">, </span>"…</span></span>
-<span><span class="co">#&gt; $ type                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"ELE"<span style="color: #949494;">, </span>"…</span></span>
-<span><span class="co">#&gt; $ param               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>"O"<span style="color: #949494;">, </span>…</span></span>
-<span><span class="co">#&gt; $ sp_name_publication <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Aegithalos_caudatus"<span style="color: #949494;">, </span>"Certhia_familiaris"<span style="color: #949494;">, </span>"Dend…</span></span>
-<span><span class="co">#&gt; $ sp_name_checked     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Aegithalos_caudatus"<span style="color: #949494;">, </span>"Certhia_familiaris"<span style="color: #949494;">, </span>"Dend…</span></span>
-<span><span class="co">#&gt; $ subsp               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span>…</span></span>
-<span><span class="co">#&gt; $ calc_rate           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -2.2128<span style="color: #949494;">, </span>-0.5106<span style="color: #949494;">, </span>-7.8723<span style="color: #949494;">, </span>-3.2340<span style="color: #949494;">, </span>4.8511<span style="color: #949494;">, </span>-1.319…</span></span>
-<span><span class="co">#&gt; $ calc_unit           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>"m/year"<span style="color: #949494;">, </span>…</span></span>
-<span><span class="co">#&gt; $ direction           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Lower Elevation"<span style="color: #949494;">, </span>"Lower Elevation"<span style="color: #949494;">, </span>"Lower Eleva…</span></span></code></pre></div>
-<p>This produces a dataset of 2,569 examples of bird range shifts,
-detected in study areas within the European continent.</p>
+<span><span class="co"># plot a histogram</span></span>
+<span><span class="va">df</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span> <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">calc_rate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">type</span>, nrow <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>             scales<span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Range Shift Rate (m/year)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Count"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Elevation Shift Rates for Vascular Plants"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="700"></p>
 </div>
-<div class="section level3">
-<h3 id="assess-directional-trends">Assess directional trends<a class="anchor" aria-label="anchor" href="#assess-directional-trends"></a>
-</h3>
-<p>First, we will summarize the proportion of estimated shifts that are
-in the “expected” directions: First, poleward and upslope.</p>
+</div>
+<div class="section level2">
+<h2 id="filter-by-methods">Filter by methods<a class="anchor" aria-label="anchor" href="#filter-by-methods"></a>
+</h2>
+<p>Here, we are testing the effect of the warming trend within a study’s
+duration on the range shift rates observed in species in that region.
+Because warming trend and range shift rates are both detected over time,
+usually with high amounts of interannual variation, we might assume that
+longer durations will produce more reliable signal-to-noise of both
+warming trend and range shift rate. We will use this assumption as an
+example to demonstrate here how we can add and filter by methods using
+<code>BioShiftR</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="va">eur_birds</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>prop_expected <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">calc_rate</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">*</span><span class="fl">100</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">type</span>, y <span class="op">=</span> <span class="va">prop_expected</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">2.5</span><span class="op">)</span>,</span>
-<span>                  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>                  expand <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent_format</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>       y <span class="op">=</span> <span class="st">"Proportion"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Shifts going polewards or upslope"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700"></p>
-<p>However, sometimes climate expectations can result in isotherm
-velocities that are not in the upslope or poleward directions. With
-<code>BioShiftR</code>, we can add the climate expectation to further
-resolve expected shift rates.</p>
+<span><span class="co"># add methodological variables to the shifts database</span></span>
+<span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/add_methods.html">add_methods</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># filter to durations over 20 years</span></span>
+<span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="va">df2</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">duration</span> <span class="op">&gt;=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="add-exposure-variables">Add exposure variables<a class="anchor" aria-label="anchor" href="#add-exposure-variables"></a>
+</h3>
+<p>Here, we will assess shift rates by climate exposure – or the rate of
+warming in the study area and period over which teh shift was observed.
+<code>BioShiftR</code> includes three functions for adding climate
+exposure variables: <code><a href="../reference/add_baselines.html">add_baselines()</a></code> to add the mean
+temperature of the regions, <code><a href="../reference/add_trends.html">add_trends()</a></code> to get the warming
+trend of the study, and <code><a href="../reference/add_cv.html">add_cv()</a></code> to add the velocity of
+isotherm shifts across the latitudinal or elevational gradients over
+which shifts are observed. Here, we will use <code><a href="../reference/add_trends.html">add_trends()</a></code>
+to get the rate of warming within studies.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># add climate velocity</span></span>
-<span><span class="va">eur_birds_cv</span> <span class="op">&lt;-</span> <span class="va">eur_birds</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="co"># add climate velocity</span></span>
-<span>  <span class="fu"><a href="../reference/add_cv.html">add_cv</a></span><span class="op">(</span><span class="op">)</span> </span>
-<span>  </span>
 <span></span>
-<span><span class="va">eur_birds_cv</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="co"># find proprtion of shifts with same sign as cv</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>prop_same_sign <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">cv_temp_mean</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">calc_rate</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  </span>
-<span>  <span class="co"># plot</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">type</span>, y <span class="op">=</span> <span class="va">prop_same_sign</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">2.5</span><span class="op">)</span>,</span>
-<span>                  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>                  expand <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent_format</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>       y <span class="op">=</span> <span class="st">"Proportion"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Shifts going same direction as climate"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">df3</span> <span class="op">&lt;-</span> <span class="va">df2</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># add warming trends: here, we use type = "SP" for species-specific rates</span></span>
+<span>  <span class="fu"><a href="../reference/add_trends.html">add_trends</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"SP"</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="co"># drop those for which we dont have species-specific rate</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="va">trend_temp_mean</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Not all shifts have associated species-specific polygon values, or</span></span>
+<span><span class="co">#&gt; values at every resolution. 1526 NAs returned.</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plot-the-trend">Plot the Trend<a class="anchor" aria-label="anchor" href="#plot-the-trend"></a>
+</h3>
+<p>Here, we will use ggplot’s default model (<code>geom_smooth()</code>)
+to do a “quick and dirty” assessment of our hypothesis.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot all data and basic model fit</span></span>
+<span><span class="va">df3</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">trend_temp_mean</span>, </span>
+<span>             y <span class="op">=</span> <span class="va">calc_rate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Warming Rate (°C/year)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Shift Rate (m/year)"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Exposure and Elevation Shifts"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
-<h3 id="assess-methodological-variables">Assess methodological variables<a class="anchor" aria-label="anchor" href="#assess-methodological-variables"></a>
+<h3 id="addressing-non-independence-of-data">Addressing Non-Independence of Data<a class="anchor" aria-label="anchor" href="#addressing-non-independence-of-data"></a>
 </h3>
-<p>Shifts are calculated with a wide variety of methods that can affect
-the precision of their estimates, or at least, limit the comparisons
-between shifts measured in different ways.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>Range shift estimates in BioShifts are collected from many unique
+studies that use different methods, are in different locations, and have
+different numbers of species within them. This means that data
+individual shifts are <em>not statistically independent</em>. To address
+this, we might use something like a mixed model with a random effect for
+the article or polygon in which shifts were identified. Here, we will
+simplify to study-level means.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># add methods to birds database</span></span>
-<span><span class="va">eur_birds_cv_methods</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">eur_birds_cv</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/add_methods.html">add_methods</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot based on sample type</span></span>
-<span><span class="va">eur_birds_cv_methods</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">category</span>,</span>
+<span><span class="va">df3</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="co"># group by article ID and polygon ID (polygons are within articles)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">article_id</span>, <span class="va">poly_id</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="co"># find mean rates</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>calc_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">calc_rate</span>, na.rm<span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
+<span>            trend_temp_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">trend_temp_mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,,</span>
+<span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">trend_temp_mean</span>,</span>
 <span>             y <span class="op">=</span> <span class="va">calc_rate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span>outliers <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>size <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># weight the model by number of shifts observed within a study. </span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>,</span>
+<span>              <span class="fu">aes</span><span class="op">(</span>weight <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Warming Rate (°C/year)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Shift Rate (m/year)"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Exposure and Elevation Shifts -- Study Means"</span>,</span>
+<span>       size <span class="op">=</span> <span class="st">"n in article"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
