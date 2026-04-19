@@ -21,8 +21,6 @@ knitr::opts_chunk$set(
 library(BioShiftR)
 library(dplyr)
 library(ggplot2)
-install.packages("tidyr")
-library(tidyr)
 theme_set(theme_bw())
 
 ```
@@ -94,10 +92,9 @@ Here, we will use `add_trends()` to get the rate of warming within studies.
 
 df3 <- df2 %>% 
   # add warming trends: here, we use type = "SP" for species-specific rates
-  add_trends(type = "SP") %>%
-  # drop those for which we dont have species-specific rate
-  tidyr::drop_na(trend_temp_mean)
+  add_trends(type = "SP") 
 
+df3 <- df3[!is.na(df3$trend_temp_mean),]
 
 ```
 
