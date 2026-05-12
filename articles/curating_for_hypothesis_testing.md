@@ -43,6 +43,7 @@ we will query latitudinal and elevational range shifts for plants.
 
 ``` r
 
+
 library(BioShiftR)
 library(dplyr)
 
@@ -76,6 +77,7 @@ example to demonstrate here how we can add and filter by methods using
 
 ``` r
 
+
 # add methodological variables to the shifts database
 df2 <- df %>%
   add_methods()
@@ -104,6 +106,7 @@ to get the rate of warming within studies.
 ``` r
 
 
+
 df3 <- df2 %>% 
   # add warming trends: here, we use type = "SP" for species-specific rates
   add_trends(type = "SP") 
@@ -119,6 +122,7 @@ Here, we will use ggplot’s default model (`geom_smooth()`) to do a
 “quick and dirty” assessment of our hypothesis.
 
 ``` r
+
 
 # plot all data and basic model fit
 df3 %>%
@@ -146,6 +150,7 @@ article or polygon in which shifts were identified. Here, we will
 simplify to study-level means.
 
 ``` r
+
 
 df3 %>%
   # group by article ID and polygon ID (polygons are within articles)
