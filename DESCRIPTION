@@ -22,6 +22,10 @@ Suggests:
     ggallin,
     ggthemes,
     rnaturalearth,
-    sf
+    sf,
+    ggridges,
+    plotrix,
+    broom, 
+    scales
 VignetteBuilder: knitr
 URL: https://bioshifts.github.io/BioShiftR/
