@@ -19,6 +19,7 @@ Depends:
 Suggests: 
     knitr,
     rmarkdown,
-    ggallin
+    ggallin,
+    ggthemes
 VignetteBuilder: knitr
 URL: https://bioshifts.github.io/BioShiftR/
