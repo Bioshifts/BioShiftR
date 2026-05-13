@@ -20,6 +20,8 @@ Suggests:
     knitr,
     rmarkdown,
     ggallin,
-    ggthemes
+    ggthemes,
+    rnaturalearth,
+    sf
 VignetteBuilder: knitr
 URL: https://bioshifts.github.io/BioShiftR/
