@@ -99,3 +99,42 @@ trends <- readr::read_csv(file.path(path, "trends.csv"))
 saveRDS(trends,
         file.path(path.out,"trends.rds"))
 
+
+
+
+# merge all ----------------------------------------------------------------
+full <- shifts %>%
+  left_join(articles) %>%
+  left_join(author_reported) %>%
+  left_join(taxo) %>%
+  left_join(methods) %>%
+  left_join(poly_info %>%   rename_at(.vars = vars(c(lat_min :area_km2)), .funs = ~paste0("sa_",.x))) %>%
+  left_join(sp_poly_info %>%   rename_at(.vars = vars(c(lat_min :area_km2)), .funs = ~paste0("sp_",.x))) %>%
+  left_join(baselines %>%   rename_with(~gsub("baseline","sa_baseline",.x))) %>%
+  left_join(sp_baselines %>%   rename_with(~gsub("baseline","sp_baseline",.x))) %>%
+  left_join(trends %>% rename_with(~gsub("trend","sa_trend",.x))) %>%
+  left_join(sp_trends %>% rename_with(~gsub("trend","sp_trend",.x))) %>%
+  left_join(cv %>% rename_with(~gsub("cv","sa_cv",.x))) %>%
+  left_join(sp_cv %>% rename_with(~gsub("cv","sp_cv",.x))) %>% glimpse()
+
+ncol(full) + length(c("study_poly","sp_poly","range_source"))
+
+# tally up things to see if database org is saving us space ---------------------------------------------------------
+full_dim <- dim(full)[1] * dim(full)[2]
+
+dim_sep <- (dim(shifts)[1] * dim(shifts)[2] +
+              dim(articles)[1] * dim(articles)[2] +
+              dim(author_reported)[1] * dim(author_reported)[2] +
+              dim(taxo)[1] * dim(taxo)[2] +
+              dim(methods)[1] * dim(methods)[2] +
+              dim(poly_info)[1] * dim(poly_info)[2] +
+              dim(sp_poly_info)[1] * dim(sp_poly_info)[2] +
+              dim(baselines)[1] * dim(baselines)[2] +
+              dim(sp_baselines)[1] * dim(sp_baselines)[2] +
+              dim(trends)[1] * dim(trends)[2] +
+              dim(sp_trends)[1] * dim(sp_trends)[2] +
+              dim(cv)[1] * dim(cv)[2] +
+              dim(sp_cv)[1] * dim(sp_cv)[2]
+)
+
+
