@@ -18,6 +18,7 @@ Depends:
     R (>= 3.5)
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggallin
 VignetteBuilder: knitr
 URL: https://bioshifts.github.io/BioShiftR/
