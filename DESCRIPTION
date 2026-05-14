@@ -26,6 +26,7 @@ Suggests:
     ggridges,
     plotrix,
     broom, 
-    scales
+    scales,
+    patchwork
 VignetteBuilder: knitr
 URL: https://bioshifts.github.io/BioShiftR/
