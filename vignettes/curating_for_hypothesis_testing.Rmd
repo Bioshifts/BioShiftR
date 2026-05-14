@@ -43,7 +43,7 @@ Other functions which merge values from other dataframes to the range shifts dat
 
 ### Get the data
 
-In this case, we can use `get_shifts()` to easily query the ~32,000 range shifts in the BioShifts database to our target group, target range shift type, and target continent. Here, we will query elevational range shifts for invertebrates 
+In this case, we can use `get_shifts()` to easily query the ~32,000 range shifts in the BioShifts database to our target group, target range shift type, and target continent. Here, we will query elevational range shifts for terrestrial invertebrates. 
 
 ```{r}
 
