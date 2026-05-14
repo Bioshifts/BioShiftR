@@ -38,7 +38,7 @@ In this case, we can use
 [`get_shifts()`](https://bioshifts.github.io/BioShiftR/reference/get_shifts.md)
 to easily query the ~32,000 range shifts in the BioShifts database to
 our target group, target range shift type, and target continent. Here,
-we will query elevational range shifts for invertebrates
+we will query elevational range shifts for terrestrial invertebrates.
 
 ``` r
 
