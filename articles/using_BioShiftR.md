@@ -130,7 +130,7 @@ species/subspecies will never be represented more than once.
 or together – that supplement the dataset from the
 [`get_shifts()`](https://bioshifts.github.io/BioShiftR/reference/get_shifts.md)
 function with other relevant data. View the table below to see all
-funcitons and the respective information that they add to the shifts
+functions and the respective information that they add to the shifts
 dataframe. Each function adds directly to the shifts dataframe by
 combinations of ID keys. Some require additional arguments to specify
 data requests. See function help pages for details.

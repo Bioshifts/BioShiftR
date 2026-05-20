@@ -17,7 +17,7 @@ documented in the BioShifts database.
 The BioShifts team has standardized calculations for changes in
 temperature within the geographical regions in which range shifts were
 recorded (hereafter, study areas), and, when available, the overlapping
-sections of study areas and known distribtion ranges of individual
+sections of study areas and known distribution ranges of individual
 species (hereafter, species-specific study areas). Within each study
 area and species-specific study area, we provide baseline temperatures
 over study durations, average trends (°C/year) in temperature over the

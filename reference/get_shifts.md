@@ -3,7 +3,7 @@
 Get species' range shift values from the BioShifts database, filtered by
 taxon, study type or geography. BioShifts includes range shift
 observations of over 31,000 taxa within studies conducted around the
-world, published between
+world, published between 1998 and 2020.
 
 ## Usage
 

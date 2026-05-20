@@ -111,7 +111,7 @@ biases that might limit their inferences. Use the
 function for viewing individual study areas or species-specific study
 areas, or more simply, the
 [`add_poly_info()`](https://bioshifts.github.io/BioShiftR/reference/add_poly_info.md)
-function for sumarized spatial metadata.
+function for summarized spatial metadata.
 
 ``` r
 
@@ -197,11 +197,11 @@ important to consider when analyzing shift rates across studies.
 
 # add methods to shifts database
 shifts3 <- shifts2 %>%
-  # add methological variables
+  # add methodological variables
   add_methods()
 ```
 
-#### Plot methodogical variability
+#### Plot methodological variability
 
 View the duration of studies at each range parameter, and the proportion
 of shift estimations by observation type. In some cases, methodological
@@ -296,13 +296,13 @@ shifts4 <- shifts3 %>%
   
 ```
 
-In order to test We will model individual shifts as a function of
-warming rate, but in reality, individual shifts are not independent
-replicates, and thus, linear models on individual shift estimates might
-not be appropriate. While there are several possible ways to deal with
-nonindependence, here, we will average shift rates within studies and
-polygons to create independent samples, then model the average rates,
-weighted by n. 
+In order to test this hypothesis, we will model individual shifts as a
+function of warming rate, but in reality, individual shifts are not
+independent replicates, and thus, linear models on individual shift
+estimates might not be appropriate. While there are several possible
+ways to deal with nonindependence, here, we will average shift rates
+within studies and polygons to create independent samples, then model
+the average rates, weighted by n. 
 
 Show Code
 

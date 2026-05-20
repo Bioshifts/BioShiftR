@@ -20,7 +20,7 @@ large and complex database can be daunting.
 
 `BioShiftR` offers a streamlined and simplified approach for accessing,
 organizing, and manipulating BioShifts range shift data, with functions
-for simple collation of raw data, stardized calculated values,
+for simple collation of raw data, standardized calculated values,
 associated climate velocities, taxonomy, and more.
 
 ## Package Installation
