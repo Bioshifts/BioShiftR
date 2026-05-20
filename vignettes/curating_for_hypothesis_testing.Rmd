@@ -115,7 +115,7 @@ p1
 
 ### Check spatial distribution
 
-Range shift estimations from published literature have important spatial biases that might limit their inferences. Use the `add_polygons()` function for viewing individual study areas or species-specific study areas, or more simply, the `add_poly_info()` function for sumarized spatial metadata.
+Range shift estimations from published literature have important spatial biases that might limit their inferences. Use the `add_polygons()` function for viewing individual study areas or species-specific study areas, or more simply, the `add_poly_info()` function for summarized spatial metadata.
 
 ```{r}
 # add polygon info
@@ -201,11 +201,11 @@ Several methodological variables describing how range shifts are detected are im
 ```{r}
 # add methods to shifts database
 shifts3 <- shifts2 %>%
-  # add methological variables
+  # add methodological variables
   add_methods()
 ```
 
-#### Plot methodogical variability
+#### Plot methodological variability
 
 View the duration of studies at each range parameter, and the proportion of shift estimations by observation type. In some cases, methodological variables such as these might be used to filter shift estimates, or as random effects to account for methodological differences in statistical models.
 
@@ -298,7 +298,7 @@ shifts4 <- shifts3 %>%
   
 ```
 
-In order to test We will model individual shifts as a function of warming rate, but in reality, individual shifts are not independent replicates, and thus, linear models on individual shift estimates might not be appropriate. While there are several possible ways to deal with nonindependence, here, we will average shift rates within studies and polygons to create independent samples, then model the average rates, weighted by n. 
+In order to test this hypothesis, we will model individual shifts as a function of warming rate, but in reality, individual shifts are not independent replicates, and thus, linear models on individual shift estimates might not be appropriate. While there are several possible ways to deal with nonindependence, here, we will average shift rates within studies and polygons to create independent samples, then model the average rates, weighted by n. 
 
 
 <details>

@@ -23,7 +23,7 @@ library(dplyr)
 
 Range shifts are hypothesized to be driven, in part, by changes in climate variables that affect species' ability to survive, expand to new areas, or contract from their existing ranges. It is therefore logical that changes in climate variables contribute to the range changes documented in the BioShifts database.
 
-The BioShifts team has standardized calculations for changes in temperature within the geographical regions in which range shifts were recorded (hereafter, study areas), and, when available, the overlapping sections of study areas and known distribtion ranges of individual species (hereafter, species-specific study areas). Within each study area and species-specific study area, we provide baseline temperatures over study durations, average trends (°C/year) in temperature over the study period, and the spatial velocity of climate change across latitudinal or elevational gradients (matching the gradient of each associated range shift).
+The BioShifts team has standardized calculations for changes in temperature within the geographical regions in which range shifts were recorded (hereafter, study areas), and, when available, the overlapping sections of study areas and known distribution ranges of individual species (hereafter, species-specific study areas). Within each study area and species-specific study area, we provide baseline temperatures over study durations, average trends (°C/year) in temperature over the study period, and the spatial velocity of climate change across latitudinal or elevational gradients (matching the gradient of each associated range shift).
 
 All climate data can be supplemented to selected range shifts with the `add_baselines()`, `add_trends()`, and `add_cv()` functions.
 

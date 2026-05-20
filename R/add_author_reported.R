@@ -1,6 +1,6 @@
 #' Add author-reported shift results to range shifts
 #'
-#' The BioShifts package standardizes author-reported data in several forms to rates of change in the latitudinal or elevational direction over time. This function supplements the calculated shift rates with shift findings as reported by original study authors.
+#' The BioShiftR package standardizes author-reported data in several forms to rates of change in the latitudinal or elevational direction over time. This function supplements the calculated shift rates with shift findings as reported by original study authors.
 #'
 #' @param data input shifts dataset from get_shifts() function.
 #'

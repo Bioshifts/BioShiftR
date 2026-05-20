@@ -71,7 +71,7 @@ Because the minimal shifts dataframe connects to several other dataframes (see b
 
 ### Add BioShifts data
 
-`BioShiftR` includes various helper functions -- to be used individually or together -- that supplement the dataset from the `get_shifts()` function with other relevant data. View the table below to see all funcitons and the respective information that they add to the shifts dataframe. Each function adds directly to the shifts dataframe by combinations of ID keys. Some require additional arguments to specify data requests. See function help pages for details.
+`BioShiftR` includes various helper functions -- to be used individually or together -- that supplement the dataset from the `get_shifts()` function with other relevant data. View the table below to see all functions and the respective information that they add to the shifts dataframe. Each function adds directly to the shifts dataframe by combinations of ID keys. Some require additional arguments to specify data requests. See function help pages for details.
 
 
 | Function            | Description                           | New Column Names |

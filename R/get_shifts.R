@@ -1,6 +1,6 @@
 #' Get BioShifts Range Shifts - Start Here.
 #'
-#' Get species' range shift values from the BioShifts database, filtered by taxon, study type or geography. BioShifts includes range shift observations of over 31,000 taxa within studies conducted around the world, published between
+#' Get species' range shift values from the BioShifts database, filtered by taxon, study type or geography. BioShifts includes range shift observations of over 31,000 taxa within studies conducted around the world, published between 1998 and 2020.
 #'
 #' @param group Rough taxonomic subgroups for which to pull bioshifts data. Options are `Algae`, `Birds`, `Fish`, `Fungi`, `Mammals`, `Marine Invertebrates`, `Mosses and liverworts`, `Reptiles and Amphibians`, `Terrestrial Invertebrates`, and `Vascular Plants`, or `All` (default). This shortcut is meant to provide a coarse subsetting for data exploration, but for more precise taxonomic filtering, see `add_taxo()`.
 #' @param realm Subset of study realms for which to uplaod range shift data. Options are `Mar` (marine), `Ter` (terrestrial), or `All` (default).
