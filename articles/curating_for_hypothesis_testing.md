@@ -2,6 +2,14 @@
 
 ## Curating Data for Research and Hypothesis Testing
 
+``` r
+
+library(BioShiftR)
+library(dplyr)
+library(ggplot2)
+theme_set(theme_bw())
+```
+
 Here, we demonstrate how BioShifts and the BioShiftR package can be used
 to access, subset, and organize bioshifts data for research, hypothesis
 testing, and connecting to external data sources.
