@@ -8,6 +8,11 @@
 #' @examples get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::glimpse()
 add_articles <- function(data){
 
+  # make sure data has correct necessary ids
+  if(!"article_id" %in% colnames(data)){
+    stop("ID key missing: input requires article_id", call.=F)
+  }
+
   articles <- readRDS(system.file("extdata", "articles.rds", package = "BioShiftR"))
 
   return <- data |>

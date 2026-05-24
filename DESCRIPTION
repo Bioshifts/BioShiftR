@@ -7,7 +7,6 @@ Description: Access and manipulate data on published species' range shifts from 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports: 
     dplyr,
     ggplot2,
@@ -30,3 +29,4 @@ Suggests:
     patchwork
 VignetteBuilder: knitr
 URL: https://bioshifts.github.io/BioShiftR/
+Config/roxygen2/version: 8.0.0

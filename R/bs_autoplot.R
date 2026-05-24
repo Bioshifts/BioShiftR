@@ -6,7 +6,7 @@
 #' @param plottype The type of plot to return. Options are
 #'
 #' @returns
-## ' @export
+#'
 #'
 #' @examples
 bs_autoplot <- function(species = c("Troglodytes troglodytes","Fringilla coelebs"),

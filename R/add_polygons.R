@@ -13,6 +13,15 @@ add_polygons <- function(data,
                          type = "SA",
                          directory = "."){
 
+  # make sure data has correct necessary ids
+  if(type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))){
+    stop("ID key missing; input requires: article_id, poly_id", call.=F)
+  }
+  if(type == "SP" & !all(c("article_id", "poly_id", "sp_name_checked") %in% colnames(data))){
+    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call.=F)
+  }
+
+
   filename <- switch(type,
                      "SA" = "sa_polygons_simplified.rds",
                      "SP" = "sp_polygons_simplified.rds")

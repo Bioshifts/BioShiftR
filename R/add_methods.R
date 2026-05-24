@@ -10,11 +10,19 @@
 #' @examples get_shifts() |> add_methods() |> dplyr::glimpse()
 add_methods <- function(data){
 
-  methods <- readRDS(system.file("extdata", "methods.rds", package = "BioShiftR"))
+  if(!all(c("id") %in% colnames(data))){
+    stop("ID key missing; input requires: id", call.=F)
+  }
 
+  # upload data
+  methods <- readRDS(system.file("extdata", "methods.rds", package = "BioShiftR")) %>%
+    dplyr::select(-c( article_id, poly_id, type, param, method_id)) # not needed for merge. covered in 'id'
+
+
+  # merge
   return <- data |>
     dplyr::left_join(methods,
-              dplyr::join_by(id, article_id, poly_id, type, param, method_id))
+              dplyr::join_by(id))
 
   return(return)
 
