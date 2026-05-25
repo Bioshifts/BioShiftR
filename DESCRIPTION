@@ -12,7 +12,8 @@ Imports:
     ggplot2,
     readr,
     sf,
-    stringr
+    stringr,
+    magrittr
 Depends: 
     R (>= 3.5)
 Suggests: 

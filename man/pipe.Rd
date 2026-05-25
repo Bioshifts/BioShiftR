@@ -3,10 +3,7 @@
 \name{\%>\%}
 \alias{\%>\%}
 \title{Pipe operator}
-\usage{
-lhs \%>\% rhs
-}
 \description{
-See \code{\link[magrittr]{\%>\%}} for details.
+Re-exported from magrittr.
 }
 \keyword{internal}
