@@ -133,7 +133,7 @@ Show Code
 </summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># plot a histogram</span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">shifts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">shifts</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span> </span>
 <span>  </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">calc_rate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># add histogram</span></span>
@@ -183,7 +183,7 @@ or species-specific study areas, or more simply, the
 metadata.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># add polygon info</span></span>
-<span><span class="va">shifts2</span> <span class="op">&lt;-</span> <span class="va">shifts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">shifts2</span> <span class="op">&lt;-</span> <span class="va">shifts</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  <span class="co"># add info for study area polygons (type "SA")</span></span>
 <span>  <span class="fu"><a href="../reference/add_poly_info.html">add_poly_info</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"SA"</span><span class="op">)</span> </span></code></pre></div>
 <div class="section level4">
@@ -196,14 +196,14 @@ Show Code
 </summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># make map ----------------------------------------------------------------</span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">shifts2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">shifts2</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span> </span>
 <span>  </span>
 <span>  <span class="co"># summarize shifts by article and polygon ID</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">article_id</span>, <span class="va">poly_id</span>, <span class="va">lat_cent_deg</span>, <span class="va">lon_cent_deg</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">article_id</span>, <span class="va">poly_id</span>, <span class="va">lat_cent_deg</span>, <span class="va">lon_cent_deg</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>lat_cent_deg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">lat_cent_deg</span><span class="op">)</span>,</span>
 <span>            lon_cent_deg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">lon_cent_deg</span><span class="op">)</span>,</span>
-<span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="co"># plot</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -258,7 +258,7 @@ We collected metadata on 16 methodological variables, which can be
 important to consider when analyzing shift rates across studies.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># add methods to shifts database</span></span>
-<span><span class="va">shifts3</span> <span class="op">&lt;-</span> <span class="va">shifts2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">shifts3</span> <span class="op">&lt;-</span> <span class="va">shifts2</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  <span class="co"># add methodological variables</span></span>
 <span>  <span class="fu"><a href="../reference/add_methods.html">add_methods</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
@@ -274,14 +274,14 @@ Show Code
 </summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># ridgeplot of study durations by parameter</span></span>
-<span><span class="va">p3.1</span> <span class="op">&lt;-</span> <span class="va">shifts3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">p3.1</span> <span class="op">&lt;-</span> <span class="va">shifts3</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="co"># change parameter names and order</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>param2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode.html" class="external-link">recode</a></span><span class="op">(</span><span class="va">param</span>, </span>
 <span>                         <span class="st">"LE"</span> <span class="op">=</span> <span class="st">"Leading\nEdges"</span>,</span>
 <span>                         <span class="st">"TE"</span> <span class="op">=</span> <span class="st">"Trailing\nEdges"</span>,</span>
-<span>                         <span class="st">"O"</span> <span class="op">=</span> <span class="st">"Centres"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>param2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">param2</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trailing\nEdges"</span>,<span class="st">"Centres"</span>,<span class="st">"Leading\nEdges"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>                         <span class="st">"O"</span> <span class="op">=</span> <span class="st">"Centres"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>param2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">param2</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trailing\nEdges"</span>,<span class="st">"Centres"</span>,<span class="st">"Leading\nEdges"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="co"># plot</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">duration</span>, </span>
@@ -303,7 +303,7 @@ Show Code
 <span></span>
 <span></span>
 <span><span class="co"># bar plot of observation types</span></span>
-<span><span class="va">p3.2</span> <span class="op">&lt;-</span> <span class="va">shifts3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">p3.2</span> <span class="op">&lt;-</span> <span class="va">shifts3</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="co"># plot</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">obs_type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -344,7 +344,7 @@ warming rate of mountain environments, so we’ll use the
 estimated shift.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># add methods to shifts database</span></span>
-<span><span class="va">shifts4</span> <span class="op">&lt;-</span> <span class="va">shifts3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">shifts4</span> <span class="op">&lt;-</span> <span class="va">shifts3</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  <span class="co"># add warming trends for study areas</span></span>
 <span>  <span class="co"># `type = "SP"` would add species-level warming trends, but not every </span></span>
 <span>  <span class="co"># species has total range areas available, so we'll use study-level trends</span></span>
@@ -373,7 +373,7 @@ Show Code
 <span><span class="va">mod_all_au</span> <span class="op">&lt;-</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment</a></span><span class="op">(</span><span class="va">mod_all</span>, interval <span class="op">=</span> <span class="st">"confidence"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plot</span></span>
-<span><span class="va">p4.1</span> <span class="op">&lt;-</span> <span class="va">mod_all_au</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">p4.1</span> <span class="op">&lt;-</span> <span class="va">mod_all_au</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="co"># plot</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">trend_temp_mean</span>, </span>
@@ -416,9 +416,9 @@ Show Code
 <span></span>
 <span></span>
 <span><span class="co"># summarize by study ID, polygon ID, and timeframe of sampling</span></span>
-<span><span class="va">shifts4_means</span> <span class="op">&lt;-</span> <span class="va">shifts4</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">shifts4_means</span> <span class="op">&lt;-</span> <span class="va">shifts4</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>    <span class="co"># group by article ID and polygon ID (polygons are within articles)</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">article_id</span>, <span class="va">poly_id</span>, <span class="va">midpoint_firstperiod</span>, <span class="va">midpoint_lastperiod</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">article_id</span>, <span class="va">poly_id</span>, <span class="va">midpoint_firstperiod</span>, <span class="va">midpoint_lastperiod</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span></span>
 <span>    <span class="co"># find mean rates</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
 <span>        se_calc_rate <span class="op">=</span> <span class="fu">plotrix</span><span class="fu">::</span><span class="fu"><a href="https://plotrix.github.io/plotrix/reference/std.error.html" class="external-link">std.error</a></span><span class="op">(</span><span class="va">calc_rate</span><span class="op">)</span>,</span>
@@ -438,7 +438,7 @@ Show Code
 <span><span class="va">mod_means_au</span> <span class="op">&lt;-</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment</a></span><span class="op">(</span><span class="va">mod_means</span>, <span class="va">shifts4_means</span>, interval <span class="op">=</span> <span class="st">"confidence"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plot</span></span>
-<span><span class="va">p4.2</span> <span class="op">&lt;-</span> <span class="va">mod_means_au</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">p4.2</span> <span class="op">&lt;-</span> <span class="va">mod_means_au</span> <span class="op"><a href="../reference/grapes-greater-than-grapes.html">%&gt;%</a></span> </span>
 <span>  </span>
 <span>  <span class="co"># start plot</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">trend_temp_mean</span>,</span>
