@@ -4,5 +4,6 @@
 #'
 #' @name %>%
 #' @importFrom magrittr %>%
-#' @noRd
+#' @export
+#' @keywords internal
 magrittr::`%>%`

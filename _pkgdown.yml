@@ -10,6 +10,20 @@ articles:
       - adding_climate_variables
       - curating_for_hypothesis_testing
 
+reference:
+  - title: "BioShiftR Functions"
+    contents:
+      - get_shifts
+      - download_polygons
+      - add_articles
+      - add_author_reported
+      - add_taxo
+      - add_methods
+      - add_baselines
+      - add_trends
+      - add_cv
+      - add_poly_info
+      - add_polygons
 repo:
   url:
     home: https://github.com/bioshifts/BioShiftR/
