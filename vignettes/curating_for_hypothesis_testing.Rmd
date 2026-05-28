@@ -33,7 +33,9 @@ theme_set(theme_bw())
 require(ggallin)
 require(rnaturalearth)
 require(ggridges)
+require(ggthemes)
 require(plotrix)
+require(patchwork)
 ```
 
 
@@ -111,6 +113,9 @@ p1 <- shifts %>%
            hjust = 1.2, 
            vjust = 1.2,
            size = 2.5)
+
+# view p1:
+# p1
 
 ```
 
@@ -190,6 +195,9 @@ p2 <- shifts2 %>%
        fill = "Avg. shift\nrate\n(km/yr)",
        size = "n in\ngroup",
        title = "Location of elevation shift estimates") 
+
+# view p2:
+# p2
 
 
 ```
@@ -281,6 +289,10 @@ library(patchwork)
 p3 <- ((
     (p3.1 + theme(plot.margin = margin(r=2))) | (p3.2 + theme(plot.margin = margin(l = 2)))))+
     plot_annotation( title = 'Distribution of selected methods') 
+
+# view p3:
+# p3
+
 
 ```
 
@@ -457,6 +469,10 @@ p4.2 <- mod_means_au %>%
 # merge plots
 p4 <- ((
     (p4.1 + theme(plot.margin = margin(r=2))) | (p4.2 + theme(plot.margin = margin(l = 2)))))
+
+
+# view p4:
+# p4
 
 ```
 
