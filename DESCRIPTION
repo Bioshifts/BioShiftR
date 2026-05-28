@@ -24,7 +24,6 @@ Suggests:
     ggallin,
     ggthemes,
     rnaturalearth,
-    sf,
     ggridges,
     plotrix,
     broom, 
