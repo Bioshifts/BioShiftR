@@ -12,7 +12,7 @@ add_author_reported <- function(data){
 
   # make sure data has correct necessary ids
   if(!all(c("id","sp_name_publication","subsp") %in% colnames(data))){
-    stop("ID key missing; input requires id, sp_name_publication, subsp", call.=F)
+    stop("ID key missing; input requires id, sp_name_publication, subsp", call.=FALSE)
   }
 
 

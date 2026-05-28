@@ -29,9 +29,9 @@ download_polygons <- function(type = "SA",
   # search for file in project directory
   # list all project files
   all_proj_files <-
-    list.files(recursive = T,
-               include.dirs = F,
-               full.names = F)
+    list.files(recursive = TRUE,
+               include.dirs = FALSE,
+               full.names = FALSE)
 
   # check if filename already exists
   exists <- any(stringr::str_detect(all_proj_files, filename))
@@ -67,7 +67,7 @@ download_polygons <- function(type = "SA",
 
   # create directory if it doesn't exist
   dir <- file.path(polygon_folder)
-  dir.create(dir, recursive = T, showWarnings = F)
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   # increase timeout
   if(type == "SP"){

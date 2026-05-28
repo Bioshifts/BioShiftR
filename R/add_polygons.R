@@ -16,10 +16,10 @@ add_polygons <- function(data,
 
   # make sure data has correct necessary ids for matching
   if(type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id", call.=F)
+    stop("ID key missing; input requires: article_id, poly_id", call.=FALSE)
   }
   if(type == "SP" & !all(c("article_id", "poly_id", "sp_name_checked") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call.=F)
+    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call.=FALSE)
   }
 
 
@@ -32,7 +32,7 @@ add_polygons <- function(data,
 
   # make sure polygon gpkg exists in working directory or is specified
   if(!file.exists(path)){
-    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of the defaul directory: ./BioShiftR_polygons.", call.=F)
+    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of the defaul directory: ./BioShiftR_polygons.", call.=FALSE)
   }
 
   polys <- readRDS(path)
@@ -52,7 +52,7 @@ add_polygons <- function(data,
   if(type == "SP" & any(return |> sf::st_is_empty())){
 
     NAs <- sum(sf::st_is_empty(return))
-    warning(paste0("In add_polygons(). Some shifts lack species-specific ranges. ",NAs," NA values returned."), call. = F)
+    warning(paste0("In add_polygons(). Some shifts lack species-specific ranges. ",NAs," NA values returned."), call. = FALSE)
 
   }
 

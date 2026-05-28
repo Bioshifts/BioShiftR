@@ -24,8 +24,8 @@ bs_autoplot <- function(species = c("Troglodytes troglodytes","Fringilla coelebs
     mutate(same = sp_name_checked == sp_name_publication)
 
 
-  if(any(sp_find$same == F)){
-    n <- sum(sp_find$same == F)
+  if(any(sp_find$same == FALSE)){
+    n <- sum(sp_find$same == FALSE)
     warning(paste0("Species names have been resolved. This plot contains ", n,
                    " shifts for which author-provided species name was different."))
   }
@@ -44,15 +44,15 @@ bs_autoplot <- function(species = c("Troglodytes troglodytes","Fringilla coelebs
 
     # check if polygon gpkg has already been downloaded
     all_proj_files <-
-      list.files(recursive = T,
-                 include.dirs = F,
-                 full.names = F)
+      list.files(recursive = TRUE,
+                 include.dirs = FALSE,
+                 full.names = FALSE)
 
 
     # check if filename already exists
     exists <- any(stringr::str_detect(all_proj_files, filename))
 
-    if(exists == F){
+    if(exists == FALSE){
       stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of default.")
     }
 
@@ -78,7 +78,7 @@ bs_autoplot <- function(species = c("Troglodytes troglodytes","Fringilla coelebs
                                      trans = ggallin::ssqrt_trans) +
       ggplot2::theme_bw() +
       #ggplot2::facet_wrap(~param)+
-      ggplot2::coord_sf(expand=F)
+      ggplot2::coord_sf(expand=FALSE)
 
     if(facet){
       return <- return +
@@ -108,8 +108,8 @@ bs_autoplot <- function(species = c("Troglodytes troglodytes","Fringilla coelebs
  #                  color = param),
  #              linetype = "dashed",
  #            linewidth = .5,
- #            #outside = T,
- #            show.legend = F) +
+ #            #outside = TRUE,
+ #            show.legend = FALSE) +
  #   theme_bw()+
  #   theme(panel.grid = element_blank())
 #
@@ -126,7 +126,7 @@ bs_autoplot <- function(species = c("Troglodytes troglodytes","Fringilla coelebs
       geom_boxplot(width = .2,
                    fill = "transparent",
                    color = "black",
-                   outliers = F)
+                   outliers = FALSE)
   }
 
   return(return)

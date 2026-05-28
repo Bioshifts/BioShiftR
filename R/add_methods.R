@@ -11,7 +11,7 @@
 add_methods <- function(data){
 
   if(!all(c("id") %in% colnames(data))){
-    stop("ID key missing; input requires: id", call.=F)
+    stop("ID key missing; input requires: id", call.=FALSE)
   }
 
   # upload data

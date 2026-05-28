@@ -17,15 +17,15 @@ add_trends <- function(data,
                        stat = c("mean"),
                        res = c("LAT" = "25km",
                                "ELE" = "1km"),
-                       suffix = F){
+                       suffix = FALSE){
 
 
   # make sure data has correct necessary ids
   if(type == "SA" & !all(c("article_id", "poly_id", "method_id", "type") %in% colnames(data))){
-    stop("ID key missing; input requires article_id, poly_id, method_id, type", call.=F)
+    stop("ID key missing; input requires article_id, poly_id, method_id, type", call.=FALSE)
   }
   if(type == "SP" & !all(c("article_id", "poly_id", "method_id", "type","sp_name_checked") %in% colnames(data))){
-    stop("ID key missing; input requires article_id, poly_id, method_id, type, sp_name_checked", call.=F)
+    stop("ID key missing; input requires article_id, poly_id, method_id, type, sp_name_checked", call.=FALSE)
   }
 
   # make sure inputs are valid ----------------
@@ -42,7 +42,7 @@ add_trends <- function(data,
     stop("type must be 'SA' or 'SP'.")
   }
   # make sure there is only one resolution if adding suffix
-  if(length(res) > 1 & suffix == T ){
+  if(length(res) > 1 & suffix == TRUE ){
     stop("use suffix only when selecting a single resolution of climate data (with res = c())")
   }
 
@@ -57,7 +57,7 @@ add_trends <- function(data,
     # if trend cols exist, remove and warn
     existing_important <- check_cols_important[which(check_cols_important %in% colnames(data))]
     existing_col_text <- glue::glue_collapse(existing_important, sep = ", ", last = ", and ")
-    if(nchar(existing_col_text) > 0 & suffix == F){
+    if(nchar(existing_col_text) > 0 & suffix == FALSE){
       warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate trends data."))
       data <- data %>% dplyr::select(-all_of(existing_important))
     }
@@ -101,11 +101,11 @@ add_trends <- function(data,
         out <- data_split[[.x]] |>
           dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]])),
                            by = dplyr::join_by(article_id, poly_id, method_id, type))
-        if(suffix == F){
+        if(suffix == FALSE){
           out <- out |>
             dplyr::mutate(trend_res = res[[.x]]) |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
-        } else if(suffix == T){
+        } else if(suffix == TRUE){
           out <- out |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
         }
@@ -119,11 +119,11 @@ add_trends <- function(data,
         out <- data_split[[.x]] |>
           dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, dplyr::all_of(cols[[.x]])),
                            by = dplyr::join_by(article_id, poly_id, type, method_id, sp_name_checked))
-        if(suffix == F){
+        if(suffix == FALSE){
           out <- out |>
             dplyr::mutate(trend_res = res[[.x]]) |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
-        } else if(suffix == T){
+        } else if(suffix == TRUE){
           out <- out |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
         }
@@ -137,7 +137,7 @@ add_trends <- function(data,
   if(type == "SP"){
     n_missing <- sum(rowSums(is.na(trends2[,c(stringr::str_replace(cols[[1]],"_res.*",""))])) == length(cols[[1]]))
     if(n_missing > 0){
-      warning(call.=F,
+      warning(call.=FALSE,
               paste0("Not all shifts have associated species-specific polygon values, or values at every resolution. ",n_missing," NAs returned."))
     }
   }

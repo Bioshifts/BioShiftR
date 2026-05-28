@@ -15,10 +15,10 @@ add_poly_info <- function(data, type = "SA"){
 
   # make sure data has correct necessary ids
   if(type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id", call.=F)
+    stop("ID key missing; input requires: article_id, poly_id", call.=FALSE)
   }
   if(type == "SP" & !all(c("article_id", "poly_id", "sp_name_checked") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call.=F)
+    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call.=FALSE)
   }
 
 
@@ -38,7 +38,7 @@ add_poly_info <- function(data, type = "SA"){
   if(type == "SP"){
     n_missing <- sum(is.na(merged$lat_cent_deg))
     if(n_missing > 0){
-      warning(call. = F, paste0("Not all shifts have associated species-specific polygon values. ",n_missing," NAs returned."))
+      warning(call. = FALSE, paste0("Not all shifts have associated species-specific polygon values. ",n_missing," NAs returned."))
     }
   }
 

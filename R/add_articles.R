@@ -10,7 +10,7 @@ add_articles <- function(data){
 
   # make sure data has correct necessary ids
   if(!"article_id" %in% colnames(data)){
-    stop("ID key missing: input requires article_id", call.=F)
+    stop("ID key missing: input requires article_id", call.=FALSE)
   }
 
   articles <- readRDS(system.file("extdata", "articles.rds", package = "BioShiftR"))
