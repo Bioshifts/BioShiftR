@@ -18,7 +18,9 @@ theme_set(theme_bw())
 require(ggallin)
 require(rnaturalearth)
 require(ggridges)
+require(ggthemes)
 require(plotrix)
+require(patchwork)
 ```
 
 Here, we demonstrate how BioShifts and the BioShiftR package can be used
@@ -118,6 +120,9 @@ p1 <- shifts %>%
            hjust = 1.2, 
            vjust = 1.2,
            size = 2.5)
+
+# view p1:
+# p1
 ```
 
 ![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-5-1.png)
@@ -198,6 +203,9 @@ p2 <- shifts2 %>%
        fill = "Avg. shift\nrate\n(km/yr)",
        size = "n in\ngroup",
        title = "Location of elevation shift estimates") 
+
+# view p2:
+# p2
 ```
 
 ![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-8-1.png)
@@ -292,6 +300,9 @@ library(patchwork)
 p3 <- ((
     (p3.1 + theme(plot.margin = margin(r=2))) | (p3.2 + theme(plot.margin = margin(l = 2)))))+
     plot_annotation( title = 'Distribution of selected methods') 
+
+# view p3:
+# p3
 ```
 
 ![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-11-1.png)
@@ -471,6 +482,10 @@ p4.2 <- mod_means_au %>%
 # merge plots
 p4 <- ((
     (p4.1 + theme(plot.margin = margin(r=2))) | (p4.2 + theme(plot.margin = margin(l = 2)))))
+
+
+# view p4:
+# p4
 ```
 
 ![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-14-1.png)

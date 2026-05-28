@@ -86,7 +86,9 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/shabbychef/ggallin" class="external-link">ggallin</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rnaturalearth/" class="external-link">rnaturalearth</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggridges/" class="external-link">ggridges</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://plotrix.github.io/plotrix/" class="external-link">plotrix</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://jrnold.github.io/ggthemes/" class="external-link">ggthemes</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://plotrix.github.io/plotrix/" class="external-link">plotrix</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span></code></pre></div>
 <p>Here, we demonstrate how BioShifts and the BioShiftR package can be
 used to access, subset, and organize bioshifts data for research,
 hypothesis testing, and connecting to external data sources.</p>
@@ -177,7 +179,10 @@ Show Code
 <span>           label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"n = "</span>,<span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">shifts</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>           hjust <span class="op">=</span> <span class="fl">1.2</span>, </span>
 <span>           vjust <span class="op">=</span> <span class="fl">1.2</span>,</span>
-<span>           size <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span></code></pre></div>
+<span>           size <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># view p1:</span></span>
+<span><span class="co"># p1</span></span></code></pre></div>
 </details><p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="70%"></p>
 </div>
 <div class="section level3">
@@ -250,7 +255,10 @@ Show Code
 <span>       y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>       fill <span class="op">=</span> <span class="st">"Avg. shift\nrate\n(km/yr)"</span>,</span>
 <span>       size <span class="op">=</span> <span class="st">"n in\ngroup"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Location of elevation shift estimates"</span><span class="op">)</span> </span></code></pre></div>
+<span>       title <span class="op">=</span> <span class="st">"Location of elevation shift estimates"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># view p2:</span></span>
+<span><span class="co"># p2</span></span></code></pre></div>
 </details><p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="80%"></p>
 </div>
 </div>
@@ -339,7 +347,10 @@ Show Code
 <span></span>
 <span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span></span>
 <span>    <span class="op">(</span><span class="va">p3.1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="va">p3.2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span> title <span class="op">=</span> <span class="st">'Distribution of selected methods'</span><span class="op">)</span> </span></code></pre></div>
+<span>    <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span> title <span class="op">=</span> <span class="st">'Distribution of selected methods'</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># view p3:</span></span>
+<span><span class="co"># p3</span></span></code></pre></div>
 </details><p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="70%"></p>
 </div>
 </div>
@@ -512,7 +523,11 @@ Show Code
 <span></span>
 <span><span class="co"># merge plots</span></span>
 <span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span></span>
-<span>    <span class="op">(</span><span class="va">p4.1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="va">p4.2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="op">(</span><span class="va">p4.1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="va">p4.2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># view p4:</span></span>
+<span><span class="co"># p4</span></span></code></pre></div>
 </details><p><img src="curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="80%"></p>
 </div>
 </div>
