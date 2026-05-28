@@ -14,8 +14,8 @@
 #' @importFrom utils download.file
 download_polygons <- function(type = "SA",
                               polygon_folder = "./BioShiftR_polygons",
-                              timeout = 500,
-                              replace = F){
+                              timeout = 500
+                              ){
 
   # get filename for species or study polygons
   filename <- switch(type,
