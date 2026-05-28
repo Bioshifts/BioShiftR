@@ -12,7 +12,7 @@ get_shifts() function. Requires download_polygons() to be used prior.
 ## Usage
 
 ``` r
-add_polygons(data, type = "SA", directory = ".")
+add_polygons(data, type = "SA", polygon_folder = "./BioShiftR_polygons")
 ```
 
 ## Arguments
@@ -25,6 +25,14 @@ add_polygons(data, type = "SA", directory = ".")
 
   choice of study area ("SA") or species-level ("SP"; species range
   cropped to study area) polygons
+
+- polygon_folder:
+
+  location of locally-downloaded geopackages for BioShifts polygons.
+  Defaults to "./BioShiftR_polygons" from the
+  [`download_polygons()`](https://bioshifts.github.io/BioShiftR/reference/download_polygons.md)
+  function, but requires specification if the user selected a custom
+  location in the download function.
 
 ## Value
 

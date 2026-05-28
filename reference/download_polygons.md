@@ -9,7 +9,12 @@ This function only needs to be run once
 ## Usage
 
 ``` r
-download_polygons(type = "SA", directory = ".", timeout = 500, replace = F)
+download_polygons(
+  type = "SA",
+  polygon_folder = "./BioShiftR_polygons",
+  timeout = 500,
+  replace = F
+)
 ```
 
 ## Arguments
@@ -21,9 +26,10 @@ download_polygons(type = "SA", directory = ".", timeout = 500, replace = F)
   be more resolute in large study areas, but will take longer to
   download and use more disc space.
 
-- directory:
+- polygon_folder:
 
-  directory within the project folder for polygon storage.
+  local directory in which to download polygon objects. Defaults to
+  "./BioShiftR_polygons"
 
 - timeout:
 

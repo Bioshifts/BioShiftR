@@ -10,6 +10,17 @@ library(ggplot2)
 theme_set(theme_bw())
 ```
 
+``` r
+
+# this vignette also uses the following packages for data visualization 
+# downstream of BioShiftR functions. They will need to be installed 
+# in order to run code from this vignette.
+require(ggallin)
+require(rnaturalearth)
+require(ggridges)
+require(plotrix)
+```
+
 Here, we demonstrate how BioShifts and the BioShiftR package can be used
 to access, subset, and organize bioshifts data for research, hypothesis
 testing, and connecting to external data sources.
@@ -109,7 +120,7 @@ p1 <- shifts %>%
            size = 2.5)
 ```
 
-![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-4-1.png)
+![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-5-1.png)
 
 ### Check spatial distribution
 
@@ -189,7 +200,7 @@ p2 <- shifts2 %>%
        title = "Location of elevation shift estimates") 
 ```
 
-![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-7-1.png)
+![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-8-1.png)
 
 ### Examine methodological variability
 
@@ -283,7 +294,7 @@ p3 <- ((
     plot_annotation( title = 'Distribution of selected methods') 
 ```
 
-![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-10-1.png)
+![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-11-1.png)
 
 ### Test association with climate exposure
 
@@ -462,7 +473,7 @@ p4 <- ((
     (p4.1 + theme(plot.margin = margin(r=2))) | (p4.2 + theme(plot.margin = margin(l = 2)))))
 ```
 
-![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-13-1.png)
+![](curating_for_hypothesis_testing_files/figure-html/unnamed-chunk-14-1.png)
 
 ## Conclusion
 
