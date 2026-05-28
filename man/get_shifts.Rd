@@ -29,5 +29,5 @@ Get species' range shift values from the BioShifts database, filtered by taxon, 
 \examples{
 get_shifts()
 get_shifts(group = "Birds", continent = "Asia")
-get_shifts(continent = c("North America","South America"), type = "ELE")
+get_shifts(continent = c("North America", "South America"), type = "ELE")
 }

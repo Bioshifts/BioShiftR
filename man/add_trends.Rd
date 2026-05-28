@@ -9,7 +9,7 @@ add_trends(
   type = "SA",
   stat = c("mean"),
   res = c(LAT = "25km", ELE = "1km"),
-  suffix = F
+  suffix = FALSE
 )
 }
 \arguments{
@@ -30,5 +30,7 @@ range shift dataframe supplemented with selected trends in temperature (°C/year
 \code{add_trends()} supplements the range shifts dataframe with annual change in climate trends (temperature and/or precipitation) within the study areas or species-specific study areas of the shift detection over the study duration.
 }
 \examples{
-get_shifts() |> add_trends() |> dplyr::glimpse()
+get_shifts() |>
+  add_trends() |>
+  dplyr::glimpse()
 }

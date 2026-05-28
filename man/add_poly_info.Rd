@@ -18,5 +18,7 @@ Range shift dataframe supplemented with columns on spatial extent of study or sp
 This function supplements range shift observations ()
 }
 \examples{
-get_shifts() |> add_poly_info(type = "SA") |> dplyr::glimpse()
+get_shifts() |>
+  add_poly_info(type = "SA") |>
+  dplyr::glimpse()
 }

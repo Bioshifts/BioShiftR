@@ -16,5 +16,7 @@ original shifts dataset, supplemented with methodological parameters for each in
 add_methods supplements the minimal shifts database with methodological information describing the methods by which individal shifts were documented. These include variables such as sampling years, definitions of range parameters, and more.
 }
 \examples{
-get_shifts() |> add_methods() |> dplyr::glimpse()
+get_shifts() |>
+  add_methods() |>
+  dplyr::glimpse()
 }
