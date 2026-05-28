@@ -3,7 +3,7 @@
 #' BioShiftR relies on data from multiple sources. Spatial polygon datasets of all study areas, or species ranges within study areas are available on [Open Science Framework]{https://osf.io/tp4hv/files/osfstorage}, but need to be downloaded locally in order to use provided helper functions. This function only needs to be run once
 #'
 #' @param type choice of study area ("SA") polygons, or species range polygons clipped to individual study areas ("SP"). Species range polygons will be more resolute in large study areas, but will take longer to download and use more disc space.
-#' @param directory directory within the project folder for polygon storage.
+#' @param polygon_folder local directory in which to download polygon objects. Defaults to "./BioShiftR_polygons"
 #' @param timeout timeout option if download fails. Increasing timeout may result in more stable downloads.
 #'
 #'
@@ -12,7 +12,7 @@
 #'
 #' @examples \dontrun{download_polyons(type = "SA")}
 download_polygons <- function(type = "SA",
-                              directory = ".",
+                              polygon_folder = "./BioShiftR_polygons",
                               timeout = 500,
                               replace = F){
 
@@ -65,7 +65,7 @@ download_polygons <- function(type = "SA",
   )
 
   # create directory if it doesn't exist
-  dir <- file.path(directory, "BioShiftR_polygons")
+  dir <- file.path(polygon_folder)
   dir.create(dir, recursive = T, showWarnings = F)
 
   # increase timeout

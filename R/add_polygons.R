@@ -4,6 +4,7 @@
 #'
 #' @param data range shift dataframe. Output of get_shifts() function.
 #' @param type choice of study area ("SA") or species-level ("SP"; species range cropped to study area) polygons
+#' @param polygon_folder location of locally-downloaded geopackages for BioShifts polygons. Defaults to "./BioShiftR_polygons" from the `download_polygons()` function, but requires specification if the user selected a custom location in the download function.
 #'
 #' @returns range shift dataframe with a geometry column containing the study-level or, when available, the species-specific polygon for each shift.
 #' @export
@@ -11,9 +12,9 @@
 #' @examples \dontrun{get_shifts(continent = "Africa") |> add_polygons()}
 add_polygons <- function(data,
                          type = "SA",
-                         directory = "."){
+                         polygon_folder = "./BioShiftR_polygons"){
 
-  # make sure data has correct necessary ids
+  # make sure data has correct necessary ids for matching
   if(type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))){
     stop("ID key missing; input requires: article_id, poly_id", call.=F)
   }
@@ -26,23 +27,13 @@ add_polygons <- function(data,
                      "SA" = "sa_polygons_simplified.rds",
                      "SP" = "sp_polygons_simplified.rds")
 
+  # make path to polygons (specified folder / filename)
+  path <- file.path(polygon_folder, filename)
 
-  # check if polygon gpkg has already been downloaded
-  all_proj_files <-
-    list.files(recursive = T,
-               include.dirs = F,
-               full.names = F)
-
-
-  # check if filename already exists
-  exists <- any(stringr::str_detect(all_proj_files, filename))
-
-  if(exists == F){
-    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of default.")
+  # make sure polygon gpkg exists in working directory or is specified
+  if(!file.exists(path)){
+    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of the defaul directory: ./BioShiftR_polygons.", call.=F)
   }
-
-
-  path <- all_proj_files[which(stringr::str_detect(all_proj_files,filename))]
 
   polys <- readRDS(path)
 
@@ -57,6 +48,7 @@ add_polygons <- function(data,
       sf::st_as_sf()
   )
 
+  # if species-specific polygons were requested, show warning that NAs were produced
   if(type == "SP" & any(return |> sf::st_is_empty())){
 
     NAs <- sum(sf::st_is_empty(return))

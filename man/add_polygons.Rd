@@ -4,12 +4,14 @@
 \alias{add_polygons}
 \title{Add polygons to range shift database}
 \usage{
-add_polygons(data, type = "SA", directory = ".")
+add_polygons(data, type = "SA", polygon_folder = "./BioShiftR_polygons")
 }
 \arguments{
 \item{data}{range shift dataframe. Output of get_shifts() function.}
 
 \item{type}{choice of study area ("SA") or species-level ("SP"; species range cropped to study area) polygons}
+
+\item{polygon_folder}{location of locally-downloaded geopackages for BioShifts polygons. Defaults to "./BioShiftR_polygons" from the \code{download_polygons()} function, but requires specification if the user selected a custom location in the download function.}
 }
 \value{
 range shift dataframe with a geometry column containing the study-level or, when available, the species-specific polygon for each shift.

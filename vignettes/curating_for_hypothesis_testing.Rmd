@@ -24,7 +24,16 @@ library(BioShiftR)
 library(dplyr)
 library(ggplot2)
 theme_set(theme_bw())
+```
 
+```{r, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
+# this vignette also uses the following packages for data visualization 
+# downstream of BioShiftR functions. They will need to be installed 
+# in order to run code from this vignette.
+require(ggallin)
+require(rnaturalearth)
+require(ggridges)
+require(plotrix)
 ```
 
 

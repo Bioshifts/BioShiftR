@@ -4,12 +4,17 @@
 \alias{download_polygons}
 \title{Download spatial data from OSF}
 \usage{
-download_polygons(type = "SA", directory = ".", timeout = 500, replace = F)
+download_polygons(
+  type = "SA",
+  polygon_folder = "./BioShiftR_polygons",
+  timeout = 500,
+  replace = F
+)
 }
 \arguments{
 \item{type}{choice of study area ("SA") polygons, or species range polygons clipped to individual study areas ("SP"). Species range polygons will be more resolute in large study areas, but will take longer to download and use more disc space.}
 
-\item{directory}{directory within the project folder for polygon storage.}
+\item{polygon_folder}{local directory in which to download polygon objects. Defaults to "./BioShiftR_polygons"}
 
 \item{timeout}{timeout option if download fails. Increasing timeout may result in more stable downloads.}
 }
