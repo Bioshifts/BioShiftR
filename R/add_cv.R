@@ -58,14 +58,14 @@ add_cv <- function(data,
   if(any(c(check_cols_important, check_cols_unimportant) %in% colnames(data))){
     # if cv_temp_var or along_gradient exist, remove them.
     existing_unimportant <- check_cols_unimportant[which(check_cols_unimportant %in% colnames(data))]
-    data <- data %>% select(-all_of(existing_unimportant))
+    data <- data %>% dplyr::select(-all_of(existing_unimportant))
 
     # if real cv cols exist, remove and warn
     existing_important <- check_cols_important[which(check_cols_important %in% colnames(data))]
     existing_col_text <- glue::glue_collapse(existing_important, sep = ", ", last = ", and ")
     if(nchar(existing_col_text) > 0 & suffix == F){
       warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate data."))
-      data <- data %>% select(-all_of(existing_important))
+      data <- data %>% dplyr::select(-all_of(existing_important))
     }
   }
 

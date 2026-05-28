@@ -59,7 +59,7 @@ add_trends <- function(data,
     existing_col_text <- glue::glue_collapse(existing_important, sep = ", ", last = ", and ")
     if(nchar(existing_col_text) > 0 & suffix == F){
       warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate trends data."))
-      data <- data %>% select(-all_of(existing_important))
+      data <- data %>% dplyr::select(-all_of(existing_important))
     }
   }
 
