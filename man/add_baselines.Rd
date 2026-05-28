@@ -31,5 +31,5 @@ Add baseline temperatures of species- or study-area polygons for each range shif
 }
 \examples{
 get_shifts() |> add_baselines()
-get_shifts(eco = "Mar") |> add_baselines(res = "25km")
+get_shifts(realm = "Mar") |> add_baselines(res = "25km")
 }

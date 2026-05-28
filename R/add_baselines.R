@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples get_shifts() |> add_baselines()
-#' @examples get_shifts(eco = "Mar") |> add_baselines(res = "25km")
+#' @examples get_shifts(realm = "Mar") |> add_baselines(res = "25km")
 add_baselines <- function(data,
                           type = "SA",
                           stat = c("mean"),
