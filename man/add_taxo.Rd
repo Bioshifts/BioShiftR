@@ -7,7 +7,7 @@
 add_taxo(data)
 }
 \arguments{
-\item{df}{input shifts dataset from get_shifts() function.}
+\item{data}{input shifts dataset from get_shifts() function.}
 }
 \value{
 Range shifts dataset with added columns containing taxonomic classification information for every species name, as written in the original publication.
