@@ -25,6 +25,6 @@ BioShiftR relies on data from multiple sources. Spatial polygon datasets of all 
 }
 \examples{
 \dontrun{
-download_polyons(type = "SA")
+download_polygons(type = "SA")
 }
 }

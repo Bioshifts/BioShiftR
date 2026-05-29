@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples \dontrun{
-#' download_polyons(type = "SA")
+#' download_polygons(type = "SA")
 #' }
 #' @importFrom utils download.file
 download_polygons <- function(type = "SA",
@@ -81,9 +81,10 @@ download_polygons <- function(type = "SA",
     on.exit(options(timeout = original_timeout))
   }
 
-  # download file
+  # download file — mode = "wb" is required for binary files on Windows
   download.file(link,
-    destfile = file.path(dir, filename)
+    destfile = file.path(dir, filename),
+    mode = "wb"
   )
 
   cat("Downloaded to ", file.path(dir, filename))
