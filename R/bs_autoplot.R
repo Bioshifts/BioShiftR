@@ -1,63 +1,93 @@
 #' Autoplot species range shifts from the BioShifts database
 #'
-#' Quickly visualise range shift data returned by `get_shifts()` (or a filtered
-#' subset of it) in one of three ways: a per-study dot plot, a distribution by
-#' range parameter, or a spatial polygon map.
+#' Quickly visualise range shift data in one of three ways: a per-study dot
+#' plot, a distribution by range parameter, or a spatial polygon map.
 #'
-#' @param data Range shift data from `get_shifts()`, typically filtered to the
-#'   species or studies of interest before passing in.
+#' The function accepts input in two ways:
+#' * **By species name** – pass a character vector of one or more
+#'   `sp_name_checked` values as the first argument.  The full database is
+#'   queried automatically.
+#' * **Pipe-in** – filter `get_shifts()` yourself and pipe the result in as
+#'   before.
+#'
+#' @param data Either a character vector of species names (e.g.
+#'   `"Troglodytes_troglodytes"`, spaces or underscores accepted) *or* a
+#'   range-shift data frame from `get_shifts()`.  When omitted the full
+#'   database is used.
 #' @param plottype One of `"point"` (per-study dot plot with group means),
 #'   `"boxplot"` (distribution of rates by range parameter), or `"map"`
-#'   (species-specific polygons on a world map, coloured by shift rate).
-#'   Partial matching is supported.
-#' @param facet Optional character string giving the name of a column in `data`
-#'   to use as a `facet_wrap()` grouping variable.
-#' @param polygon_folder Path to the folder containing locally-downloaded
-#'   polygon files from `download_polygons()`. Only used when
-#'   `plottype = "map"`. Defaults to `"./BioShiftR_polygons"`.
+#'   (species polygons on a world map, coloured by shift rate).  Partial
+#'   matching is supported.
+#' @param facet Optional column name (string) in `data` to use as a
+#'   `facet_wrap()` grouping variable.
+#' @param polygon_folder Path to locally-downloaded polygon files from
+#'   `download_polygons(type = "SP")`.  Only used when `plottype = "map"`.
+#'   Defaults to `"./BioShiftR_polygons"`.
 #'
 #' @returns A ggplot2 object.
 #' @export
 #'
 #' @examples
-#' # Per-study dot plot for two bird species
-#' get_shifts(group = "Birds", continent = "Europe") |>
-#'   dplyr::filter(sp_name_checked %in% c(
-#'     "Troglodytes_troglodytes",
-#'     "Fringilla_coelebs"
-#'   )) |>
-#'   bs_autoplot(plottype = "point")
+#' # Quick single-species dot plot
+#' bs_autoplot("Troglodytes_troglodytes", plottype = "point")
 #'
-#' # Boxplot of shift rate distributions by range parameter
-#' get_shifts(group = "Birds", type = "LAT") |>
+#' # Two species boxplot at once
+#' bs_autoplot(c("Troglodytes_troglodytes", "Fringilla_coelebs"),
+#'   plottype = "boxplot", facet = "sp_name_checked"
+#' )
+#'
+#' # Pipe-in style
+#' get_shifts(group = "Birds", continent = "Europe") |>
 #'   dplyr::filter(sp_name_checked == "Troglodytes_troglodytes") |>
-#'   bs_autoplot(plottype = "boxplot")
+#'   bs_autoplot(plottype = "point")
 #'
 #' \dontrun{
 #' # Map requires downloaded polygons (see ?download_polygons)
-#' download.polygons(type = "SP")
-#' get_shifts(group = "Birds", continent = "Europe") |>
-#'   dplyr::filter(sp_name_checked == "Troglodytes_troglodytes") |>
-#'   bs_autoplot(plottype = "map")
+#' download_polygons(type = "SP")
+#' bs_autoplot("Troglodytes_troglodytes", plottype = "map")
 #' }
-bs_autoplot <- function(data,
+bs_autoplot <- function(data = NULL,
                         plottype = c("point", "boxplot", "map"),
                         facet = NULL,
                         polygon_folder = "./BioShiftR_polygons") {
   plottype <- match.arg(plottype)
 
+  # If species names are passed as the first argument, filter the full database
+  if (is.character(data)) {
+    species <- stringr::str_replace_all(data, " ", "_")
+    data <- dplyr::filter(
+      get_shifts(),
+      sp_name_checked %in% species
+    )
+    if (nrow(data) == 0) {
+      stop(
+        "No records found for the requested species. ",
+        "Check spelling against sp_name_checked values returned by get_shifts().",
+        call. = FALSE
+      )
+    }
+  }
+
+  # If nothing was supplied at all, use the full database
+  if (is.null(data)) {
+    data <- get_shifts()
+  }
+
   # input validation ---------------------------------------------------------
   required_cols <- c("calc_rate", "param", "article_id", "type")
   missing_cols <- setdiff(required_cols, colnames(data))
   if (length(missing_cols) > 0) {
-    stop(paste0(
+    stop(
       "data is missing required columns: ",
-      paste(missing_cols, collapse = ", ")
-    ), call. = FALSE)
+      paste(missing_cols, collapse = ", "),
+      call. = FALSE
+    )
   }
 
   if (nrow(data) == 0) {
-    stop("data contains no rows. Filter to species of interest before calling bs_autoplot().",
+    stop(
+      "data contains no rows. ",
+      "Filter to species of interest before calling bs_autoplot().",
       call. = FALSE
     )
   }
@@ -65,18 +95,16 @@ bs_autoplot <- function(data,
 
   # shared helpers -----------------------------------------------------------
 
-  # human-readable labels for param and type
   param_labels <- c(
     "LE" = "Leading Edge",
-    "TE" = "Trailing Edge",
-    "O"  = "Centre"
+    "O"  = "Centre",
+    "TE" = "Trailing Edge"
   )
 
-  # colour palette keyed to the human-readable labels
   param_colours <- c(
     "Leading Edge"  = "tomato2",
-    "Trailing Edge" = "cyan4",
-    "Centre"        = "#dfa9f5"
+    "Centre"        = "#dfa9f5",
+    "Trailing Edge" = "cyan4"
   )
 
   type_labels <- c(
@@ -84,7 +112,6 @@ bs_autoplot <- function(data,
     "ELE" = "Elevational"
   )
 
-  # y-axis label: use calc_unit if available; otherwise generic
   if ("calc_unit" %in% colnames(data)) {
     units <- unique(data$calc_unit)
     unit_str <- if (length(units) == 1) paste0("(", units, ")") else "(km/year or m/year)"
@@ -93,17 +120,15 @@ bs_autoplot <- function(data,
   }
   y_label <- paste("Range Shift Rate", unit_str)
 
-  # shared publication-ready theme
   bs_theme <- ggplot2::theme_classic(base_size = 11) +
     ggplot2::theme(
-      strip.background  = ggplot2::element_blank(),
-      strip.text        = ggplot2::element_text(face = "bold"),
-      axis.line         = ggplot2::element_line(colour = "black"),
-      panel.spacing     = ggplot2::unit(0.8, "lines"),
-      legend.key        = ggplot2::element_blank()
+      strip.background = ggplot2::element_blank(),
+      strip.text       = ggplot2::element_text(face = "bold"),
+      axis.line        = ggplot2::element_line(colour = "black"),
+      panel.spacing    = ggplot2::unit(0.8, "lines"),
+      legend.key       = ggplot2::element_blank()
     )
 
-  # helper to optionally add facet_wrap
   add_facet <- function(plt) {
     if (!is.null(facet)) {
       if (!facet %in% colnames(data)) {
@@ -118,117 +143,85 @@ bs_autoplot <- function(data,
   }
 
 
-  # ── point plot ─────────────────────────────────────────────────────────────
+  # point plot ---------------------------------------------------------------
   if (plottype == "point") {
-    # compute per-group means for the dashed reference lines
     avg <- data |>
-      dplyr::group_by(.data$type, .data$param) |>
+      dplyr::group_by(type, param) |>
       dplyr::summarise(
-        calc_rate = mean(.data$calc_rate, na.rm = TRUE),
+        calc_rate = mean(calc_rate, na.rm = TRUE),
         .groups = "drop"
       )
 
-    # apply readable labels
     plot_data <- data |>
       dplyr::mutate(
-        param = factor(.data$param,
-          levels = names(param_labels),
-          labels = param_labels
-        ),
-        type = factor(.data$type,
-          levels = names(type_labels),
-          labels = type_labels
-        )
+        param = factor(param, levels = names(param_labels), labels = param_labels),
+        type  = factor(type, levels = names(type_labels), labels = type_labels)
       )
 
     avg <- avg |>
       dplyr::mutate(
-        param = factor(.data$param,
-          levels = names(param_labels),
-          labels = param_labels
-        ),
-        type = factor(.data$type,
-          levels = names(type_labels),
-          labels = type_labels
-        )
+        param = factor(param, levels = names(param_labels), labels = param_labels),
+        type  = factor(type, levels = names(type_labels), labels = type_labels)
       )
 
     plt <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes(
-        x = .data$article_id, y = .data$calc_rate,
-        colour = .data$param
-      )
+      ggplot2::aes(x = article_id, y = calc_rate, colour = param)
     ) +
-      ggplot2::geom_hline(yintercept = 0, linewidth = 0.4, colour = "grey40") +
+      ggplot2::geom_hline(yintercept = 0, linewidth = 0.4, colour = "grey50") +
       ggplot2::geom_hline(
         data = avg,
-        ggplot2::aes(yintercept = .data$calc_rate, colour = .data$param),
+        ggplot2::aes(yintercept = calc_rate, colour = param),
         linetype = "dashed", linewidth = 0.5, show.legend = FALSE
       ) +
       ggplot2::geom_point(alpha = 0.8, size = 1.5) +
-      ggplot2::scale_colour_manual(
-        values = param_colours,
-        name = "Range\nParameter"
-      ) +
-      ggplot2::labs(
-        x = "Study",
-        y = y_label
-      ) +
+      ggplot2::scale_colour_manual(values = param_colours, name = "Range\nParameter") +
+      ggplot2::labs(x = "Study", y = y_label) +
       bs_theme +
       ggplot2::theme(
         axis.text.x  = ggplot2::element_blank(),
         axis.ticks.x = ggplot2::element_blank()
       )
 
-    # only add type faceting if both types are present
     if (dplyr::n_distinct(data$type) > 1) {
       plt <- plt + ggplot2::facet_grid(param ~ type, scales = "free_x")
     } else {
       plt <- plt + ggplot2::facet_wrap(~param, scales = "free_x", ncol = 1)
     }
 
-    plt <- add_facet(plt)
-    return(plt)
+    return(add_facet(plt))
   }
 
 
-  # ── boxplot ────────────────────────────────────────────────────────────────
+  # boxplot ------------------------------------------------------------------
   if (plottype == "boxplot") {
     plot_data <- data |>
       dplyr::mutate(
-        param = factor(.data$param,
-          levels = names(param_labels),
-          labels = param_labels
-        )
+        param = factor(param, levels = names(param_labels), labels = param_labels)
       )
 
     plt <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes(x = .data$param, y = .data$calc_rate, colour = .data$param)
+      ggplot2::aes(x = param, y = calc_rate, colour = param)
     ) +
-      ggplot2::geom_hline(yintercept = 0, linewidth = 0.4, colour = "grey40") +
+      ggplot2::geom_hline(yintercept = 0, linewidth = 0.4, colour = "grey50") +
       ggplot2::geom_point(
         position = ggplot2::position_jitter(width = 0.15, height = 0),
-        alpha = 0.5, size = 1.2
+        alpha = 0.8, size = 1.2
       ) +
       ggplot2::geom_boxplot(
         width = 0.25, fill = "transparent", colour = "black",
         outliers = FALSE, linewidth = 0.5
       ) +
       ggplot2::scale_colour_manual(values = param_colours, guide = "none") +
-      ggplot2::labs(
-        x = "Range Parameter",
-        y = y_label
-      ) +
+      ggplot2::labs(x = "Range Parameter", y = y_label) +
       bs_theme
 
-    plt <- add_facet(plt)
-    return(plt)
+    return(add_facet(plt))
   }
 
 
-  # ── map ────────────────────────────────────────────────────────────────────
+  # map ----------------------------------------------------------------------
   if (plottype == "map") {
     if (!"sp_name_checked" %in% colnames(data)) {
       stop("plottype = 'map' requires a 'sp_name_checked' column in data.",
@@ -237,34 +230,40 @@ bs_autoplot <- function(data,
     }
 
     if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
-      stop("plottype = 'map' requires the 'rnaturalearth' package. ",
+      stop(
+        "plottype = 'map' requires the 'rnaturalearth' package. ",
         "Install it with: install.packages('rnaturalearth')",
         call. = FALSE
       )
     }
 
-    filename <- "sp_polygons_simplified.rds"
-    path <- file.path(polygon_folder, filename)
-
+    path <- file.path(polygon_folder, "sp_polygons_simplified.rds")
     if (!file.exists(path)) {
       stop(
-        "Polygons not found locally. Please run download_polygons(type = 'SP'), ",
+        "Polygons not found locally. Run download_polygons(type = 'SP'), ",
         "or set polygon_folder to the directory where they are saved.",
         call. = FALSE
       )
     }
 
-    sp <- stringr::str_replace(unique(data$sp_name_checked), " ", "_")
+    sp <- stringr::str_replace_all(unique(data$sp_name_checked), " ", "_")
 
     polys <- readRDS(path) |>
       dplyr::filter(sp_name_checked %in% sp) |>
-      dplyr::right_join(data,
-        by = dplyr::join_by(article_id, poly_id, sp_name_checked)
-      )
+      dplyr::right_join(data, by = dplyr::join_by(article_id, poly_id, sp_name_checked))
 
-    bbox <- sf::st_bbox(sf::st_buffer(sf::st_union(polys), 2))
+    # s2 rejects degenerate edges common in species-range polygons; GEOS is
+    # more lenient. Disable for the whole map block and restore on exit.
+    prev_s2 <- sf::sf_use_s2(FALSE)
+    on.exit(sf::sf_use_s2(prev_s2), add = TRUE)
 
-    # apply ssqrt transform if ggallin is available
+    pad <- 2
+    bbox <- sf::st_bbox(sf::st_make_valid(polys))
+    bbox["xmin"] <- bbox["xmin"] - pad
+    bbox["ymin"] <- bbox["ymin"] - pad
+    bbox["xmax"] <- bbox["xmax"] + pad
+    bbox["ymax"] <- bbox["ymax"] + pad
+
     rate_trans <- if (requireNamespace("ggallin", quietly = TRUE)) {
       ggallin::ssqrt_trans
     } else {
@@ -275,11 +274,12 @@ bs_autoplot <- function(data,
     plt <- ggplot2::ggplot(data = polys) +
       ggplot2::geom_sf(
         data = rnaturalearth::ne_countries(returnclass = "sf") |>
+          sf::st_make_valid() |>
           sf::st_crop(bbox),
         fill = "grey88", colour = "white", linewidth = 0.2
       ) +
       ggplot2::geom_sf(
-        ggplot2::aes(fill = .data$calc_rate, colour = .data$calc_rate),
+        ggplot2::aes(fill = calc_rate, colour = calc_rate),
         alpha = 0.8
       ) +
       ggplot2::scale_fill_gradient2(
@@ -300,7 +300,6 @@ bs_autoplot <- function(data,
         axis.line        = ggplot2::element_blank()
       )
 
-    plt <- add_facet(plt)
-    return(plt)
+    return(add_facet(plt))
   }
 }
