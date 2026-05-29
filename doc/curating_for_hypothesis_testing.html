@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Curating Data for Hypothesis Testing</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<style type="text/css">detaiks.chunk-details > summary.chunk-summary {
+text-align: right;
+}
+details.chunk-details[open] > summary.chunk-summary::after {
+content: "Hide";
+}
+details.chunk-details[open] > summary.chunk-summary > span.chunk-summary-text {
+display: none;
+}
+</style>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Curating Data for Hypothesis Testing</h1>
+
+
+
+<div id="curating-data-for-research-and-hypothesis-testing" class="section level2">
+<h2>Curating Data for Research and Hypothesis Testing</h2>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(BioShiftR)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code></pre></div>
+</details>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># this vignette also uses the following packages for data visualization </span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># downstream of BioShiftR functions. They will need to be installed </span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># in order to run code from this vignette.</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">require</span>(ggallin)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">require</span>(rnaturalearth)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">require</span>(ggridges)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">require</span>(ggthemes)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">require</span>(plotrix)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">require</span>(patchwork)</span></code></pre></div>
+</details>
+<p>Here, we demonstrate how BioShifts and the BioShiftR package can be
+used to access, subset, and organize bioshifts data for research,
+hypothesis testing, and connecting to external data sources.</p>
+</div>
+<div id="example-scenario-do-terrestrial-invertebrates-on-faster-warming-mountains-shift-at-faster-rates-than-those-on-more-slowly-warming-mountains" class="section level2">
+<h2>Example Scenario: <em>do terrestrial invertebrates on faster-warming
+mountains shift at faster rates than those on more slowly-warming
+mountains?</em></h2>
+<p>Perhaps we want to test whether rates of warming drive upslope range
+shifts of global plant species. Using BioShiftR, we can easily access
+and organize data to test targeted hypotheses.</p>
+<div id="built-in-filter-steps" class="section level3">
+<h3>Built-in filter steps</h3>
+<p>Many of BioShiftR’s functions provide simple methods for targeting,
+filtering, and subsetting range shift data. The
+<code>get_shifts()</code> function, for example, has arguments for
+continent, type (of range shift), and group (broad taxonomic/functional
+classifications); see the <code>get_shifts()</code> function page for
+details on options.</p>
+<p>Other functions which merge values from other dataframes to the range
+shifts database also have filtering options, usually for selecting
+study-level or species-specific values. For example, the
+<code>add_cv()</code>, <code>add_baselines()</code>, and
+<code>add_poly_info()</code> functions all contain options to either add
+these values from species-level or study-level polygons.</p>
+</div>
+<div id="get-the-data" class="section level3">
+<h3>Get the data</h3>
+<p>In this case, we can use <code>get_shifts()</code> to easily query
+the ~32,000 range shifts in the BioShifts database to our target group,
+target range shift type, and target continent. Here, we will query
+elevational range shifts for terrestrial invertebrates.</p>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(BioShiftR)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># get shifts</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>shifts <span class="ot">&lt;-</span> <span class="fu">get_shifts</span>(<span class="at">type =</span> <span class="st">&quot;ELE&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                 <span class="at">group =</span> <span class="st">&quot;Terrestrial Invertebrates&quot;</span>)</span></code></pre></div>
+</details>
+</div>
+<div id="view-minimal-shift-data" class="section level3">
+<h3>View minimal shift data</h3>
+<p>Plot a histogram of raw shift rates from the minimal range shifts
+dataset.</p>
+<details>
+<summary>
+Show Code
+</summary>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r fold-hide"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># plot a histogram</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> shifts <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> calc_rate)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="co"># add histogram</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">&quot;purple&quot;</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>                 <span class="at">center =</span> <span class="dv">0</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>                 <span class="at">linewidth =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  </span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="co"># add line at zero</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  </span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="co"># transform x axis</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> ggallin<span class="sc">::</span>ssqrt_trans) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  </span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="co"># labels</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Range Shift Rate (m/year)&quot;</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Elevation shift rates for terrestrial invertebrates&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>  </span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>  <span class="co"># theme</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_few</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title.position =</span> <span class="st">&quot;plot&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>  </span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>  <span class="co"># coords</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">100</span>),</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>                  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">440</span>),</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>                  <span class="at">expand =</span> F) <span class="sc">+</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>  </span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>  <span class="co"># annotate n</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">90</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>           <span class="at">y =</span> <span class="dv">420</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;n = &quot;</span>,scales<span class="sc">::</span><span class="fu">comma</span>(<span class="fu">nrow</span>(shifts))),</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="fl">1.2</span>, </span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="fl">1.2</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a>           <span class="at">size =</span> <span class="fl">2.5</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co"># view p1:</span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co"># p1</span></span></code></pre></div>
+</details>
+</details>
+<p><img role="img" aria-label src="data:image/png;base64,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" alt width="70%" /></p>
+</div>
+<div id="check-spatial-distribution" class="section level3">
+<h3>Check spatial distribution</h3>
+<p>Range shift estimations from published literature have important
+spatial biases that might limit their inferences. Use the
+<code>add_polygons()</code> function for viewing individual study areas
+or species-specific study areas, or more simply, the
+<code>add_poly_info()</code> function for summarized spatial
+metadata.</p>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># add polygon info</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>shifts2 <span class="ot">&lt;-</span> shifts <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="co"># add info for study area polygons (type &quot;SA&quot;)</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">add_poly_info</span>(<span class="at">type =</span> <span class="st">&quot;SA&quot;</span>) </span></code></pre></div>
+</details>
+<div id="plot-summarized-spatial-distribution" class="section level4">
+<h4>Plot summarized spatial distribution</h4>
+<p>Below, we’ll plot the number of terrestrial arthropod elevation
+shifts in each article/polygon combination.</p>
+<details>
+<summary>
+Show Code
+</summary>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># make map ----------------------------------------------------------------</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> shifts2 <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="co"># summarize shifts by article and polygon ID</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">group_by</span>(article_id, poly_id, lat_cent_deg, lon_cent_deg) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">lat_cent_deg =</span> <span class="fu">unique</span>(lat_cent_deg),</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>            <span class="at">lon_cent_deg =</span> <span class="fu">unique</span>(lon_cent_deg),</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  </span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  </span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="co"># add world geometries</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">returnclass =</span> <span class="st">&quot;sf&quot;</span>),</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">&quot;grey82&quot;</span>, <span class="at">color =</span> <span class="st">&quot;transparent&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>  </span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>  <span class="co"># add points</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> lon_cent_deg,</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>                 <span class="at">y =</span> lat_cent_deg,</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>                 <span class="at">size =</span> n),</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">&quot;purple&quot;</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  <span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>  <span class="at">stroke =</span> .<span class="dv">2</span>, </span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>  <span class="at">alpha =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>  </span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>  <span class="co"># scale size</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">100</span>,<span class="dv">300</span>),</span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a>                  <span class="at">max_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>  </span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>  <span class="co"># theme</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_few</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>        <span class="at">plot.title.position =</span> <span class="st">&quot;plot&quot;</span>,</span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a>        <span class="at">legend.justification =</span> <span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>),</span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a>        <span class="at">legend.box.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="at">l=</span><span class="dv">0</span>),</span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a>        <span class="at">legend.box =</span> <span class="st">&quot;horizontal&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a>  </span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> F) <span class="sc">+</span></span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a>  </span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a>  <span class="co"># labs</span></span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, </span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Avg. shift</span><span class="sc">\n</span><span class="st">rate</span><span class="sc">\n</span><span class="st">(km/yr)&quot;</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">&quot;n in</span><span class="sc">\n</span><span class="st">group&quot;</span>,</span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Location of elevation shift estimates&quot;</span>) </span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a><span class="co"># view p2:</span></span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a><span class="co"># p2</span></span></code></pre></div>
+</details>
+</details>
+<p><img role="img" aria-label src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAEgCAMAAABrWDzDAAABaFBMVEUAAAAAADoAAGYAOpAAZmYAZpAAZrYdECQxCkkxDEkyDEkyDkgzD0k0FUc3GEo6AAA6ADo6AGY6DlY6OmY6OpA6kJA6kNs7EFY+DVxADmBBEV9CEmBDGF5GG2FIKVtNTU1NTW5NTY5Nbm5NbqtNjshPMGJUVFRmAABmADpmAGZmOgBmZmZmkJBmtrZmtv9uTU1uTW5uTY5ubqtujqtujshuq+R0Ga17HbZ9JLSAJreCNbKJPLmOTU2OTW6OTY6Obk2Obm6ObquOq6uOq+SOyMiOyP+QOgCQOjqQOmaQkDqQkGaQ2/+SItihJO+jK+6oPOurbk2rbm6rbo6rjm6rjo6rq+Sr5Mir5OSr5P+vRPK0Z+S1q462ZgC225C2/7a2///GefbIjk3Ijm7IyI7I/8jI///R0dHbkDrb/7bb///kq27kq47k5Kvk////tmb/yI7/25D/5Kv/5OT//7b//8j//9v//+T///8d6uOJAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAawUlEQVR4nO2di5/ctnHH13KrNJWrS9z20qi3PDnRrpJue37UqqTYruu256SVo6vcOrnbqNGeW62qS3SP3En490uABAmAIInHACSX8/t8pOPyMTMYfBcASXA5ISiUhyZdB4AathAglJcQIJSXECCUlxAglJcQIJSXECCUlxAglJcQIJSXECCUlxAglJcQIJSXECCUlxAglJcm5OnbL9t2Ot0jl3f32vZ6MZlsi58bDzExyXdgf6n107oDmq3VHobylwlABvCwvbbVFfWHGZkUd6LWaw9qtmYWPspNkADttaywNSkD1NDIIEDdSQTodJJ3Qml3Mbme/n2a/t0j51uTydv/x2oh3+Py7t/dpVvEw+he154Rfvh22fOwjezotx6ZmaSbJxSYv93K/u6xNanyWHMP+Y6FtfMtamT7fCuzJPh6qRwSJbejkADQKaurFJwXaUXTLuNpsZx/+/kel3fTtXSLeFjxRacbzreyHidffv0l4/Htl0YmGW7pBr6O71zxUO6YbTzfogdQjl+k/0RflUNi53ljVQL0+kv6BT2l9ZUNZi5/8iirTF4/8h5ZqyKu5ENetuLas3RFsUwrNP1gZvI0b8n4OhWgwmq5IweIHZAfJftSDkEBqQQoq730/7wamU7zLiSvn3wPVpN5dcorSdZR8RXicr7BwOTl3ayW+ToVIMFquWNhrfxP8FU5BAUkFSA63vhe1jfRYcO1/95SazuvURkgvpJkgxoqBhBfpv3J02wk0m4ybZcmvOa1ABVWhR2rAIm+KoeggNTQAhU14dICEbZDsZz2Hr8Va7jRJNPTvFOsbYGUHSsASb4qh8BmccRqGAOx4cKp8AWXhzt5dWrGQDkFQqtEPyxSc2YmpaM1AMnn5cIOEkAVX9IhsFkcserOwtLzpuzbO9kuL+JJJ1xlh6I5C+PtAl+m59TXeYPQZpI1F6e6Fmhb9lDuuK1vgQpflUOiJ3pTNWFXS7JrJOp1oPTPW4+esos36kUbsbkQVxJ+ODvr2iuW+amzmUm6jp9/CwDRg16KHviO3FplDFT4elk5BAUjvJmK8hIChPISAoTyEgKE8hIChPISAoTyEgKE8hIChPISAoTyUiNAu6iNUTcAhfLarHWLrA6JHn0/NRKA2tBZG+2kO2zsRG0+QNWa1jcmDvjozEAFTZwNxqV50wGSKriu3uORowQRssABbOu0kQAp6atBSD0kLD5BqdE6IlEg2kiAqNa8aSG1dEB0W+aVFI0g2WFoLxsEkD5d5Up9tUcDSAwxJkeBNXiAWmqxqOW6ao8KkL/sBlwRIhw4QOpXel10/ULuzJPYY4CM/YkZsYnUsTQDByiXNlPZ0lp39mVuqhcEGbvxCVTYz6ZQmwEQqIaJT1dhDhsgfX4qTVB1h8aE9oqgVh8WgRr0f9bxDRogKTnSyvJvUQHl2tYmui/w8Hhhgg1TgCEDVGRBSknJi5Qiq+TFy397CWvX1g3wrFRfbMMQOwIIKPllQevTsm68U9pg2Dr/4NK7yFZ6o1Ma9ypb71og57qpKX7xoSWLTbZ8EtwesONBRjECqSGgPgFkWgRhRdN3iJRNfHmo1plVJKaZrZeXieIo4xghpA+Bqj8AeZdP/CCsk0YSQslr82MckENWGsyaHFYe75kwd6lF6MkYCKpoyrhzLWVa3rom8oGyWv04yqwEDUfwNR3xU1F3AKk1EaiA0qCqWFDZqmDRYNBDBuHybrl9x3ZjMdQlQExlcqOlRAjEcIN2F3vVRyTZ9y9hRHU1BhJCiJgzJYxytbrV5Gi5rWjPiFlkQCWNpg4H0cx/1LQJwwtlQ1WVY7Vq3aHGYGVNzDSAqj9nYUxBy1ptLMRtzZG0BtyWj6o5dQVgSSOpsSp9ZQrQOk7zzR2okSg76LZot9qpGkzAokYU6QFAhUKXtPCjcasNUnu0g6iFRDYWtKxR1R+Agpay4ovUbKkJybLsFSvJMiVoniTzefPtp15LPy4cJUCyv/ow2/cwELNwI0mSJVUymy0ClxZapLx/K62srUoYWQJUvbJKhOC9M1BVy2ZpP+NC1xjI4WHamU7fuVn0nP6FC65KvuR89AWgTGKQSqDuuW5zlX+0LqGhaAdW4rNzcHB0dHRz5luo8JK/O+KypF4BJIXftLVR6VgjHW3IuWg2Vrn/BKkZ42e1YvwwfFI9vOlar4FVU4j6Tb0CKFNDOYgBRvn3XTjvMb1balIsI4m2Zisuxk8OUNoI9bL1ach5TVn7B9A6axGatjdoXvQXQiNkaseoYO0SbXF+aBNE+ckBSv/8GUyVg6oxUfrC9g0gg1psTIEw3kiUTe1mjArWLhqGDBDrw1ZlA0RJ6h9ALenWb+4XQGZ12JADgZ8qQQa3201L1xJfskyyxRnvvcQBUAZQ7whqyXbN5h4BZF59tTmYLyXN6xNlnUdjsQ44yZqgogOjDdD0SOLnYEcfXkdqzXXN9h4BZKimyXiJDFC1CeKZcEmlaXjUwGzJCJqVA2jaAuXkHPQRoHzgWXdPsLa8gwSoFgAQgHwQKqqCui4HQLwLkwGqaSG7VB1A9SUeHkBMNeU3Aqj98rZnYIX1RMBnKADp5is0FTggQMe7u+89J2e7u/tXn98+vPjgkLx5cgjmVVt+GIDAYpuJ/FCCbt26JfAzDIBaxqbhAMpoufrs8OLD3xxefXPx/p3wABkNoltSCHFXI7c1k8PZufX48eNbfQbIofDhALr46FX6J/3/zZNf0Rboo/88BARorR9Lt5zGN2ROMO0fW/Z3wYLYSZWFtXP/cUlQys9yPQeqeCj1CqCzH72/e4ec3SHkeJ9Qkn7/cQYQ0O/j61PQcCGxMXGkyF3x2Tu8pBz47GRd2P0CoB3nJjKkHG4KBhwD/eEVOdkXAHr17a8BuzCiP6HX3spoTVuZN2GdV2RUSdr8FB1WwmC6f58BtLPj3seGVK9aIPrfyT3WhVFs0oWLv4cFSH9JSHMztTVp68q0F/egVrPZKrMxF068bn03b46+S7u0nPE+dmG2xQ3YhaVtz8k+G0Q/JwwgcnwbFqCakXRlOodZ7gSr7gPpRYrPis46pIGU/PzJD3/JCCrY0QDU+eygvOx2Cnsaf4+w03j6mQJET+VBvUJmb629jGapBb/0TAmaPxABuqVcYyh6sGLUVa3OqEhlDm1LPNALibnCJNFD2bXno+n0Ib0aXQJ0cOvWwXSlBYgXQ53jFqaA4GUfOUBJUuQO4tRrRQGaTadHR+9M5xJAqaYrlaB5OXRXCgNUPBvlLm2LPG6AEjbYJmBTWhk/+aTV5Tz5GWeH3YDfWSkE0SFQXXEgSmcjMQSrIiNAQKEwzVbFlZ8HyyTZeXAkTOHYWa5khOba+wZChfoWz1yyd5siDxog/8QloPykXdjyIAPowcEy+cHBDwp60n/JUpjboWuAxCKBlbBNVed2RR45QNAPY8xYA/TVV3/1Dw/Sxu3G8hNO0NHRlFFTAsTO4YtyVIqUfQpOkHeJBw2QNr1JYnEPA/phngUF6KvHP/zlu2kfNku7tIcFP5wcDtAiG7G2RWZLhKWUfNqXuLkqz7//zN5kpq5aoMTiKjRMFJLmD2589fj+/XfTdujGiixmn+Rd2JRPLltlBKXbagogRWfLg2mx9QlwScmmtUCJ+X0MkBP3akDv3r//ODttp4+fZgTRU/ji8R4G0NqInxAAMbO57Wr41iUeL0Ah+EkjWn6Hn7vPZqt0xeLmzelUeLqQ/b+ez2vilys66KVS+VO+yrrAmqo8//6/TSbb+eIz4ZOVIr3uSc1P5wDRW/A79H57slrlT8AvypOvbIksDBoYffkAJOVOyaV9gXUAbW2T02ts8EMBKj9ZKe4rL0u1jIGEETZcDKLopaAUnwPKyiwPbz7n518ZPgtiNERu3cFdhXMlj/bl1QH0vUd89EwBKj9ZqSuAms/CEoEuuBhElb3VSgB5Pk+pSdlJ4VkszMoRUIJP2b9DebVd2DMRoPKTlaK9sdAqdeEBWs2Ki83JUqq0hQSPXJFRARJjUDJoX96RAVR2YYARyBIA0tYaSDG8VPHscy9w+AARp+TDBiAFk+j46RNAlUcIfBKyEQDZZx/YvxxJ3ZkgaAl8JPv1Ox0d9nUgLvcEQovZp3Nq6x+r1g5YPXAw1JIGtawkwDcbmwGQ3TAU2rkciIFv6VNlMlkIJfmvxHKy5cz5aEMAar4vqQjcuRCGiXdnDJylPm8JWOKNAaihYoQuo1wKI7g6B7Q1V38yYA6Ygk0BqIEgzY6h5FjDuuPcralSfjCAzYWEK/LGAKR/ylA/5y+Ad27aSbqJYx7mFFUfJ1rOWotirI0BqCbndTsGkEcd10XuYbKQhp/lCo6gjQGo5nRGux/7ysO795Du+KJQXpa1/KzgCNJV5fnW5I+/3Dv/87+59ixdfOsRv7T4+uf/PplcNzQcHyCie+2qdrcQTZBXLesBqk6UdpAGoFVggC7v7pEXk73zrT22eHqNX41+/eW1Z5d3DecGdQSQnO3lbJZN6wovn0pe1wx5ykK5u6kCxKaVhATo9O2XlBw+j+PyJ48KgPYIeWHYBHUCkFwPSZKwL9tMky3oRsiDHQ6Lbl11yGZpdlkBKJuWBPa10lTlixSglBVKzWm5yAGiq0zUBUDy9cRkyWcAAo4Z6/x6q9GIuystP5CDoIYWKL+LOqAWiKtM3apCUPU9UmAevdRsxdRZzRRfcfQTHiA+BqLwZGMgtuZaCtDbL+mikboGKFmKAPF86bsFEIe+ajZj5E2zLangA9wo15yF/VHW7JDsLCzlafKXP00BWpjPr+8SIFImrkyYXAtrUIb88Vk3nq+buNNv4y8rW6kKCVCqtN+qrmRdmKk6boFUgCq3EDX14uUQAqA6O0Ye9RuWSZUdxk/AQTQ9/dI+hxENIN+qFU8+CoCWdfXg56u0AwBQc+PS5LB2U5I/URSoAdJWZdphvaVpgIbTAhGSyB0/XUhq6wHAX1CADBzWb0qKYXM8gEDULUCzyq+BKT8EVFQYjD8IgOoIMvDYsEnqwj55+PCTTxhPCFCzZqsKQbC/BKQIBCD9qbyBx8ZgOEEPU2W/nfbwwc/wZmqLxDcFRgAIhp9qE2TkUrNJMpJk+JQ/lnZ0sDPTP93ooA0FaDUTO3zGT3U+OZy6BKg1onnaBIn4HB0czOjvEMNoQwEiEkCrZeAHUoEAsnpOtHkf0er8hsTP0U52ixAGoXEAtCoBCuINCiDhaqKxz/aIkuWOyM+Un9WDELSpAKkEzYwrxkVwAFk8ZtwGkHhXeTqdsnf+0r/ZS+wRoDbNZH6ohgCQeYTNu5eNWT4rgcLzp3/NAWL/QRC0uQCJBBW3UquXTGCuBIXgpw2lZtyKWyPlrJasETqaZr+3B9QGbTBAhM5GXEkTyuSEs/zbfOebBEtQIxuSy9qNfJck52davrd+Os1+7BMBatNKmdIqJXxdAMRrzockOIAkktpc1m/M/xT8lGfxFKG8UfInaLMB0ij/ghMNQH5NUXyA8udLGspJ6F3BlQIQO5MH68OMqlI3qbhNvQWoik1fCTLwWD9S4utnCj8H5bl8NIBmjTdvL3/6jJDTyUS5U99XgAhp/CEGH7Ox+eFea9Znf1WA+M2MZTyAZsJ5TFWXd68V86ZF9RggKs9qs7PZBUB5H7bQN0DZqztW2e/le8kXoNe/+G3aAp3/xcvXP5enEPUcoCAE6aZ5Bean4WSf2VAaoAMBIJhRNEwXdnqdkKdyHzZYgLww0pgIy48+isKxAlD+9rtsEBQPoOZB9GYC5FqD1QO7AKho++QuTOAnByhKF9aiyw3rwiBq0N4brPeCIAmgg/4CNLxBtEGVRnYH6nxd3JUt+zANP724kDi803hiVp/RHUL6LgjiABUvj+4dQDWSATrb3d0nV5/fPgzs1VRGrzWEdBgXH1Lc6CP8RXc7On6WQwHo6rPDiw+f/+7w6pvAXg1l9lpDSI+x+SnutC4yfiSADvh1xPVQALr46NWbJ4d5C7SbKpRXM82yWfb95AfWZfmAys5OAdCUv0Bx7u8mDkBndwg53o/g1UzGb6UD+xmh+PwUN+sXK/50CkNIwKd8b6uHFwQoSo12wI9EUIHQdDotntfNz+HXfAqSk5OYXVgEr0aye7Vz1OlmEL4Up/JTlivhQflFuaP7Q94xB9ERvBrK8uXyAFXbBUCcoMWqbINW5btbybyce699yMMompin8RG8GskSnYgIgRRPdUnflZiftRc/NZG9uZXvVjerziSe0c1IJO43yIO7BSmd6pItLFaClrp7GJo4wFogOrHYek5ijwHymLgT1itU+SSn2d9FiVDa/hDdm3+lOHg4rTG1V2X2aMPKFqEeA+TOz/AAKlFgr/yteXF0Of9DjcQfoPLpKjuCegxQ+Flerl6Biqd3S9QXRzfEZ269rSrF5zutCEKA7L0Cla7WtVl41TlNTQe2VKX8hLkNQb0GqJtxdIcAiTHwTk3jr9hiHspIAerkVD6weeMw8mCaQ23+XKq5KpWfuNASJMwHEmcFbSRAwX3CFA5CprF4AyQ81iPNS9xAgCI4BSiZZ4i2B/gCJD7WI82M7jlALgRF8AlQMIewpBAtD4bpwrKnMqRnMxAgF5fi3r7uLKPinywPHy1Asae5m3kU9/Z3aBNU8dHyeP+zsMthdmHxAbJzEqE7E5+cdXYLA9DwBtGkkwclzJ1AOLQJR1xrZcb/SvQwT+Op4gJk4wTGo1U8wkorM+O8F8bVT4CAHNqGU661sTLGu/GS+gSQtKOvP4dgXJq+Uc4HEhUNoFZPyo7e/txjMbcyzhmJsmLx0+Kpsh+AQ7dI7HwjQP0AqLofgEOXQGydI0A9BQjAn30UzeXVxoQARePHFCA4h3YhtBdYtxIBisZPsy91JyCPpu6di4wAReTHAiAoj4be3QuNAEWjp9mXshOgUxPv7gVHgKLR0+hL3QnWb5t3j8IbVCV7Y4n4yhIjbQZAsXwpewG7bfPuU/y2qlzNilsZdgxtBECRfEG7sXQfEqCZdDd+g57KKBUToNp7UFFkzY83QKvKjETzRggBMncG7sbKeziAZio/No3QUADyTSCEN3A3Vt79EtBQlZX2x2pW0CYAFMldADfmzgMCpOVnTABF8hfEjanzgADp+TEmCAEydBjGi5lvf37qq1LfgZkTNBCAovNTMxk5kiICVMvPZgFUm9JIHsO5sfCNAHkoOkBd8kNqXHvkoK4q63sw5WLQU+GBnoE91kMVnR/BZUAfba6rP9+ieZO1kcm6qqznR26CTq/TB8MG+WAhkyZrweu2wx/hqC2b7k3oTXaKJV+ACHuycIiPNmeK2/j0WzZ5KLb6A/Qi7baG+OMKTJF7r57LJg98M0ALVKCDAA1cNmngO0AA9GJ7qF2Yjp8RA0RskrDO/vmehWWtzlAH0chPRew0wmC/d/JceV8HSk/jtwd7Go/ouOqdgxtZwsZ9IREBctY76xaARnEvDAHSqb0Tyy6XscVx341HenQyOIdft14HImOYD7RGgnRqzcbaDKDNn5GIAOllwc/Y50QjP9ZSsjXqpzKw/XGQkqxRPxeG+Firkq4xP5mK7Y+D1GyN+tl47ML8NeZf58CLiAAKCNDx7u57z8nZ7u7+1ee3D+nC7n5orzZCfCAUDqA3Tw7TP1efHV58+JvDq28uPnxOLj44DOzVRkMFqF/hhgPo4qNX6Z/0/zdPfpW2QNlH5jJVKK82GiY+fVM4gM5+9P7uHXJ2h5Bj1nMd0w4ttFcrIUAACjgG+sMrcrJfApR2Z59yhPoKEOJkrbBnYSf3WBd2yFee3Avs1UrYAgEoYBeWtj0n+2wQTduds7T1efMf+4G92onRgwR5KexpfNrgnPGT95Nd9jmsV0thE+StMV9IZMJ+zE+jBwjlJwQI5SUECOUlBAjlJQQI5SUECOUlBAjlJQQI5SUECOUlBAjlJQRIFt7UsBQCJAjZsRcCxIVNj5MQoEz9vCHvO09A+T36hh2dXSBATP3Fxzyyyn7lwZXnT9YVlevtgkSASD/x0dVvzY/Mg8smTgSIql8A2VQvPD2WEI0eIPZzx7ZfO/AghB7Eqm6D8aP1ptPYAVoLr6mJ5lBd4VKjgIgY+9QJAQpNUGEbtDKhjLn4ljRqgIq01KbH2p70xHS4Sgxj2SKAQpsLkKaw1T2IVB8wLjdfYpk3FaBKQWuvldVlxsHfSCQVfOAAVQskbmhJQ0tqrOMYhdSSDwsgq9L5pgY0sg1RteC9B2hdXKiJnhvjCEci36q0E1gL1E1e+hBY3+RdlVZyBijShVavwgWMq8eyrkovuQPUcUZaFTHAnsm2Kr1kD9A65kVWozJU9o0SWp9lWJUQcmmB1BCjZkIbjbIv/xgwsL7Ksir9BXcWFjEj+tYmYlC9FURV2gkIoJiZET/VpS14PP0URFVayg+gXiSpXNdFOD2Tc1W6yrcF6jZPHXnvt1yr0k2eAHWdLFSdrKvSUe0AtU4m7ThTqHopVRlCzQA1B1VR7PygjNUjgFBDFAKE8hIChPISAoTyEgKE8hIChPJSRwChNkadAAQqyCKApqOvgfXksc4WIUC9DQwBQo1ACBDKSwgQyksIEMpLCBDKSyEBuvpH+grx3d07+Uuhrz6/fXi8T8jxj1+Ri49eWds7gTMlqLDnYUOJLF3YdbOnS5m7tRgKCNDVp+89Jyd36Gvos9fS/+7w6puTe+Tqi/9K199rN6AoBQXKlBhlYc/dhhrZ2R3XYHQpc7YWReEAevP1/6ZfJ6qTezTDTw7p1+niY3LxLyf75Fv7r1QGCogpQaU9dxtqZK5Vrk/ZWAHK2uPsD80B7XHYh5P9s3v5Jisd//P7adMOYkpQac9damS00/mxU7+qS5m7tRgKD1DaFou19O2vv35+9cXvP7Y3R8c7x/sgpgSBAKRE5t5m6FI28hbo4oND3rqzlSf/+sWrN1//j8O4haaTN+2epgQJ9pylRuYJkJKycQOUDgQJH6mylRf/lFb4icuII/tOgpgSgyztOUuNzA8gNWXjBuiYTiW4l52TZis/TRfO3nOpshNqCcaUoNKeu5TI6KjFzaguZe7WYggvJKK8hAChvIQAobyEAKG8hAChvIQAobyEAKG8hAChvIQAobyEAKG8hAChvIQAobyEAKG8hAChvIQAobz0/5yt/zQCNXfFAAAAAElFTkSuQmCC" alt width="80%" /></p>
+</div>
+</div>
+<div id="examine-methodological-variability" class="section level3">
+<h3>Examine methodological variability</h3>
+<p>Several methodological variables describing how range shifts are
+detected are important to consider when comparing shift estimates across
+studies. For example, shifts might be estimated with different types of
+input data, over different temporal durations, with different sampling
+structures, or while defining focal range parameters in different ways.
+We collected metadata on 16 methodological variables, which can be
+important to consider when analyzing shift rates across studies.</p>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># add methods to shifts database</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>shifts3 <span class="ot">&lt;-</span> shifts2 <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="co"># add methodological variables</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">add_methods</span>()</span></code></pre></div>
+</details>
+<div id="plot-methodological-variability" class="section level4">
+<h4>Plot methodological variability</h4>
+<p>View the duration of studies at each range parameter, and the
+proportion of shift estimations by observation type. In some cases,
+methodological variables such as these might be used to filter shift
+estimates, or as random effects to account for methodological
+differences in statistical models.</p>
+<details>
+<summary>
+Show Code
+</summary>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># ridgeplot of study durations by parameter</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>p3<span class="fl">.1</span> <span class="ot">&lt;-</span> shifts3 <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  </span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="co"># change parameter names and order</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">param2 =</span> <span class="fu">recode</span>(param, </span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>                         <span class="st">&quot;LE&quot;</span> <span class="ot">=</span> <span class="st">&quot;Leading</span><span class="sc">\n</span><span class="st">Edges&quot;</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>                         <span class="st">&quot;TE&quot;</span> <span class="ot">=</span> <span class="st">&quot;Trailing</span><span class="sc">\n</span><span class="st">Edges&quot;</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>                         <span class="st">&quot;O&quot;</span> <span class="ot">=</span> <span class="st">&quot;Centres&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">param2 =</span> <span class="fu">factor</span>(param2, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Trailing</span><span class="sc">\n</span><span class="st">Edges&quot;</span>,<span class="st">&quot;Centres&quot;</span>,<span class="st">&quot;Leading</span><span class="sc">\n</span><span class="st">Edges&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  </span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> duration, </span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>             <span class="at">y =</span> param2)) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>  </span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>  <span class="co"># add density ridges</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  ggridges<span class="sc">::</span><span class="fu">geom_density_ridges2</span>(<span class="at">fill =</span> <span class="st">&quot;purple&quot;</span>, <span class="at">alpha =</span> .<span class="dv">9</span>) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  </span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>  <span class="co"># axes</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>()) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>  </span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>  <span class="co"># theme stuff</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_few</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>  </span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>  <span class="co"># labs</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Study Duration&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">&quot;off&quot;</span>) </span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co"># bar plot of observation types</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>p3<span class="fl">.2</span> <span class="ot">&lt;-</span> shifts3 <span class="sc">%&gt;%</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a>  </span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> obs_type)) <span class="sc">+</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>  </span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a>  <span class="co"># add bars</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">width =</span> .<span class="dv">7</span>,</span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a>           <span class="at">fill =</span> <span class="st">&quot;purple&quot;</span>,</span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a>  </span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a>  <span class="co"># coords</span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(.<span class="dv">5</span>, <span class="fl">2.5</span>),</span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a>                  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1590</span>),</span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a>                  <span class="at">expand =</span> F) <span class="sc">+</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a>  </span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a>  <span class="co"># theme stuff</span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_few</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a>  </span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a>  <span class="co"># labs</span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Abundance&quot;</span>,<span class="st">&quot;Occurrence&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Count&quot;</span>,</span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Observation Type&quot;</span>) </span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a></span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a></span>
+<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb8-57"><a href="#cb8-57" tabindex="-1"></a></span>
+<span id="cb8-58"><a href="#cb8-58" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> ((</span>
+<span id="cb8-59"><a href="#cb8-59" tabindex="-1"></a>    (p3<span class="fl">.1</span> <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">r=</span><span class="dv">2</span>))) <span class="sc">|</span> (p3<span class="fl">.2</span> <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">l =</span> <span class="dv">2</span>)))))<span class="sc">+</span></span>
+<span id="cb8-60"><a href="#cb8-60" tabindex="-1"></a>    <span class="fu">plot_annotation</span>( <span class="at">title =</span> <span class="st">&#39;Distribution of selected methods&#39;</span>) </span>
+<span id="cb8-61"><a href="#cb8-61" tabindex="-1"></a></span>
+<span id="cb8-62"><a href="#cb8-62" tabindex="-1"></a><span class="co"># view p3:</span></span>
+<span id="cb8-63"><a href="#cb8-63" tabindex="-1"></a><span class="co"># p3</span></span></code></pre></div>
+</details>
+</details>
+<p><img role="img" aria-label src="data:image/png;base64,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" alt width="70%" /></p>
+</div>
+</div>
+<div id="test-association-with-climate-exposure" class="section level3">
+<h3>Test association with climate exposure</h3>
+<p>Here, our hypothesis tests the association of shift rates and the
+warming rate of mountain environments, so we’ll use the
+<code>add_trends()</code> function to add warming trends for every
+estimated shift.</p>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># add methods to shifts database</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>shifts4 <span class="ot">&lt;-</span> shifts3 <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="co"># add warming trends for study areas</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="co"># `type = &quot;SP&quot;` would add species-level warming trends, but not every </span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="co"># species has total range areas available, so we&#39;ll use study-level trends</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="co"># to minimize NAs in the already-limited dataset</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">add_trends</span>(<span class="at">type =</span> <span class="st">&quot;SA&quot;</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  </span></code></pre></div>
+</details>
+<p>In order to test this hypothesis, we will model individual shifts as
+a function of warming rate, but in reality, individual shifts are not
+independent replicates, and thus, linear models on individual shift
+estimates might not be appropriate. While there are several possible
+ways to deal with nonindependence, here, we will average shift rates
+within studies and polygons to create independent samples, then model
+the average rates, weighted by n. </p>
+<details>
+<summary>
+Show Code
+</summary>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># model shifts as independent </span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>mod_all <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> shifts4,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>              <span class="at">formula =</span> calc_rate <span class="sc">~</span> trend_temp_mean)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># pull trend and p_val</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>mod_all_annotation <span class="ot">&lt;-</span> </span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">&quot;Estimate: &quot;</span>, <span class="fu">round</span>(<span class="fu">summary</span>(mod_all)<span class="sc">$</span>coefficients[<span class="st">&quot;trend_temp_mean&quot;</span>,<span class="st">&quot;Estimate&quot;</span>], <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>         <span class="st">&quot;p &quot;</span>, <span class="fu">ifelse</span>(<span class="fu">summary</span>(mod_all)<span class="sc">$</span>coefficients[<span class="st">&quot;trend_temp_mean&quot;</span>,<span class="st">&quot;Pr(&gt;|t|)&quot;</span>] <span class="sc">&lt;</span> .<span class="dv">05</span>, <span class="st">&quot;&lt; 0.05&quot;</span>, <span class="fu">round</span>(<span class="fu">summary</span>(mod_all)<span class="sc">$</span>coefficients[<span class="st">&quot;trend_temp_mean&quot;</span>,<span class="st">&quot;Pr(&gt;|t|)&quot;</span>], <span class="dv">2</span>)))</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># augment model</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>mod_all_au <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">augment</span>(mod_all, <span class="at">interval =</span> <span class="st">&quot;confidence&quot;</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>p4<span class="fl">.1</span> <span class="ot">&lt;-</span> mod_all_au <span class="sc">%&gt;%</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>  </span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trend_temp_mean, </span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>               <span class="at">y =</span> calc_rate)) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>  </span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  <span class="co"># add x and y lines at 0</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a>  </span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>  <span class="co"># add raw points</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> .<span class="dv">3</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">&quot;purple&quot;</span>,</span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a>               <span class="at">shape =</span> <span class="dv">16</span>,</span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a>               <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a>  </span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a>  <span class="co"># add confidence interval</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> .lower, </span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a>                    <span class="at">ymax =</span> .upper),</span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a>                <span class="at">fill =</span> <span class="st">&quot;purple&quot;</span>, <span class="at">alpha =</span> .<span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a>  </span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a>  <span class="co"># add fitted line</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted)) <span class="sc">+</span></span>
+<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a>    </span>
+<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a>  <span class="co"># labs</span></span>
+<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Warming Rate (°C/year)&quot;</span>,</span>
+<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Shift Rate</span><span class="sc">\n</span><span class="st">(m/year)&quot;</span>,</span>
+<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&quot;Individual species&#39; shifts&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a>    </span>
+<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a>  <span class="co"># theme</span></span>
+<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a>    ggthemes<span class="sc">::</span><span class="fu">theme_few</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title.position =</span> <span class="st">&quot;plot&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a>  </span>
+<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a>  <span class="co"># add annotation</span></span>
+<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;label&quot;</span>,</span>
+<span id="cb10-48"><a href="#cb10-48" tabindex="-1"></a>           <span class="at">x =</span> <span class="fu">max</span>(shifts4<span class="sc">$</span>trend_temp_mean),</span>
+<span id="cb10-49"><a href="#cb10-49" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">min</span>(shifts4<span class="sc">$</span>calc_rate),</span>
+<span id="cb10-50"><a href="#cb10-50" tabindex="-1"></a>           <span class="at">label =</span> mod_all_annotation,</span>
+<span id="cb10-51"><a href="#cb10-51" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb10-52"><a href="#cb10-52" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="dv">0</span>)</span>
+<span id="cb10-53"><a href="#cb10-53" tabindex="-1"></a></span>
+<span id="cb10-54"><a href="#cb10-54" tabindex="-1"></a></span>
+<span id="cb10-55"><a href="#cb10-55" tabindex="-1"></a><span class="co"># summarize by study ID, polygon ID, and timeframe of sampling</span></span>
+<span id="cb10-56"><a href="#cb10-56" tabindex="-1"></a>shifts4_means <span class="ot">&lt;-</span> shifts4 <span class="sc">%&gt;%</span></span>
+<span id="cb10-57"><a href="#cb10-57" tabindex="-1"></a>    <span class="co"># group by article ID and polygon ID (polygons are within articles)</span></span>
+<span id="cb10-58"><a href="#cb10-58" tabindex="-1"></a>    <span class="fu">group_by</span>(article_id, poly_id, midpoint_firstperiod, midpoint_lastperiod) <span class="sc">%&gt;%</span></span>
+<span id="cb10-59"><a href="#cb10-59" tabindex="-1"></a>    <span class="co"># find mean rates</span></span>
+<span id="cb10-60"><a href="#cb10-60" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb10-61"><a href="#cb10-61" tabindex="-1"></a>        <span class="at">se_calc_rate =</span> plotrix<span class="sc">::</span><span class="fu">std.error</span>(calc_rate),</span>
+<span id="cb10-62"><a href="#cb10-62" tabindex="-1"></a>        <span class="at">se_trend =</span> plotrix<span class="sc">::</span><span class="fu">std.error</span>(trend_temp_mean),</span>
+<span id="cb10-63"><a href="#cb10-63" tabindex="-1"></a>        <span class="at">calc_rate =</span> <span class="fu">mean</span>(calc_rate, <span class="at">na.rm=</span> T),</span>
+<span id="cb10-64"><a href="#cb10-64" tabindex="-1"></a>        <span class="at">trend_temp_mean =</span> <span class="fu">mean</span>(trend_temp_mean, <span class="at">na.rm=</span>T),,</span>
+<span id="cb10-65"><a href="#cb10-65" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">n</span>()) </span>
+<span id="cb10-66"><a href="#cb10-66" tabindex="-1"></a></span>
+<span id="cb10-67"><a href="#cb10-67" tabindex="-1"></a></span>
+<span id="cb10-68"><a href="#cb10-68" tabindex="-1"></a><span class="co"># plot mean data and basic model fit</span></span>
+<span id="cb10-69"><a href="#cb10-69" tabindex="-1"></a>mod_means <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> shifts4_means,</span>
+<span id="cb10-70"><a href="#cb10-70" tabindex="-1"></a>              <span class="at">formula =</span> calc_rate <span class="sc">~</span> trend_temp_mean,</span>
+<span id="cb10-71"><a href="#cb10-71" tabindex="-1"></a>              <span class="at">weights =</span> <span class="fu">sqrt</span>(n)) <span class="co">#sqrt the weights to normalize them a bit</span></span>
+<span id="cb10-72"><a href="#cb10-72" tabindex="-1"></a>mod_means_annotation <span class="ot">&lt;-</span> </span>
+<span id="cb10-73"><a href="#cb10-73" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">&quot;Estimate: &quot;</span>, <span class="fu">round</span>(<span class="fu">summary</span>(mod_means)<span class="sc">$</span>coefficients[<span class="st">&quot;trend_temp_mean&quot;</span>,<span class="st">&quot;Estimate&quot;</span>], <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb10-74"><a href="#cb10-74" tabindex="-1"></a>         <span class="st">&quot;p &quot;</span>, <span class="fu">ifelse</span>(<span class="fu">summary</span>(mod_means)<span class="sc">$</span>coefficients[<span class="st">&quot;trend_temp_mean&quot;</span>,<span class="st">&quot;Pr(&gt;|t|)&quot;</span>] <span class="sc">&lt;</span> .<span class="dv">05</span>, <span class="st">&quot;&lt; 0.05&quot;</span>, <span class="fu">round</span>(<span class="fu">summary</span>(mod_means)<span class="sc">$</span>coefficients[<span class="st">&quot;trend_temp_mean&quot;</span>,<span class="st">&quot;Pr(&gt;|t|)&quot;</span>], <span class="dv">2</span>)))</span>
+<span id="cb10-75"><a href="#cb10-75" tabindex="-1"></a>mod_means_au <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">augment</span>(mod_means, shifts4_means, <span class="at">interval =</span> <span class="st">&quot;confidence&quot;</span>)</span>
+<span id="cb10-76"><a href="#cb10-76" tabindex="-1"></a></span>
+<span id="cb10-77"><a href="#cb10-77" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb10-78"><a href="#cb10-78" tabindex="-1"></a>p4<span class="fl">.2</span> <span class="ot">&lt;-</span> mod_means_au <span class="sc">%&gt;%</span> </span>
+<span id="cb10-79"><a href="#cb10-79" tabindex="-1"></a>  </span>
+<span id="cb10-80"><a href="#cb10-80" tabindex="-1"></a>  <span class="co"># start plot</span></span>
+<span id="cb10-81"><a href="#cb10-81" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trend_temp_mean,</span>
+<span id="cb10-82"><a href="#cb10-82" tabindex="-1"></a>               <span class="at">y =</span> calc_rate)) <span class="sc">+</span></span>
+<span id="cb10-83"><a href="#cb10-83" tabindex="-1"></a>  </span>
+<span id="cb10-84"><a href="#cb10-84" tabindex="-1"></a>  <span class="co"># add x and y lines at 0</span></span>
+<span id="cb10-85"><a href="#cb10-85" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb10-86"><a href="#cb10-86" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb10-87"><a href="#cb10-87" tabindex="-1"></a>    </span>
+<span id="cb10-88"><a href="#cb10-88" tabindex="-1"></a>    <span class="co"># add raw data</span></span>
+<span id="cb10-89"><a href="#cb10-89" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> trend_temp_mean <span class="sc">-</span> se_trend,</span>
+<span id="cb10-90"><a href="#cb10-90" tabindex="-1"></a>                      <span class="at">xmax =</span> trend_temp_mean <span class="sc">+</span> se_trend),</span>
+<span id="cb10-91"><a href="#cb10-91" tabindex="-1"></a>                  <span class="at">linewidth =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-92"><a href="#cb10-92" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> calc_rate <span class="sc">-</span> se_calc_rate,</span>
+<span id="cb10-93"><a href="#cb10-93" tabindex="-1"></a>                      <span class="at">ymax =</span> calc_rate <span class="sc">+</span> se_calc_rate),</span>
+<span id="cb10-94"><a href="#cb10-94" tabindex="-1"></a>                  <span class="at">linewidth =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-95"><a href="#cb10-95" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> .<span class="dv">9</span>,</span>
+<span id="cb10-96"><a href="#cb10-96" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;purple&quot;</span>,</span>
+<span id="cb10-97"><a href="#cb10-97" tabindex="-1"></a>               <span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb10-98"><a href="#cb10-98" tabindex="-1"></a>              <span class="co"># size = 2,</span></span>
+<span id="cb10-99"><a href="#cb10-99" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">size =</span> n)</span>
+<span id="cb10-100"><a href="#cb10-100" tabindex="-1"></a>              ) <span class="sc">+</span></span>
+<span id="cb10-101"><a href="#cb10-101" tabindex="-1"></a></span>
+<span id="cb10-102"><a href="#cb10-102" tabindex="-1"></a>    </span>
+<span id="cb10-103"><a href="#cb10-103" tabindex="-1"></a>    <span class="co"># add confidence interval</span></span>
+<span id="cb10-104"><a href="#cb10-104" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> .lower, </span>
+<span id="cb10-105"><a href="#cb10-105" tabindex="-1"></a>                    <span class="at">ymax =</span> .upper),</span>
+<span id="cb10-106"><a href="#cb10-106" tabindex="-1"></a>                <span class="at">fill =</span> <span class="st">&quot;purple&quot;</span>, <span class="at">alpha =</span> .<span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb10-107"><a href="#cb10-107" tabindex="-1"></a>  <span class="co"># add fitted line</span></span>
+<span id="cb10-108"><a href="#cb10-108" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> mod_means_au,</span>
+<span id="cb10-109"><a href="#cb10-109" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">y =</span> .fitted)) <span class="sc">+</span></span>
+<span id="cb10-110"><a href="#cb10-110" tabindex="-1"></a>    </span>
+<span id="cb10-111"><a href="#cb10-111" tabindex="-1"></a>  <span class="co"># scale point size</span></span>
+<span id="cb10-112"><a href="#cb10-112" tabindex="-1"></a>    <span class="fu">scale_size_area</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">100</span>,<span class="dv">300</span>),</span>
+<span id="cb10-113"><a href="#cb10-113" tabindex="-1"></a>                    <span class="at">max_size =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb10-114"><a href="#cb10-114" tabindex="-1"></a>    </span>
+<span id="cb10-115"><a href="#cb10-115" tabindex="-1"></a>    <span class="co"># labels</span></span>
+<span id="cb10-116"><a href="#cb10-116" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Warming Rate (°C/year)&quot;</span>,</span>
+<span id="cb10-117"><a href="#cb10-117" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Shift Rate</span><span class="sc">\n</span><span class="st">(m/year)&quot;</span>,</span>
+<span id="cb10-118"><a href="#cb10-118" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&quot;Group level means&quot;</span>,</span>
+<span id="cb10-119"><a href="#cb10-119" tabindex="-1"></a>         <span class="at">size =</span> <span class="st">&quot;n in group&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-120"><a href="#cb10-120" tabindex="-1"></a>    </span>
+<span id="cb10-121"><a href="#cb10-121" tabindex="-1"></a>  <span class="co"># theme</span></span>
+<span id="cb10-122"><a href="#cb10-122" tabindex="-1"></a>    ggthemes<span class="sc">::</span><span class="fu">theme_few</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb10-123"><a href="#cb10-123" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title.position =</span> <span class="st">&quot;plot&quot;</span>,</span>
+<span id="cb10-124"><a href="#cb10-124" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span>,</span>
+<span id="cb10-125"><a href="#cb10-125" tabindex="-1"></a>          <span class="at">legend.position.inside =</span> <span class="fu">c</span>(.<span class="dv">005</span>, .<span class="dv">995</span>),</span>
+<span id="cb10-126"><a href="#cb10-126" tabindex="-1"></a>          <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb10-127"><a href="#cb10-127" tabindex="-1"></a>          <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,</span>
+<span id="cb10-128"><a href="#cb10-128" tabindex="-1"></a>          <span class="at">legend.title.position =</span> <span class="st">&quot;top&quot;</span>,</span>
+<span id="cb10-129"><a href="#cb10-129" tabindex="-1"></a>          <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb10-130"><a href="#cb10-130" tabindex="-1"></a>          <span class="at">legend.text.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-131"><a href="#cb10-131" tabindex="-1"></a>  </span>
+<span id="cb10-132"><a href="#cb10-132" tabindex="-1"></a>    <span class="co"># add annotation</span></span>
+<span id="cb10-133"><a href="#cb10-133" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;label&quot;</span>,</span>
+<span id="cb10-134"><a href="#cb10-134" tabindex="-1"></a>           <span class="at">x =</span> <span class="fu">max</span>(shifts4_means<span class="sc">$</span>trend_temp_mean),</span>
+<span id="cb10-135"><a href="#cb10-135" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">min</span>(shifts4_means<span class="sc">$</span>calc_rate <span class="sc">-</span> shifts4_means<span class="sc">$</span>se_calc_rate, <span class="at">na.rm=</span>T),</span>
+<span id="cb10-136"><a href="#cb10-136" tabindex="-1"></a>           <span class="at">label =</span> mod_means_annotation,</span>
+<span id="cb10-137"><a href="#cb10-137" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb10-138"><a href="#cb10-138" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="dv">0</span>)</span>
+<span id="cb10-139"><a href="#cb10-139" tabindex="-1"></a>    </span>
+<span id="cb10-140"><a href="#cb10-140" tabindex="-1"></a></span>
+<span id="cb10-141"><a href="#cb10-141" tabindex="-1"></a></span>
+<span id="cb10-142"><a href="#cb10-142" tabindex="-1"></a><span class="co"># merge plots</span></span>
+<span id="cb10-143"><a href="#cb10-143" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> ((</span>
+<span id="cb10-144"><a href="#cb10-144" tabindex="-1"></a>    (p4<span class="fl">.1</span> <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">r=</span><span class="dv">2</span>))) <span class="sc">|</span> (p4<span class="fl">.2</span> <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">l =</span> <span class="dv">2</span>)))))</span>
+<span id="cb10-145"><a href="#cb10-145" tabindex="-1"></a></span>
+<span id="cb10-146"><a href="#cb10-146" tabindex="-1"></a></span>
+<span id="cb10-147"><a href="#cb10-147" tabindex="-1"></a><span class="co"># view p4:</span></span>
+<span id="cb10-148"><a href="#cb10-148" tabindex="-1"></a><span class="co"># p4</span></span></code></pre></div>
+</details>
+</details>
+<p><img role="img" aria-label src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAEgCAMAAABrWDzDAAABmFBMVEUAAAAAADoAAGYAOpAAZmYAZpAAZrYOAxUPAxcQAxgRBRgZGRkwCkg6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZrY6kJA6kLY6kNtNTU1NTW5NTY5Nbm5NbqtNjshREXpmAABmADpmAGZmOgBmOpBmZmZmkJBmkNtmtrZmtv9uTU1uTW5uTY5ubqtuq+RwFqh0F651F691GK93Hq+FGseNHNOOTU2OTW6OTY6Ojm6Oq6uOyP+QHdiQOgCQOjqQOmaQkDqQkGaQtpCQ27aQ2/+SHduTHdyXHuKaH+abH+meIO6fH+2fH++gIPCgIfChIfGhIvChIvGhI/ChI/GiJPCiJPGiJvCjJvGjJ/CjKPGkKfGlK/GmLfGnMPGoM/GpNvGqN/KrO/Krbk2rbm6rbo6r5P+uQfKwRvO0T/O2ZgC2Zjq225C2/7a2/9u2//+3VvS9Y/XBbfbIjk3I/8jI///PjvjbkDrb25Db/7bb/9vb///jvfvkq27k////tmb/trb/yI7/25D/5Kv/5OT//7b//8j//9v//+T///9VP/yXAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAgAElEQVR4nO2djX8cxXnH13YihQOZNrSRmwRkJ9AobSwihzQpkhtSQXDBHK5wpQhx8uUF6dLEd3LQNZXM1SKH2H+78/76zO7s7btufh+w7vZldue5787zzMvORHFQUA5Fdd9AULsVAArKpQBQUC4FgIJyKQAUlEsBoKBcCgAF5VIAKCiXOECTK1v6DrRhurLKv8mP1oHa3hSBBxop8mPI33EULU88Ey9V05Uoiq6deh7rvmNvU7VFSQCBJ+QCyCdFNbHpynIzTD6O0E1cbF597HNwAAjckLA9n1XOX9R+Fh2g1UaY/HyJ3MPF5oLP0fMK0HTlB6icxvlDjuPKW8SFUctNrvz7ir6dWWIQkRO4Vc6XyPfz679EH5Zjeob8sMAO5BvZ4dPvn6pnT1deW6J/V8kW4jrYvro0YM5rjG7r5lsRKogmNA/cFEqWpfNF37n9tnimmanOl7Ctl8+XhMHpycKg7KeoOd8e0gDC+UT/D4iBCCj0mRtc+wvBRW6nlhignfgEYRX0ZxLh330V/6U7z5eW+VHL1LRsIz+c3QH/ym+Dlz74f+PQqnWxuSw+T1cwTBNC+IIESGQ5pqZhmeT2O+WZFqYiTCGDjvH/3EzSoNQGNefbRxpAy+RnpE/NgP6EOH/sl9e2Y0tMb27R351ZZcJCBGKLeHztlKSIN9MP3CWxjRM9ouBf+W2oAE38go+yZIZljKiJNIXIMjtcZFLYT1iCAbQs/pEHKwale2rOt480gKgx6F1PZBnAPmrbBTTM2+DP0xWaX1Fu03hJMBnz1GJmN808/KvAUwHIOLRq0fxh98IIoPlhlMeKq99ihyuZXNUsoRbW/B+xE++RBiU2aDxBAEBjDRRUqg5wWUILIx0g5Lqv/rcsgdCDyWKgLXrghIYwyKldp5E3MSffyA/nYl8hgMxDKxYvQEURQn9sdpM0BmJZpoevykxS+4nvIEDiYM2g+J968+2jtBII2eyPmh/Ryu1VzYURIRcnAeI1NrsEUg6P9a8gQMChVYoH0RNnCWQCJO6V2k98d5dA6la1jK8z3x4CAKLWGYsNrxI3zmOgsQyWCFGTSAdIBASs3GIb1RhIfaKMaq3yUFsA1VgD5g8AB0iJgXjcyLLMblTeq7Qf+2oDJHbqBuWbm13zBwAi9QBR20Kuf4HXTNn2i81rp6hsXaXPSiSqFuRJmuC6AzmQnUGeIPwB1UhEMngjP1zegXYbEqDl2Di0eo1JLXsgWiJ4LUyagmc5ljakZQexn/gOASR26gblBVmd+U4XBJDW3kPNMlXbgXAmox/QGOjKlrQKCW9IjfQ11r5BGjiI5zPbgeizRg7nYl9NgNAvQGOIWu1IujLwTcvKA2GKmULJstIORH2+ZgkQIHGwZlAeMDaan1I6U3mBP0eawywzBYAK0RxmmSkAVIjmMMtMYTxQUC4FgIJyKQAUlEsBoKBcCgAF5VI+gG5cfgXDODQLQE9u3Hgzjp+Rf6md/M5rcTE3K0B+h10Cw2TJwrPvfv7Vb3//5b/8/ot//kxPJUWXwE5ZT4vKVrHZnCGH7G+WG3l6G///xY8wRqyU9jux9tzOrpkBKvY2LNVu0llLoN/cfvYy8mVv6qmkqPbczq4AkEMzxkD/8PMAEKQvf/YZCRG/zX17AMihJ29yF6amkqLaczu7/HL45U8ROcIqcQAIFip7UPgcgmhLX/3uz6gEQk+WPC0ABKlx1fizs7JS5srgwp5954c3XibnIAWAMqWSorJye3ZWOkFZYqC/fh4/5cFhAChTKimaE4Bi2tJBTmsxQH5JXwqAGubCkP+6DCXQPAFUvjJW42/z0+wsG5OQ5FQAqCWaw4bEAFCRCgA5FADyU06Azl/8BZ82CLkw5Rue+efrm6vn3/ze1cfoI36bDrk49P/F3beiKH0eqwBQIWpMEG2dxgFaWuZz02CA5Dc6N8UqfxEebeUAbcrZcBIUACpCzanGW6dxgK5v8egZAyS/Ta6d8kkZ8JbpzS0BEH5TNbUICgAVoRYARKlgH5VveC4qxAr+NpEfOUCT1PlgA0CFqPkuzAUQL4HYllACJWqeg2gHQDwGevExj4HYHF54vg+PCV0CQC1RWQDhWtjXaLET01oYnprj728hgF4VNbUEBYBaojLbgcicmqaIC0tXAKglKgsgXP0C52AtFSCvswJARaq0EmjsmDkqAAQoAFS4AkAtUQDIoQCQnwJADgWA/BQAcigA5KcAkEMBID8FgBwKAPkpAORQAMhPTQCog2VsCwC1RPUD1OkcYBkIBYBaotoBovgQhNTNAaCWqBqAUPlyAO+R/OgEBYBaokoAwl7KinLonoMDmKAAUEtUBUAdwEXpuwJArVVhAMElDNYBB8j2Yjo/KkEBoJaoKIA6cAnDdrmKoABQERepVQEghwJAfgouzKEAkJ/qDaIDQEVcpFaFarxDlwOgxr9Y6ClnQ2IAqICLuJX71eb00+vuyggt0fkv4lZegDzOrxug0BeW/yIJyl0ANR+g0Buf+yIlqvkuDCuMB2osQOlqAkCQAkAtUQDIoZkAenoDz+XfoKUOylcAyKFZAMLr9PzmzbDYis9pASBAdB7/y7RiYTuCaEitBOjJv+LlaC7RgnOtqMbDaidA3/0coRMA8lAACBLGRi66q6ZSyC3VoODCZk56FoBo2ROCaJ/TAkCQnpLlaEqrxpfft55dASCHGtiQWMG04dnVLoDSrhoAqlzFADS99TiOJ1EETH+o7LIPGCjb9b0BIEAN5KcYgKYrV8Vk9IaUXfYBkwXMF7g3ANQSFQHQxb/9ERUz5y+dXtw152VVd4EHIIDAvQGglqg4F4aKk3hg+zC5CzpgjNwWuDcA1BLVDJDcXhlAnQ2PgwJAVFU1JE5dLkzdBR8wXq7YhQWA/HV2clJNVwamBA6ilV1gEI1KnRBENxagE6SUQ2qvxi+HanyDB9UXVgKRdePVJvrQkJgplRSVZc3GvBf25U+//VmsdRIGgDKlkqLGApQurxx+9bs/oxJIDFPAI+0CQJlSSVFTXZiHMrgwbaBUAChTKilqahBdXDU+ADSbWg5QcSMSv1RdWBwA8lUAiAkDFILo7Go5QMW6sPqr8Z3FWc6a6aBLAlBjgmjrtKhs2dfsdA423BPpEQWAdDWlGj/zaYUapnNwsOGcyTPD9QJARao9AOFZYDbcc8H6X2+OAMrtwsrrjfc7rGqAFn0SmieAcqrEFwv9DqvYhXU2kj0cVQ6ALjaja/8DDDlITaWQW6pemQDKZJxaAEoPohd90pkdoIvN5cm10/G1U68U1FQKuaUalMGFZTNOPYapuxo/vbmFbASNekpLpZBbaqREDrMZpybD1NyQSB+ywRyVQOkySiBf48wnQNjNR1EGfuYJoGzGmVOANBGDpZhsngDSlWKdAND50hX6CsAkumK/SmCmUsgteavKN1jhHKZap10ART4HGXIE0ehfEidOvy8frYt/cwaOtdjJYyRzcVKD6JgZx8M68wjQ+RLrpmPFMrWYXyopKtZOHu9SFCeWQ9M4adaZR4AsowCvUbpSSVHBJdDxcW0lkFSydeYTIF3TFfLIXU1q+JgjF2YoxTpzCtA4HRk4lRQVDJDsgKhyPFAm47QKIONl5hwubGUVt5UteyWgpZIiTzv54qDwU91wjmzGmVOAbm7h6Wh4a73HI1fzDGWVAqQbJ8U6rQIoyYU5U4S7MlbxNBDMRj6PXN1T3FXownTjpFlnPgGKz69vTcjr/FjmI5eUSoryuLCa572TOdSMk2adOQVIk/HIJaaSohx2qnvmTXdXRqJ15hqg/2NG0R+5xFRS1FiAsg9p5cZJsc48AoRbNlZxm2tt1fjKXZj/iMSsxmloL3P2zlR/gC42F/BTNYgWMtxQPUF0YUx5A5TZOEUDVBBpZQJEmuoHar3UHgT8hLx6WdZSB74AFejVfF2YbZyUIdLzCpA65NceBPzsZfwKb3mLrXgXQBXG1QpA2njolCHSlxOg0Uh+dgCkBIXgIGAEUMUrFgKwyE1VvRdmGSdtiHTrAYrUL1SjUTaAoEHAT5HzqnbBucTiJm+3qncMZAOUMkT68gE0GqUBtMJf2+eeHhwEXOaKhdAwn8TfOO/IIH+ALOOkDJG+bACNRqkAearEFQthHJJ+4twjg9L5a8ibqfUCNBoVA1DJKxZmL08qc2GZdZkAGo1mA2i6YjV6PCl3xcLM/ihvfSwHQIB1fE4z1HyA1kajWQEic6MnvJGhpuJzS2Woztk5Eq1zSQAajXIBFNNQMWHwb9sByhkDua1zKQDCxOQCCL+KgOyT8DpvzQDldWG51spItM4lAIgSkwkg9dUn7OWZaRJGdNT8YmGVAOnGSbNO6wHi4GQAyHr1yUMVAGT/xGf9Psfm+DhHymDiplzvhfmdlqamAiTBmaEEoh+TKxlmKum3NKuAQqKPxHYeH+d7xTBDEK2+F5ZunTYDtKaC4w+Q+eLcxOcVlloAOuz3D+mn4+EwVxGUrStDVZp12gsQY2YmgEwzsVFUCarFhcWHh3xfr1dRV4ZtnGTrtBUgwcwMLmxsdfdgDSp80DJHxMNeb5jxlKxXZDmEjeO2TisBUpnJGwN5qp4RiaJQks5sRhnFG3B957vxyWohQAKS2QEyNKn6xULPrlEZOp8cHuZyYUYQDhHszGGydVoHkAJJjhhImzBgupJ1dg5nAeLZmQrWqbpdc8vxsai955znRUkJyw2QZZw067QLoJGp3fXXd3OXQJnnB3K7oBy98d2uRVBx07uYKSW5MEMVzw9ULUDr67v31tdzu7BxelNQoQCB5QkAkPI7551pKkdnarJ12gSQVf6s7+7u3tvdXc8OkO7XM8dAOV0YLJsfqdwNiemSOTTMcUliIIse7L8YQLtZAdL9evYYKMN9FyMjhsmuLC3RujmqjYE6iz6LXHhdT7skgA8tgDBApAjSAFJXKUuvxjd2jkSlM3U4zDegzIiBAI/oqsZXGgN1UhcC85QGEEiPEyBc3qa6MN2vTzLGQIn37aPM74XB4bR/e6TRFQJ5RJlDI+hJtk6hhumkr+PkKQUgFz6gCyPwpLgw68WDyudIhINwIIYW5Q5Yb/NrjyTHHB8eqgBBHtH1VkaVcyQWD5CbHl4EqUE0pycZoJlULEDQEHmgFibLDfAML4DoQUZDJOQRmzCovmiAkvEZGdV4BZ8MANUx0TjokCCAZEEBxtB+BRAByGiJBngEc1j1RONFxkBrMDOmF6MNiVGk4ZMCEB6cOY7YBBQZlzpI/tFyNCSedLvWRtkQ7azGp0JEDjCISerK0IzjsM6TGze+XcqkAQXWwsx6uUtrDJ4svfHIRBPk0wfMSFkWW0lxG54lEFSnShzyc9zvwzv9J/rQvrprYaZxIOuI1y3jBrQDwSesWUQ4JEoef4Au7uIZTBYSh0BbsgECf7gcfWEnw6G1cX+ffRju7QHDOdAtzAaQuwTyMs4XP/rcOE3IZYBqASI4+ACE6JltROLF5vJsAMWSnzMgrs0BkDIAmmt/b48R1N/f79tnYAz8+jgMYtwxkJdxnn3nhzdeJudY05Y0ASCGQypAtPBxACSTBQE6v44etMksg+ppSIEf/ZNj+1fwdGGHhzZ7w27XLGT2kNhOqAQ6Y/K5ogEQEMVLgNKN89fP46fwrBO1AyRxSAQoslyXP0C4hMaefroyw0z15Jeg/xwDobBf9sFwB+qN39lhv/Pxzg4QA2VwYfqtJjQk+hrn6W3tNK6aARK/fyJAWo1rBoBQWIhqFJPkaVkNCYBw4U8BOgH8QMEAiSuALozI04XpRQ4Ub7Ec+hgHzz3RwBJIRWBttP76enLRMztAs0gARCpQLn7y1MIggETxcrizAw9phUogoEzK1JWRLjr3BHRabQAZCKyt797btQgy4akBING2B7/rqVwk63xj0HggcYnhzg48qB5ICmJKdGXQXeW1RNcDEICABZBV9NQDkCj80S8HVKXkRZwz+rgCF6gE2tvjJVCv5yiBbBSgK/OuDHblBBeWVQ0AyEQBAMgBTw0ACReWFkRbXoIdTH5CXrlStdftmlv3dnbYpuO9PbghEegWBQFixDCAxFkKyG0FaM1CgREkYqAEemoogTA1rH8JBoj9JuZ7FBwofO5+t7tvnhnvbW9bAD18yKvxrvfCgGgGKt/EYcyFsXYE9dB2AqT+8AYCawyeJHqqB4hUZ1gL3tD+TSPxm5g1LSV4AsOd+LjbNcuSk50dRgeJgcCoChzmYX3TamGj0aeffPIpttLRUasB0n/49XsmGanw1AEQ8Q+IhZNhfwiVQNyBmEUD/wkxYCBAgAuTP3u/2+3DTT5pzUBnZ0dHiJRPPjlSrPMIiXw4arELM394AyAvemoAiBY+qPjp7+/bkagEyBqAocRAIECJ7UDb3e42A8goX6BYXTXE0REG6NHHHz+i5bkhO4cZVRNAPHvyvS4NgUjp5GoWQDGPfob7O3v226KRLGmMX1aUHwgs8A0etO2BuU2k8bDbfUgRNMqhk+NHnzptY9Iidnz6iJ8F5DCb6gBI5OMOHRB2R0eA5bShABEhCIa9nZ49yisSwbNZUxaurd8/cQHkLoF63W6Pfjs7+VR1RkChYgJDblgf0grF/20BSMn8HT4o/o5EQD4nDQWI1ODRT3nc7/XtHskoHg5pbG0G0bxkwpNGpQAk38UQsHx0//5HICNHjx4djUwBjdOiV40mDwxwbANARj61tyqsqHl2gPT7KCkGQiUMMC41EiWPWQLxkmnY7w/BRufu/fv3ye3TqMUuWyiCZr860KYMRNu97e2estfdG59ZFQJk/vS7EqDdke6jMwCkHK5evzSA8KgdXALBb2pFMlg2hmxgcMiH/Y9GCJX7R6LgcPifWCUBj/VgDk2HA3q/AgDoIZKyVxSPRTckdhYdh+UGCPjJCT8YIMYO1A7kr0i/flkAHe7vHxK7u0og/psc93/9SLs/p+iZ+4ALk5/6e3t9sMIFD260Ng23t0WjFUqUh0RFNyR2DjYcQ5rzAQT/5AygKNq1u039AeK3vqFfvxCAgKUOeg8eUF9wvLczPLLCj7XR0a9/fQThwiep6+3s9DArZimxA9btuTC3NkCOaAYogYzhjvxm1CSbC5DrpycuDOND3wzMDpB26yUABC22st+9/9Fo9PHHo//64APkh8S9WPWfjz+UAzCI19jfJz91/8GDPgVIv9ghBBCfpJW8smFx4RqRCGwzXvngnftFA5TThR10Op3FzoG2LQkAbGkSA72eyoqbHOMOiwQIWu6ptwP7IUH9f96nDcqHDx9qAPW3twkNHCDrasBGOc0v2WliQeiB3zh0Jk537e/s7PMU+CG1B9EInwOsjkSI2HR3HckuYpDRRTXeO9xJuHwJAPEF58iSlwyUV95995XoJ++885N33nsfySbpV++//yv894333ntDbHzhhejd9957F3985/333wHPBDa+geTcSZN94ZVXXoCRBhN/AQkn/O67b/AUuOoGiOFDEcIb6E+O4cFOat0c3IP/8IZEH4DSrl8iQGoquB2QhBDDnW3gTcCIlDD4k9njjpsC8V/cpgyWQKSx2ZBwYaSnFewK85zETBRAtDuk12taNV7iQxDiPzsNlImU0Rmyvk67MlIA8spIRS5seHg4JO1Ax/t7PbsiHwnXZfaN8u24V8vXhUlhZMHOVM+Zp4SnY8M57FeIagZI8KPTgvn58QfKtsjqIl0bJQHkn5ESAIKCaNqCgurJw2G/Z/92kRi93H/4sK/u4e1Ahw8eHEKFTTJAmFsYIL/FDw3ODg8PrQGOtQJ00FHg2RX1KlL+CIB2bXqcAGXPSBST2KvsaryoNp8hIqDOVNpQZM8tzxse8cMPjNwg9fgdc5sghjTc+I4Hgo7S28Wh8Wm1AmTyQ4sb7r/u3aP0OJt71nzhSbiNMgBSZJsXEWG/nBPJNjqzpfqM+5Czs97Dhz3zzPgB0Bsv36MGfE4WkdBN+QqsnFAfQLxTQgdoVwmA7tHmHg+AUu42ESAsMbnDopXDAjtTqaCR6egibJyi07fgVmwx0lARDo6sQ/nV8s6RKDpSWHIA+/UARH92mx8MC8OK1BFVx+YCyONu0wAS08t0ZItoGSMS6cftbSCI5j+61UCjOKDjXs/GAZreRZyTd5ZWEvsr1yrjrYxI/AMouYdCAnRPAWidOS5lK1AEkZnFfO82BSBlgqtFK4cFDqqn2tnetoIWCZAZsaghMPiSjjFkx0gDGH+dRYYL9J5gKl2zAqRBAAMkS54kgKKEq6bfhr5LAajcMdFEDx88sOpSkQUOl1qRHu7v2zwAAEnocq+VYZxfxnggf4AsCACAEDzW1h9/oAMkUm4RQIpXOdzeBoJolzhApF8MKGwgtyLb+6B6dxbxYW78WjlfbQZP8wMICIPtGIjWuJIA0lNe9L1b7xiofIBOjoeH0IhEl9TYCGw+BgYY9Xs91pbknKHMU0YJ5J6lNbMyAASyQ6TVwiLewb67bgDEg2gz5Y5rDAB4G4m7RC2s1BGJWOgnALxKwkV4aESn97D3A0G07EyF+h6yyEC2lBGJSQCldTasS3h4hWukVePlRjPpQkugCkYkihj5eHhic5B+EeeEPonDOYxqeGaZVwXuoSSAGCEpANHChsPDyxoLIKigKTIGissHSB3xPtv8QK43AZMHlOVdsdCqE1pHFA+QSkhaf/n6bqTgw6tb6wo/BwkTSLcJICmoLpzuwpyyAfIYppFbiTn0kTiNjiVzxTrJAEVGc4+orhOCNngXfT2WKQ8gwBmlB9Hsi30AAJD/7c2q4gDqHNwDZwRLBQj/WISVdRnqyJTWdw+e+8ZzJj+zZ9hXVQAEYeAHEBgHHXa7hpeqwE5ASZ1R7LTOwYGYjweCxQFQZAztofjIDgtcsL39Hx8+hwe7QjddnqoAKPGylrQCCADIbl287ABF5uiMe+va6FWW8odvv734nDZQ+rIABPSWel4E6me1OzjbBJDqwvwAck5XaDT2LL799ofPdTrPgzddnioAyDHBlIfgqrzVttcqgOLO60mljfnmOTj3igRIpv88ioG+gcNohaAAkN/kzjix8yVSJdBW6/KeYR+djKcLx2nQZSvp8qfLypbiAJJzzaUBBNODxBDU0idDzTb0OnwRhsFLx0gzKKZia8o024WB/FgTJxI7GTZx2gjYgScLHy+QRU8ncqmdydXHypbKAXLSg2eIWrfamQ8kQDIMym+Y1XismUEx1Zgy2bwgOk1yXQM1sTx2wpumN7fwogUXm3zlXGI1uaUEgMAZvo0FJUFBPRJ0sP2GXY0v1jBsC/vDr6HnsO0AIfdzZWu6gv5B2y42X1uKFlCBu0D90gLZgZenxM/PgE4zr5hDLr08ZmtgsC3FAwTO8I0BSqZnFIPW8wAou2EwNWwtEGYGZiplR/sAcrgw6uoXCAkobzinxE7XTqcr6Ov1LVYQ4x04/2O5SAopkKmTF1tFUTR22SmjTIDW5SqkiqIoZeYekWFDbheWwzB4PQf2bSw5wqaSO1oIEJiYeNCUR4XYaTXm/8cxL32VIocIGflb5ICxiDV5enxLBQAReDRmLICUDJtyBtE5DEMiHmIAYRhqKrnj8gFEVk9eheyEn0X6oJGn8oq96vtYbmNLeostZQPES54kgLQMm3qeA2RU4/MYRvA0Vo3V9hgITkwLAVEFyrYTXt1LedAM4U1jpa5LowC5pcwYSPVbKjNqlG1l2NLzHTxpjNWQmMcwnJOx2QjQboCscfOanbA5sJ3QH91OZIFT9KBd36KPnbQVNsVgga4fx0RLdmVLgQBpfERGyKwApETZQIYBHZhTvuQ1DF6ScUxPYWKmYjv0e2kLQMabN7EWK6IymlQ2cJS3qtsJL4r7LfJnNaZVDl7ZwKegkHDAEsBb6ePFt8SlADRaA+pbawo/3MfNdsG4AMPQ9kLVMNRUFTckOrI2o+xx8+3qyuAAJfVSqAAVctPlqX0A2QupthCgCFiBHQRIHVyYOZ8BIFBWz0jrAIJqXFAMtKEPTg0AQZfNLLuHtWUAJU4Rr05/IF6dse4h802XpwCQn8oIoiGtcXr0i0Jfs9x0eWofQJfAhaUABFxU++qd3wAQpEtTAt3B41LvWAAp19IzJqYGDgDNDUDQ1G0coHX9xRymKAbz0zlQJicPAOW7iDXKrLEAQZNHMoDuiLdJ1UKIXgcEiEyIQed0WizgDffC1GyAvEa0Fmani00x8pN9xM24OYZzQNPXMoCAaXn5IjjwLPYCIDkxRqrqMUyDAMowJroIDRbwf+rHyYJ9jQwAiQm0lRnYo2gN6fV7il7HW8TuxY2NRegNULYd/dlwHJHw1miJhhGaX4DkmBjek8g/8j6hvADFRgl0Z1fTHaXiJV2VKVoyKXM7paoewzQIoJJc2MXdt/AQPabpCusWVMYo8JGbd/P1xjtdmJiX15pMIwEgeg9lAlSMYZoEUDmJXWziNw3YeOglMVbKttP05t+4O5095AyiNYCMQYRpS0GVGAMVY5h5AGiVDzlUR1DZdiJDrW45hr34yFWNVwA6sEahpi0FVV4trBjDNB6g3NV4Yif2UkHig4Y/OgfeZRQI0IY5H4urGi/2xQn7nSf4qhjDZLrqE/KIgQ9aomptSFQetFhx9UCsGJcEEA2ixZo7xjDmegHKbZgsV0XVjC9/9hns6hOVI4guAiD8Ssuq8p1+tmqreLDn+UtFv9bDmoGUNZuUw5IAUo/xUj2GyXhVBBBc2UhUnmp8AS7sVfziuyXlrTr2cSxeKi+6L6wD81N3cFiEYbJd9SlyXtqKhX6n1doOJN9f9lexAOF3KAQ/6nsUdQNUhGGyXvXJm3B7medlE1VSO1B2OwEzuWWUdVoHKH/mCiAUP7+M/z69XZoL81QVAMmPRQGEX+TSX+MyLpRf9TxZGYNoVPaUF0R7JlaB5NUKAwjOy2ypu1KrwzBZq/G3K67GJ8vP6dCvDZ0AAAQCSURBVOU5v00AVarWNCTWrACQQwEgPwWAHAoA+SkA5FAAyE8BIIcCQH4KADkUAPJTAMihAJCfAkAOBYD8FAByqCCALr+CYRwqBCBfczYhiQJuonA1wjD5kggA1alGGKYFAAVdXgWAgnIpABSUSwGgoFwKAAXlUokAiYFnz8zXyWZM4qvfsHG1s98EHpOb9SYKVyMMU5RlygNIDH2lH9SRsDMm8fRlZKpstjZSiOMvflg7QI0wTGGWKQ8gMfieflDH4s+YBN6U8TExU/jqtz+vHaBGGKYwy5QHkHj9h35Q3waaMYmYvNiYK4Wnt+t3YY0wTGGWaRdAqLjNlQJ62i4nQJkNU5hlWuXCvvinrGYyUniKewHrJqgRhinMMm0KojOfD4SKDaiFNcIwhVmm7Go89s05a6siiSczPCXGTTQBoGYYpijLhIbEoFwKAAXlUgAoKJcCQEG5FAAKyqUAUFAuVQcQmbhxQiblGyzAh6jTFcuNZCXrq8AepvFyPCAzruMj6bTHdEZI8BJ/l+WeK1G7DVMdQGM8I/Hg1QW6wr2/qPEG106171LTW4/P/zH+wxaZTPRiExtqnJD+IPu8biWr3YapDiAya/WtP94Sc1dnOE+1jmknZBT09Pxhi85Yi2dVV9Z2sDW55nwIa1K7DVMdQDgf5y/9L8oDvtVJhEvV829+7+qfNl9bihZQKbuATXD+4i/I3LPo+9fpHH7STuSc6Qpet4HNPxvH1CgDdMpEFObo0SO+YLzAj5NXe5ztR6pC7TZMhUH0YBk/FPi/BWK0yZWt86VVNt/1tVP0iGA7LZEc4/3jSLHTQJ7z4mMyP+SYTdLPnzv5BE2IxfFB7DjlajPNTVqyWm2YCgFCt4/8LMoO87ZsGQ984+x/bKfrZHZ9nGk2izqNFZnzxucgEyiLOIjnS9ppQBMkj6262ANOO1YWv2qKWm2YCgE6f+kvt7i3J7mXD41iJ2oF/BRdyJKaPCLKOcR2dG0HYR5hMLKwDHqYcQzAjpNnNhGgVhumQoAu7v4S1SLpv2QFoZtuO6kPGs7dBGdWnqPEi+IjPRz9SxZonN76012xUohyZhMBarVhqmxIHPwtvsXxq8v0qRgkPGi2q792ys9hpTu3gTDZ+MoWiRtoXXXw2kun/Djlak2MgVptmCoBmpCydRKRiC2KvkUMA9sJl61fk4tW4QdogZ2D/qzGtMqBpeSbVilYXZVchh2nXC1jVbkatdkwDe7K8MyRo3EMbLyNm9gOlFmNMkxDAcLF8SShlV4RW4zR1NjRK9C8luhMapxhGgoQXqLqimeRCj1p50sOIyf0BrVDTTNMUwEKaokCQEG5FAAKyqUAUFAuBYCCcikAFJRLAaCgXPp/8awJ3mLO57kAAAAASUVORK5CYII=" alt width="80%" /></p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Here, we demonstrate how the <code>BioShiftR</code> package can be
+used to quickly and simply access data for hypothesis testing for
+drivers of species’ range shifts. We show that (from this basic
+analysis), warming rate seems to be significantly positively correlated
+with shift rates of terrestrial invertebrates up elevational gradients,
+in agreement with past studies. While the extent of data and complexity
+of models that could be tested with <em>BioShifts v2</em> and
+<code>BioShiftR</code> expand far past what is done here, this workflow
+serves as one example of how these tools can aid in testing hypotheses
+about species’ redistributions at a global scale.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
