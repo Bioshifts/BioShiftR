@@ -3,6 +3,8 @@
 #' Quickly visualise range shift data in one of three ways: a per-study dot
 #' plot, a distribution by range parameter, or a spatial polygon map.
 #'
+#' Currently not an exported function.
+#'
 #' The function accepts input in two ways:
 #' * **By species name** – pass a character vector of one or more
 #'   `sp_name_checked` values as the first argument.  The full database is
@@ -25,7 +27,7 @@
 #'   Defaults to `"./BioShiftR_polygons"`.
 #'
 #' @returns A ggplot2 object.
-#' @export
+#' @keywords internal
 #'
 #' @examples
 #' # Quick single-species dot plot
