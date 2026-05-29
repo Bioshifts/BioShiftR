@@ -1,6 +1,6 @@
 #' Download spatial data from OSF
 #'
-#' BioShiftR relies on data from multiple sources. Spatial polygon datasets of all study areas, or species ranges within study areas are available on [Open Science Framework]{https://osf.io/tp4hv/files/osfstorage}, but need to be downloaded locally in order to use provided helper functions. This function only needs to be run once
+#' BioShiftR relies on data from multiple sources. Spatial polygon datasets of all study areas, or species ranges within study areas are available on [Open Science Framework](https://osf.io/tp4hv/files/osfstorage), but need to be downloaded locally in order to use provided helper functions. This function only needs to be run once.
 #'
 #' @param type choice of study area ("SA") polygons, or species range polygons clipped to individual study areas ("SP"). Species range polygons will be more resolute in large study areas, but will take longer to download and use more disc space.
 #' @param polygon_folder local directory in which to download polygon objects. Defaults to "./BioShiftR_polygons"
@@ -10,43 +10,46 @@
 #' @returns data folder for polygon storage
 #' @export
 #'
-#' @examples \dontrun{download_polyons(type = "SA")}
+#' @examples \dontrun{
+#' download_polygons(type = "SA")
+#' }
+#' @importFrom utils download.file
 download_polygons <- function(type = "SA",
                               polygon_folder = "./BioShiftR_polygons",
-                              timeout = 500,
-                              replace = F){
-
+                              timeout = 500) {
   # get filename for species or study polygons
   filename <- switch(type,
-                     "SA" = "sa_polygons_simplified.rds",
-                     "SP" = "sp_polygons_simplified.rds")
+    "SA" = "sa_polygons_simplified.rds",
+    "SP" = "sp_polygons_simplified.rds"
+  )
 
   size <- switch(type,
-                 "SA" = 4,
-                 "SP" = 435)
+    "SA" = 4,
+    "SP" = 435
+  )
 
   # search for file in project directory
   # list all project files
   all_proj_files <-
-    list.files(recursive = T,
-               include.dirs = F,
-               full.names = F)
+    list.files(
+      recursive = TRUE,
+      include.dirs = FALSE,
+      full.names = FALSE
+    )
 
   # check if filename already exists
   exists <- any(stringr::str_detect(all_proj_files, filename))
 
   # if file exists somewhere in directory, ask user if they want to continue
-  if(exists){
-
+  if (exists) {
     existing <- all_proj_files[which(stringr::str_detect(all_proj_files, filename))]
 
-    cat("File seems to already exist at:\n", existing,"\n")
+    cat("File seems to already exist at:\n", existing, "\n")
     response <- readline("Continue download? [Y or N]: ")
 
-    if(response != "Y"){
+    if (response != "Y") {
       stop("Invalid answer. Download aborted by user.")
     }
-
   }
 
 
@@ -54,35 +57,35 @@ download_polygons <- function(type = "SA",
   cat("Downloading polygons will take ", size, "MB of disc space.\nContinue?\n")
   response2 <- readline("Choose an option [Y or N]: ")
 
-  if(response2 != "Y"){
+  if (response2 != "Y") {
     stop("invalid answer. Download aborted by user.")
   }
 
   # find download link
   link <- switch(type,
-                 "SA" = "https://osf.io/download/68b747593d97f9fb8567b34f/",
-                "SP" = "https://osf.io/download/6995b153995df5b3b6506702/"
+    "SA" = "https://osf.io/download/68b747593d97f9fb8567b34f/",
+    "SP" = "https://osf.io/download/6995b153995df5b3b6506702/"
   )
 
   # create directory if it doesn't exist
   dir <- file.path(polygon_folder)
-  dir.create(dir, recursive = T, showWarnings = F)
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   # increase timeout
-  if(type == "SP"){
+  if (type == "SP") {
     # Store original timeout
     original_timeout <- getOption("timeout")
     # increase timeout
-    options(timeout=timeout)
+    options(timeout = timeout)
     # restore original timeout on exit
     on.exit(options(timeout = original_timeout))
-
   }
 
-  # download file
+  # download file — mode = "wb" is required for binary files on Windows
   download.file(link,
-                destfile = file.path(dir, filename))
+    destfile = file.path(dir, filename),
+    mode = "wb"
+  )
 
-  cat("Downloaded to ",  file.path(dir, filename))
-
+  cat("Downloaded to ", file.path(dir, filename))
 }

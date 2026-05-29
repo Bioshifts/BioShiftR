@@ -7,24 +7,23 @@
 #' @returns Range shifts dataset with added columns containing author-reported shift values, and the figure, table, or dataset in the original publication from which the shift values were pulled.
 #' @export
 #'
-#' @examples get_shifts() |> add_author_reported() |> dplyr::glimpse()
-add_author_reported <- function(data){
-
+#' @examples get_shifts() |>
+#'   add_author_reported() |>
+#'   dplyr::glimpse()
+add_author_reported <- function(data) {
   # make sure data has correct necessary ids
-  if(!all(c("id","sp_name_publication","subsp") %in% colnames(data))){
-    stop("ID key missing; input requires id, sp_name_publication, subsp", call.=F)
+  if (!all(c("id", "sp_name_publication", "subsp") %in% colnames(data))) {
+    stop("ID key missing; input requires id, sp_name_publication, subsp", call. = FALSE)
   }
 
 
   author <- readRDS(system.file("extdata", "author_reported.rds", package = "BioShiftR"))
 
   return <- data |>
-    dplyr::left_join(author,
-              dplyr::join_by(id,sp_name_publication, subsp))
+    dplyr::left_join(
+      author,
+      dplyr::join_by(id, sp_name_publication, subsp)
+    )
 
   return(return)
-
-
 }
-
-

@@ -7,7 +7,7 @@
 add_taxo(data)
 }
 \arguments{
-\item{df}{input shifts dataset from get_shifts() function.}
+\item{data}{input shifts dataset from get_shifts() function.}
 }
 \value{
 Range shifts dataset with added columns containing taxonomic classification information for every species name, as written in the original publication.
@@ -16,5 +16,7 @@ Range shifts dataset with added columns containing taxonomic classification info
 add_taxo() merges taxonomic classification to range shifts uploaded with the get_shifts() function.
 }
 \examples{
-get_shifts() |> add_taxo() |> dplyr::glimpse()
+get_shifts() |>
+  add_taxo() |>
+  dplyr::glimpse()
 }

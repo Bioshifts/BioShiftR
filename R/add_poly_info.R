@@ -1,6 +1,6 @@
 #' Add polygon attributes to range shift dataframe
 #'
-#' This function supplements range shift observations ()
+#' This function supplements range shift observations with spatial summary statistics of their associated study area or species-specific study area polygons.
 #'
 #'
 #' @param data Range shifts dataframe from `get_shifts()` function
@@ -9,39 +9,35 @@
 #' @returns Range shift dataframe supplemented with columns on spatial extent of study or species-specific polygons.
 #' @export
 #'
-#' @examples get_shifts() |> add_poly_info(type = "SA") |> dplyr::glimpse()
-add_poly_info <- function(data, type = "SA"){
-
-
+#' @examples get_shifts() |>
+#'   add_poly_info(type = "SA") |>
+#'   dplyr::glimpse()
+add_poly_info <- function(data, type = "SA") {
   # make sure data has correct necessary ids
-  if(type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id", call.=F)
+  if (type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))) {
+    stop("ID key missing; input requires: article_id, poly_id", call. = FALSE)
   }
-  if(type == "SP" & !all(c("article_id", "poly_id", "sp_name_checked") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call.=F)
+  if (type == "SP" & !all(c("article_id", "poly_id", "sp_name_checked") %in% colnames(data))) {
+    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call. = FALSE)
   }
 
 
-  poly_info <- switch(
-    type,
+  poly_info <- switch(type,
     "SA" = readRDS(system.file("extdata", "poly_info.rds", package = "BioShiftR")),
     "SP" = readRDS(system.file("extdata", "sp_poly_info.rds", package = "BioShiftR"))
   )
 
-  merged <- switch(
-    type,
+  merged <- switch(type,
     "SA" = data |> dplyr::left_join(poly_info, by = dplyr::join_by(article_id, poly_id)),
     "SP" = data |> dplyr::left_join(poly_info, by = dplyr::join_by(article_id, poly_id, sp_name_checked))
-
   )
 
-  if(type == "SP"){
+  if (type == "SP") {
     n_missing <- sum(is.na(merged$lat_cent_deg))
-    if(n_missing > 0){
-      warning(call. = F, paste0("Not all shifts have associated species-specific polygon values. ",n_missing," NAs returned."))
+    if (n_missing > 0) {
+      warning(call. = FALSE, paste0("Not all shifts have associated species-specific polygon values. ", n_missing, " NAs returned."))
     }
   }
 
   return(merged)
-
 }

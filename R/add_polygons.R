@@ -9,57 +9,56 @@
 #' @returns range shift dataframe with a geometry column containing the study-level or, when available, the species-specific polygon for each shift.
 #' @export
 #'
-#' @examples \dontrun{get_shifts(continent = "Africa") |> add_polygons()}
+#' @examples \dontrun{
+#' get_shifts(continent = "Africa") |> add_polygons()
+#' }
 add_polygons <- function(data,
                          type = "SA",
-                         polygon_folder = "./BioShiftR_polygons"){
-
+                         polygon_folder = "./BioShiftR_polygons") {
   # make sure data has correct necessary ids for matching
-  if(type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id", call.=F)
+  if (type == "SA" & !all(c("article_id", "poly_id") %in% colnames(data))) {
+    stop("ID key missing; input requires: article_id, poly_id", call. = FALSE)
   }
-  if(type == "SP" & !all(c("article_id", "poly_id", "sp_name_checked") %in% colnames(data))){
-    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call.=F)
+  if (type == "SP" & !all(c("article_id", "poly_id", "sp_name_checked") %in% colnames(data))) {
+    stop("ID key missing; input requires: article_id, poly_id, sp_name_checked", call. = FALSE)
   }
 
 
   filename <- switch(type,
-                     "SA" = "sa_polygons_simplified.rds",
-                     "SP" = "sp_polygons_simplified.rds")
+    "SA" = "sa_polygons_simplified.rds",
+    "SP" = "sp_polygons_simplified.rds"
+  )
 
   # make path to polygons (specified folder / filename)
   path <- file.path(polygon_folder, filename)
 
   # make sure polygon gpkg exists in working directory or is specified
-  if(!file.exists(path)){
-    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of the defaul directory: ./BioShiftR_polygons.", call.=F)
+  if (!file.exists(path)) {
+    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of the defaul directory: ./BioShiftR_polygons.", call. = FALSE)
   }
 
   polys <- readRDS(path)
 
-  return <- switch(
-    type,
+  return <- switch(type,
     "SA" = data |>
       dplyr::left_join(polys,
-                       by = dplyr::join_by(article_id, poly_id)) |>
+        by = dplyr::join_by(article_id, poly_id)
+      ) |>
       sf::st_as_sf(),
     "SP" = data |> dplyr::left_join(polys,
-                             by = dplyr::join_by(article_id, poly_id, sp_name_checked)) |>
+      by = dplyr::join_by(article_id, poly_id, sp_name_checked)
+    ) |>
       sf::st_as_sf()
   )
 
   # if species-specific polygons were requested, show warning that NAs were produced
-  if(type == "SP" & any(return |> sf::st_is_empty())){
-
+  if (type == "SP" & any(return |> sf::st_is_empty())) {
     NAs <- sum(sf::st_is_empty(return))
-    warning(paste0("In add_polygons(). Some shifts lack species-specific ranges. ",NAs," NA values returned."), call. = F)
-
+    warning(paste0("In add_polygons(). Some shifts lack species-specific ranges. ", NAs, " NA values returned."), call. = FALSE)
   }
 
   sf::st_crs(return) <- sf::st_crs(polys)
   rm(polys)
 
   return(return)
-
-
 }

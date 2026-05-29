@@ -12,41 +12,39 @@
 #'
 #' @examples get_shifts()
 #' @examples get_shifts(group = "Birds", continent = "Asia")
-#' @examples get_shifts(continent = c("North America","South America"), type = "ELE")
+#' @examples get_shifts(continent = c("North America", "South America"), type = "ELE")
 get_shifts <- function(group = "All",
                        realm = "All",
                        continent = "All",
-                       type = c("LAT","ELE")){
-
+                       type = c("LAT", "ELE")) {
   shifts <- readRDS(system.file("extdata", "shifts.rds", package = "BioShiftR"))
-  sa_cont <- readRDS(system.file("extdata","common_continent.rds", package = "BioShiftR"))
-  common_taxa <- readRDS(system.file("extdata","common_taxa.rds", package = "BioShiftR"))
+  sa_cont <- readRDS(system.file("extdata", "common_continent.rds", package = "BioShiftR"))
+  common_taxa <- readRDS(system.file("extdata", "common_taxa.rds", package = "BioShiftR"))
 
 
-
-  if(!identical(group,c("All"))){
-
+  if (!identical(group, c("All"))) {
     shifts <- shifts |>
       dplyr::filter(sp_name_publication %in% unname(unlist(common_taxa[c(group)])))
-
   }
 
-  if(!identical(realm,c("All"))){
-
+  if (!identical(realm, c("All"))) {
     shifts <- shifts |> dplyr::filter(eco == realm)
-    if(realm == "Mar"){warning("Note: Marine realm includes intertidal species, to differentiate, further filtering is required. Use column Eco.")}
-    if(realm == "Ter"){warning("Note: Terrestrial realm includes Aquatic and Semi-Aquatic species, to differentiate, further filtering is required. Use Eco column.")}
+    if (realm == "Mar") {
+      warning("Note: Marine realm includes intertidal species, to differentiate, further filtering is required. Use column Eco.")
+    }
+    if (realm == "Ter") {
+      warning("Note: Terrestrial realm includes Aquatic and Semi-Aquatic species, to differentiate, further filtering is required. Use Eco column.")
+    }
   }
 
-  if(!identical(continent,c("All"))){
-
+  if (!identical(continent, c("All"))) {
     shifts <- shifts |>
-      dplyr::mutate(cont_id = paste0(article_id,"_",poly_id)) |>
+      dplyr::mutate(cont_id = paste0(article_id, "_", poly_id)) |>
       dplyr::filter(cont_id %in% unname(unlist(sa_cont[continent]))) |>
       dplyr::select(-cont_id)
   }
 
-  if(nrow(shifts) == 0){
+  if (nrow(shifts) == 0) {
     warning("No shifts of this grouping exist in the dataset")
   }
 
@@ -55,5 +53,4 @@ get_shifts <- function(group = "All",
     dplyr::filter(type %in% !!type)
 
   return(shifts)
-
 }

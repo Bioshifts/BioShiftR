@@ -13,7 +13,9 @@ Imports:
     readr,
     sf,
     stringr,
-    magrittr
+    magrittr,
+    glue,
+    purrr
 Depends: 
     R (>= 3.5)
 Suggests: 
@@ -22,7 +24,6 @@ Suggests:
     ggallin,
     ggthemes,
     rnaturalearth,
-    sf,
     ggridges,
     plotrix,
     broom, 

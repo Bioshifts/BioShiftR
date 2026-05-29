@@ -9,7 +9,7 @@ add_cv(
   type = "SA",
   stat = c("mean"),
   res = c(LAT = "25km", ELE = "1km"),
-  suffix = F
+  suffix = FALSE
 )
 }
 \arguments{
@@ -30,5 +30,7 @@ dataframe of range shifts supplemented with selected columns of climate velocity
 Add Climate Velocity to shifts dataframe
 }
 \examples{
-get_shifts() |> add_cv(stat = c("mean"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()
+get_shifts() |>
+  add_cv(stat = c("mean"), res = c("LAT" = "25km", "ELE" = "1km")) |>
+  dplyr::glimpse()
 }

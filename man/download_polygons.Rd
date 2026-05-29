@@ -7,8 +7,7 @@
 download_polygons(
   type = "SA",
   polygon_folder = "./BioShiftR_polygons",
-  timeout = 500,
-  replace = F
+  timeout = 500
 )
 }
 \arguments{
@@ -22,8 +21,10 @@ download_polygons(
 data folder for polygon storage
 }
 \description{
-BioShiftR relies on data from multiple sources. Spatial polygon datasets of all study areas, or species ranges within study areas are available on [Open Science Framework]{https://osf.io/tp4hv/files/osfstorage}, but need to be downloaded locally in order to use provided helper functions. This function only needs to be run once
+BioShiftR relies on data from multiple sources. Spatial polygon datasets of all study areas, or species ranges within study areas are available on \href{https://osf.io/tp4hv/files/osfstorage}{Open Science Framework}, but need to be downloaded locally in order to use provided helper functions. This function only needs to be run once.
 }
 \examples{
-\dontrun{download_polyons(type = "SA")}
+\dontrun{
+download_polygons(type = "SA")
+}
 }

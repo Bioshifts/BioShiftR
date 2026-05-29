@@ -9,7 +9,7 @@ add_baselines(
   type = "SA",
   stat = c("mean"),
   res = c(LAT = "25km", ELE = "1km"),
-  suffix = F
+  suffix = FALSE
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ add_baselines(
 
 \item{stat}{Statistic of the given variable. Choices are "mean" and "sd".}
 
-\item{res}{Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific res ("1km","25km","50km","110km"), or use "best" to ensure each shift has a matching temperature (see vignette)}
+\item{res}{Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific resolution with one of: \code{"1km"}, \code{"25km"}, \code{"50km"}, \code{"110km"}.}
 
 \item{suffix}{Binary choice to add the resolution on to baseline variable columns. Use this if you plan to add multiple baseline resolutions to the same dataset.}
 }
@@ -31,5 +31,5 @@ Add baseline temperatures of species- or study-area polygons for each range shif
 }
 \examples{
 get_shifts() |> add_baselines()
-get_shifts(eco = "Mar") |> add_baselines(res = "25km")
+get_shifts(realm = "Mar") |> add_baselines(res = "25km")
 }

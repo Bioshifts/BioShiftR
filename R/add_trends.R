@@ -11,101 +11,108 @@
 #' @returns range shift dataframe supplemented with selected trends in temperature (°C/year) within study areas or species-specific study areas throughout the duration of the original study.
 #' @export
 #'
-#' @examples get_shifts() |> add_trends() |> dplyr::glimpse()
+#' @examples get_shifts() |>
+#'   add_trends() |>
+#'   dplyr::glimpse()
 add_trends <- function(data,
                        type = "SA",
                        stat = c("mean"),
-                       res = c("LAT" = "25km",
-                               "ELE" = "1km"),
-                       suffix = F){
-
-
+                       res = c(
+                         "LAT" = "25km",
+                         "ELE" = "1km"
+                       ),
+                       suffix = FALSE) {
   # make sure data has correct necessary ids
-  if(type == "SA" & !all(c("article_id", "poly_id", "method_id", "type") %in% colnames(data))){
-    stop("ID key missing; input requires article_id, poly_id, method_id, type", call.=F)
+  if (type == "SA" & !all(c("article_id", "poly_id", "method_id", "type") %in% colnames(data))) {
+    stop("ID key missing; input requires article_id, poly_id, method_id, type", call. = FALSE)
   }
-  if(type == "SP" & !all(c("article_id", "poly_id", "method_id", "type","sp_name_checked") %in% colnames(data))){
-    stop("ID key missing; input requires article_id, poly_id, method_id, type, sp_name_checked", call.=F)
+  if (type == "SP" & !all(c("article_id", "poly_id", "method_id", "type", "sp_name_checked") %in% colnames(data))) {
+    stop("ID key missing; input requires article_id, poly_id, method_id, type, sp_name_checked", call. = FALSE)
   }
 
   # make sure inputs are valid ----------------
   # make sure selected resolutions are valid
-  if(!all(res %in% c("1km","25km","50km","110km"))){
+  if (!all(res %in% c("1km", "25km", "50km", "110km"))) {
     stop("res must be one of: '1km', '25km','50km','110km")
   }
   # make sure selected statistics are valid
-  if(!all(stat %in% c("q25", "median", "mean", "q75", "sd"))){
+  if (!all(stat %in% c("q25", "median", "mean", "q75", "sd"))) {
     stop('stat must be any of: "q25", "median", "mean", "q75", "sd".')
   }
   # make sure type is valid
-  if(!type %in% c("SA","SP")){
+  if (!type %in% c("SA", "SP")) {
     stop("type must be 'SA' or 'SP'.")
   }
   # make sure there is only one resolution if adding suffix
-  if(length(res) > 1 & suffix == T ){
+  if (length(res) > 1 & suffix == TRUE) {
     stop("use suffix only when selecting a single resolution of climate data (with res = c())")
   }
 
 
   # check if trends columns already exist -----------------------------------
   check_cols_important <- c(
-    paste0("trend_temp_",stat),
-    "trend_res")
+    paste0("trend_temp_", stat),
+    "trend_res"
+  )
 
 
-  if(any(c(check_cols_important) %in% colnames(data))){
+  if (any(c(check_cols_important) %in% colnames(data))) {
     # if trend cols exist, remove and warn
     existing_important <- check_cols_important[which(check_cols_important %in% colnames(data))]
     existing_col_text <- glue::glue_collapse(existing_important, sep = ", ", last = ", and ")
-    if(nchar(existing_col_text) > 0 & suffix == F){
-      warning(paste0(existing_col_text," already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate trends data."))
-      data <- data %>% select(-all_of(existing_important))
+    if (nchar(existing_col_text) > 0 & suffix == FALSE) {
+      warning(paste0(existing_col_text, " already exists in data and will be replaced. Use suffix argument to add multiple resolutions of climate trends data."))
+      data <- data %>% dplyr::select(-all_of(existing_important))
     }
   }
 
 
-
   # get trends dataset cv
-  trends <- switch(
-    type,
+  trends <- switch(type,
     "SA" = readRDS(system.file("extdata", "trends.rds", package = "BioShiftR")) |> dplyr::rename(trend_temp_var = temp_var),
     "SP" = readRDS(system.file("extdata", "sp_trends.rds", package = "BioShiftR")) |> dplyr::rename(trend_temp_var = temp_var)
   )
 
   # specify res column - if only one is provided, make it the chosen res for both
-  if(length(res) == 1 & is.null(names(res))){
-    res <- c("LAT" = res,
-             "ELE" = res)
+  if (length(res) == 1 & is.null(names(res))) {
+    res <- c(
+      "LAT" = res,
+      "ELE" = res
+    )
   }
 
   # get input combinations of stat, exp, res
   combinations <-
-    purrr::map(.x = res,
-               .f = ~expand.grid(stat, paste0("res",.x)))
+    purrr::map(
+      .x = res,
+      .f = ~ expand.grid(stat, paste0("res", .x))
+    )
 
   # paste combinations into colnames
-  cols <- purrr::map(.x = combinations,
-                     .f = ~paste0("trend_temp_", apply(.x,1,paste,collapse = "_")))
+  cols <- purrr::map(
+    .x = combinations,
+    .f = ~ paste0("trend_temp_", apply(.x, 1, paste, collapse = "_"))
+  )
 
   # split data by type (lat/ele)
-  data_split <- data |> split(f = factor(data$type, levels = c("LAT","ELE")))
+  data_split <- data |> split(f = factor(data$type, levels = c("LAT", "ELE")))
 
 
   # add trends to bioshifts
-  trends2 <- switch(
-    type,
+  trends2 <- switch(type,
     # if type is "SA", add study-level CVs:
     "SA" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~{
+      .f = ~ {
         out <- data_split[[.x]] |>
           dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, dplyr::all_of(cols[[.x]])),
-                           by = dplyr::join_by(article_id, poly_id, method_id, type))
-        if(suffix == F){
+            by = dplyr::join_by(article_id, poly_id, method_id, type)
+          )
+        if (suffix == FALSE) {
           out <- out |>
             dplyr::mutate(trend_res = res[[.x]]) |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
-        } else if(suffix == T){
+        } else if (suffix == TRUE) {
           out <- out |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
         }
@@ -115,15 +122,16 @@ add_trends <- function(data,
     # if type is "SP", add species-level CVs:
     "SP" = purrr::map_dfr(
       .x = names(cols),
-      .f = ~{
+      .f = ~ {
         out <- data_split[[.x]] |>
           dplyr::left_join(trends |> dplyr::select(article_id, poly_id, type, method_id, sp_name_checked, dplyr::all_of(cols[[.x]])),
-                           by = dplyr::join_by(article_id, poly_id, type, method_id, sp_name_checked))
-        if(suffix == F){
+            by = dplyr::join_by(article_id, poly_id, type, method_id, sp_name_checked)
+          )
+        if (suffix == FALSE) {
           out <- out |>
             dplyr::mutate(trend_res = res[[.x]]) |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res.*", ""), dplyr::all_of(cols[[.x]]))
-        } else if(suffix == T){
+        } else if (suffix == TRUE) {
           out <- out |>
             dplyr::rename_with(~ stringr::str_replace(.x, "_res", "_"), dplyr::all_of(cols[[.x]]))
         }
@@ -134,22 +142,23 @@ add_trends <- function(data,
 
 
   # print a warning if species-specific polys are missing
-  if(type == "SP"){
-    n_missing <- sum(rowSums(is.na(trends2[,c(stringr::str_replace(cols[[1]],"_res.*",""))])) == length(cols[[1]]))
-    if(n_missing > 0){
-      warning(call.=F,
-              paste0("Not all shifts have associated species-specific polygon values, or values at every resolution. ",n_missing," NAs returned."))
+  if (type == "SP") {
+    n_missing <- sum(rowSums(is.na(trends2[, c(stringr::str_replace(cols[[1]], "_res.*", ""))])) == length(cols[[1]]))
+    if (n_missing > 0) {
+      warning(
+        call. = FALSE,
+        paste0("Not all shifts have associated species-specific polygon values, or values at every resolution. ", n_missing, " NAs returned.")
+      )
     }
   }
 
   # various warnings
-  if("Mar" %in% unique(data$eco) & "1km" %in% res[["LAT"]]){
+  if ("Mar" %in% unique(data$eco) & "1km" %in% res[["LAT"]]) {
     warning("Marine trends do not include 1km resolutions. NAs returned")
   }
-  if("ELE" %in% unique(data$type) & any(c("25km","50km",'110km') %in% res[["ELE"]])){
+  if ("ELE" %in% unique(data$type) & any(c("25km", "50km", "110km") %in% res[["ELE"]])) {
     warning("Elevation shifts do not include 25km, 50km, or 110km climate variable resolutions. NAs returned.")
   }
 
   return(trends2)
-
 }
