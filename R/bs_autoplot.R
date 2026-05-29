@@ -38,7 +38,7 @@
 #'
 #' # Pipe-in style
 #' get_shifts(group = "Birds", continent = "Europe") |>
-#' bs_autoplot(plottype = "point")
+#'   bs_autoplot(plottype = "point")
 #'
 #' \dontrun{
 #' # Map requires downloaded polygons (see ?download_polygons)
@@ -274,7 +274,7 @@ bs_autoplot <- function(data = NULL,
       ggplot2::geom_sf(
         data = rnaturalearth::ne_countries(returnclass = "sf") |>
           sf::st_make_valid() |>
-          sf::st_crop(bbox),
+          sf::st_crop(bbox) |> suppressMessages(),
         fill = "grey88", colour = "white", linewidth = 0.2
       ) +
       ggplot2::geom_sf(
