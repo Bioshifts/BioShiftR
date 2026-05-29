@@ -15,7 +15,7 @@ add_poly_info(data, type = "SA")
 Range shift dataframe supplemented with columns on spatial extent of study or species-specific polygons.
 }
 \description{
-This function supplements range shift observations ()
+This function supplements range shift observations with spatial summary statistics of their associated study area or species-specific study area polygons.
 }
 \examples{
 get_shifts() |>

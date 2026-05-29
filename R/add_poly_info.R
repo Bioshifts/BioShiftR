@@ -1,6 +1,6 @@
 #' Add polygon attributes to range shift dataframe
 #'
-#' This function supplements range shift observations ()
+#' This function supplements range shift observations with spatial summary statistics of their associated study area or species-specific study area polygons.
 #'
 #'
 #' @param data Range shifts dataframe from `get_shifts()` function
