@@ -7,8 +7,8 @@
 #' * **By species name** – pass a character vector of one or more
 #'   `sp_name_checked` values as the first argument.  The full database is
 #'   queried automatically.
-#' * **Pipe-in** – filter `get_shifts()` yourself and pipe the result in as
-#'   before.
+#' * **Pipe-in** – filter `get_shifts()` yourself (e.g., to species) and pipe
+#'  the result in.
 #'
 #' @param data Either a character vector of species names (e.g.
 #'   `"Troglodytes_troglodytes"`, spaces or underscores accepted) *or* a
@@ -38,8 +38,7 @@
 #'
 #' # Pipe-in style
 #' get_shifts(group = "Birds", continent = "Europe") |>
-#'   dplyr::filter(sp_name_checked == "Troglodytes_troglodytes") |>
-#'   bs_autoplot(plottype = "point")
+#' bs_autoplot(plottype = "point")
 #'
 #' \dontrun{
 #' # Map requires downloaded polygons (see ?download_polygons)
