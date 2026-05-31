@@ -275,8 +275,9 @@ details.</p>
 <td>Adds information identifying the source article for each specific
 shift</td>
 <td>
-<code>article</code>, <code>doi</code>,
-<code>id_bioshifts_v1</code>, <code>id_core</code>
+<code>article</code>, <code>doi_url</code>,
+<code>id_bioshifts_v1</code>, <code>id_core</code>,
+<code>reference</code>
 </td>
 </tr>
 <tr class="even">
@@ -298,11 +299,12 @@ identifying the original shift as reported by study authors.</td>
 variability of detected shift rates. This function adds methodological
 parameters by which each individual shift was detected</td>
 <td>
-<code>start_firstperiod</code>, <code>midpoint_firstperiod</code>,
-<code>end_firstperiod</code>, <code>start_secondperiod</code>,
-<code>midpoint_secondperiod</code>, <code>end_secondperiod</code>,
-<code>n_periods</code>, <code>duration</code>, <code>grain_size</code>,
-<code>sampling</code>, <code>category</code>, <code>obs_type</code>,
+<code>sublocality_or_pop</code>, <code>start_firstperiod</code>,
+<code>midpoint_firstperiod</code>, <code>end_firstperiod</code>,
+<code>start_lastperiod</code>, <code>midpoint_lastperiod</code>,
+<code>end_lastperiod</code>, <code>n_periods</code>,
+<code>duration</code>, <code>grain_size</code>, <code>sampling</code>,
+<code>category</code>, <code>obs_type</code>,
 <code>uncertainty_distribution</code>, <code>position_definition</code>,
 <code>position_definition_category</code>
 </td>
@@ -323,9 +325,9 @@ adds additional taxonomic information for each species.</td>
 <td><code>add_baselines(data, type, stat, res, suffix)</code></td>
 <td>Adds the average temperature value within the study area (or the
 species-specific study area), over the study duration.</td>
-<td>Variable combinations of statistic and exposure variable formatted
-as <code>baseline_{stat}_temp</code> (e.g.,
-<code>baseline_mean_temp</code>). Also <code>baseline_res</code> for the
+<td>Variable combinations of statistic formatted as
+<code>baseline_temp_{stat}</code> (e.g.,
+<code>baseline_temp_mean</code>). Also <code>baseline_res</code> for the
 spatial resolution over which variables were calculated. See “Adding
 Climate Variables” for details. If suffix is TRUE, input raster
 resolution will be appended to the column name.</td>
@@ -335,10 +337,10 @@ resolution will be appended to the column name.</td>
 <td>Adds the average change per year of temperature within the study
 area (or species-specific study area) over the study duration. See
 “Adding climate Variables” vignette for more.</td>
-<td>Variable Combinations of <code>trend_{stat}_temp</code> (e.g.,
-<code>trend_mean_temp</code>) for all requested trends,
-<code>trend_temp_var</code>, and <code>trend_res</code>. If suffix is
-TRUE, input raster resolution will be appended to the column name.</td>
+<td>Variable combinations of <code>trend_temp_{stat}</code> (e.g.,
+<code>trend_temp_mean</code>) for all requested trends, and
+<code>trend_res</code>. If suffix is TRUE, input raster resolution will
+be appended to the column name.</td>
 </tr>
 <tr class="odd">
 <td><code>add_cv(data, type, stat, res, suffix)</code></td>
@@ -346,11 +348,12 @@ TRUE, input raster resolution will be appended to the column name.</td>
 or elevational directions within study area or species-specific study
 area over the study duration. See “Adding Climate Variables” vignette
 for more.</td>
-<td>Variable combinations of <code>VelAlong_stat_exposure</code> (e.g.,
-<code>VelAlong_mean_temp</code>) for all requested climate velocities,
-<code>cv_temp_var</code>, and <code>cv_res</code>. See “Adding Climate
-Variables” vignette for more. If suffix is TRUE, input raster resolution
-will be appended to the column name.</td>
+<td>Variable combinations of <code>cv_temp_{stat}</code> (e.g.,
+<code>cv_temp_mean</code>) for all requested climate velocities,
+<code>along_gradient</code>, <code>cv_temp_var</code>, and
+<code>cv_res</code>. See “Adding Climate Variables” vignette for more.
+If suffix is TRUE, input raster resolution will be appended to the
+column name.</td>
 </tr>
 <tr class="even">
 <td><code>add_poly_info(data, type)</code></td>

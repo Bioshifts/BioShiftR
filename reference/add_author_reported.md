@@ -26,7 +26,9 @@ from which the shift values were pulled.
 ## Examples
 
 ``` r
-get_shifts() |> add_author_reported() |> dplyr::glimpse()
+get_shifts() |>
+  add_author_reported() |>
+  dplyr::glimpse()
 #> Rows: 31,761
 #> Columns: 19
 #> $ id                        <chr> "A001_P1_ELE_O_M01", "A001_P1_ELE_O_M01", "A…

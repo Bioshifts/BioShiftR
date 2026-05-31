@@ -10,7 +10,7 @@ world, published between 1998 and 2020.
 ``` r
 get_shifts(
   group = "All",
-  realm = "All",
+  eco = "All",
   continent = "All",
   type = c("LAT", "ELE")
 )
@@ -29,10 +29,10 @@ get_shifts(
   taxonomic filtering, see
   [`add_taxo()`](https://bioshifts.github.io/BioShiftR/reference/add_taxo.md).
 
-- realm:
+- eco:
 
-  Subset of study realms for which to uplaod range shift data. Options
-  are `Mar` (marine), `Ter` (terrestrial), or `All` (default).
+  Subset of ecological realms for which to uplaod range shift data.
+  Options are `Mar` (marine), `Ter` (terrestrial), or `All` (default).
 
 - continent:
 
@@ -87,7 +87,7 @@ get_shifts(group = "Birds", continent = "Asia")
 #> # ℹ 70 more rows
 #> # ℹ 5 more variables: sp_name_checked <chr>, subsp <chr>, calc_rate <dbl>,
 #> #   calc_unit <chr>, direction <chr>
-get_shifts(continent = c("North America","South America"), type = "ELE")
+get_shifts(continent = c("North America", "South America"), type = "ELE")
 #> # A tibble: 7,475 × 13
 #>    id         article_id poly_id method_id eco   type  param sp_name_publication
 #>    <chr>      <chr>      <chr>   <chr>     <chr> <chr> <chr> <chr>              

@@ -51,7 +51,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>input shifts dataset from get_shifts() function.</p></dd>
 
 </dl></div>
@@ -62,7 +62,9 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_taxo</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">add_taxo</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 31,761</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 19</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ id                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A001_P1_ELE_O_M01"<span style="color: #949494;">, </span>"A001_P1_ELE_O_M01"<span style="color: #949494;">, </span>"A001_P1…</span>

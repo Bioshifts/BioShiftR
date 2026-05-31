@@ -11,7 +11,7 @@ add_taxo(data)
 
 ## Arguments
 
-- df:
+- data:
 
   input shifts dataset from get_shifts() function.
 
@@ -24,7 +24,9 @@ original publication.
 ## Examples
 
 ``` r
-get_shifts() |> add_taxo() |> dplyr::glimpse()
+get_shifts() |>
+  add_taxo() |>
+  dplyr::glimpse()
 #> Rows: 31,761
 #> Columns: 19
 #> $ id                  <chr> "A001_P1_ELE_O_M01", "A001_P1_ELE_O_M01", "A001_P1…

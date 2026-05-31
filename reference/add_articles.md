@@ -25,7 +25,9 @@ within other datasets (BioShifts V1 and CoRE database of range shifts).
 ## Examples
 
 ``` r
-get_shifts(group = "Birds", continent = "Africa") |> add_articles() |> dplyr::glimpse()
+get_shifts(group = "Birds", continent = "Africa") |>
+  add_articles() |>
+  dplyr::glimpse()
 #> Rows: 2
 #> Columns: 18
 #> $ id                  <chr> "A175_P1_LAT_O_M01", "A175_P2_LAT_O_M01"

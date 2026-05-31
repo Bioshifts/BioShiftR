@@ -10,7 +10,7 @@ add_cv(
   type = "SA",
   stat = c("mean"),
   res = c(LAT = "25km", ELE = "1km"),
-  suffix = F
+  suffix = FALSE
 )
 ```
 
@@ -52,7 +52,9 @@ directions.
 ## Examples
 
 ``` r
-get_shifts() |> add_cv(stat = c("mean"),res = c("LAT" = "25km", "ELE" = "1km")) |> dplyr::glimpse()
+get_shifts() |>
+  add_cv(stat = c("mean"), res = c("LAT" = "25km", "ELE" = "1km")) |>
+  dplyr::glimpse()
 #> Rows: 31,761
 #> Columns: 17
 #> $ id                  <chr> "A002_P1_LAT_LE_M01", "A002_P1_LAT_LE_M01", "A002_…

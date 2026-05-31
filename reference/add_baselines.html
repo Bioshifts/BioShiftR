@@ -49,7 +49,7 @@
 <span>  type <span class="op">=</span> <span class="st">"SA"</span>,</span>
 <span>  stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span><span class="op">)</span>,</span>
 <span>  res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>LAT <span class="op">=</span> <span class="st">"25km"</span>, ELE <span class="op">=</span> <span class="st">"1km"</span><span class="op">)</span>,</span>
-<span>  suffix <span class="op">=</span> <span class="cn">F</span></span>
+<span>  suffix <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -70,7 +70,7 @@
 
 
 <dt id="arg-res">res<a class="anchor" aria-label="anchor" href="#arg-res"></a></dt>
-<dd><p>Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific res ("1km","25km","50km","110km"), or use "best" to ensure each shift has a matching temperature (see vignette)</p></dd>
+<dd><p>Calculation resolution. Baseline temperatures in each species/study area were calculated with environmental raster layers at up to four resolutions: 1km, 25km, 50km, 110km, resulting in slightly different values. Choose a specific resolution with one of: <code>"1km"</code>, <code>"25km"</code>, <code>"50km"</code>, <code>"110km"</code>.</p></dd>
 
 
 <dt id="arg-suffix">suffix<a class="anchor" aria-label="anchor" href="#arg-suffix"></a></dt>
@@ -103,7 +103,25 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_unit &lt;chr&gt;, direction &lt;chr&gt;, baseline_temp_mean &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   baseline_res &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="fu"><a href="get_shifts.html">get_shifts</a></span><span class="op">(</span>eco <span class="op">=</span> <span class="st">"Mar"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">add_baselines</span><span class="op">(</span>res <span class="op">=</span> <span class="st">"25km"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_shifts(eco = "Mar"):</span> unused argument (eco = "Mar")</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Note: Marine realm includes intertidal species, to differentiate, further filtering is required.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Elevation shifts do not include 25km, 50km, or 110km baselines. NAs returned.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31,761 × 15</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id         article_id poly_id method_id eco   type  param sp_name_publication</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ambloplites_rupest…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ameiurus_nebulosus </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Chrosomus_eos      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_gibbosus   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_macrochirus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Luxilus_cornutus   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_dolomi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_salmoi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notemigonus_crysol…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notropis_atherinoi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31,751 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: sp_name_checked &lt;chr&gt;, subsp &lt;chr&gt;, calc_rate &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   calc_unit &lt;chr&gt;, direction &lt;chr&gt;, baseline_temp_mean &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   baseline_res &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

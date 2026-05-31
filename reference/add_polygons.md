@@ -42,5 +42,7 @@ or, when available, the species-specific polygon for each shift.
 ## Examples
 
 ``` r
-if (FALSE) get_shifts(continent = "Africa") |> add_polygons() # \dontrun{}
+if (FALSE) { # \dontrun{
+get_shifts(continent = "Africa") |> add_polygons()
+} # }
 ```

@@ -2,9 +2,9 @@
 
 BioShiftR relies on data from multiple sources. Spatial polygon datasets
 of all study areas, or species ranges within study areas are available
-on \[Open Science Framework\]https://osf.io/tp4hv/files/osfstorage, but
+on [Open Science Framework](https://osf.io/tp4hv/files/osfstorage), but
 need to be downloaded locally in order to use provided helper functions.
-This function only needs to be run once
+This function only needs to be run once.
 
 ## Usage
 
@@ -12,8 +12,7 @@ This function only needs to be run once
 download_polygons(
   type = "SA",
   polygon_folder = "./BioShiftR_polygons",
-  timeout = 500,
-  replace = F
+  timeout = 500
 )
 ```
 
@@ -43,5 +42,7 @@ data folder for polygon storage
 ## Examples
 
 ``` r
-if (FALSE) download_polyons(type = "SA") # \dontrun{}
+if (FALSE) { # \dontrun{
+download_polygons(type = "SA")
+} # }
 ```

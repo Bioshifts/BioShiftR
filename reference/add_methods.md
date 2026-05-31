@@ -26,7 +26,9 @@ columns.
 ## Examples
 
 ``` r
-get_shifts() |> add_methods() |> dplyr::glimpse()
+get_shifts() |>
+  add_methods() |>
+  dplyr::glimpse()
 #> Rows: 31,761
 #> Columns: 29
 #> $ id                           <chr> "A001_P1_ELE_O_M01", "A001_P1_ELE_O_M01",…

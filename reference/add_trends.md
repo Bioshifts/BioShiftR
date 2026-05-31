@@ -13,7 +13,7 @@ add_trends(
   type = "SA",
   stat = c("mean"),
   res = c(LAT = "25km", ELE = "1km"),
-  suffix = F
+  suffix = FALSE
 )
 ```
 
@@ -57,7 +57,9 @@ the duration of the original study.
 ## Examples
 
 ``` r
-get_shifts() |> add_trends() |> dplyr::glimpse()
+get_shifts() |>
+  add_trends() |>
+  dplyr::glimpse()
 #> Rows: 31,761
 #> Columns: 15
 #> $ id                  <chr> "A002_P1_LAT_LE_M01", "A002_P1_LAT_LE_M01", "A002_…

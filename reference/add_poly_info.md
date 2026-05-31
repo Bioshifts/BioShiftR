@@ -1,6 +1,8 @@
 # Add polygon attributes to range shift dataframe
 
-This function supplements range shift observations ()
+This function supplements range shift observations with spatial summary
+statistics of their associated study area or species-specific study area
+polygons.
 
 ## Usage
 
@@ -29,7 +31,9 @@ study or species-specific polygons.
 ## Examples
 
 ``` r
-get_shifts() |> add_poly_info(type = "SA") |> dplyr::glimpse()
+get_shifts() |>
+  add_poly_info(type = "SA") |>
+  dplyr::glimpse()
 #> Rows: 31,761
 #> Columns: 24
 #> $ id                  <chr> "A001_P1_ELE_O_M01", "A001_P1_ELE_O_M01", "A001_P1…
