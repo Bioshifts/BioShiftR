@@ -1,6 +1,6 @@
 #' Add climate variable trends to range shift dataframe
 #'
-#' `add_trends()` supplements the range shifts dataframe with annual change in climate trends (temperature and/or precipitation) within the study areas or species-specific study areas of the shift detection over the study duration.
+#' `add_trends()` supplements the range shifts dataframe with annual change in temperature within the study areas or species-specific study areas of the shift detection over the study duration.
 #'
 #' @param data dataframe of BioShifts range shifts from `get_shifts()` function
 #' @param type Type of area over which trends are calculated: Article study areas ("SA"), or study areas cropped to species' range polygons ("SP").
