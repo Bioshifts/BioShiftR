@@ -10,7 +10,6 @@ Roxygen: list(markdown = TRUE)
 Imports: 
     dplyr,
     ggplot2,
-    readr,
     sf,
     stringr,
     magrittr,

@@ -30,6 +30,7 @@
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' # Quick single-species dot plot
 #' bs_autoplot("Troglodytes_troglodytes", plottype = "point")
 #'
@@ -42,7 +43,7 @@
 #' get_shifts(group = "Birds", continent = "Europe") |>
 #'   bs_autoplot(plottype = "point")
 #'
-#' \dontrun{
+#'
 #' # Map requires downloaded polygons (see ?download_polygons)
 #' download_polygons(type = "SP")
 #' bs_autoplot("Troglodytes_troglodytes", plottype = "map")

@@ -37,6 +37,8 @@ Quickly visualise range shift data in one of three ways: a per-study dot
 plot, a distribution by range parameter, or a spatial polygon map.
 }
 \details{
+Currently not an exported function.
+
 The function accepts input in two ways:
 \itemize{
 \item \strong{By species name} – pass a character vector of one or more
@@ -47,6 +49,7 @@ the result in.
 }
 }
 \examples{
+\dontrun{
 # Quick single-species dot plot
 bs_autoplot("Troglodytes_troglodytes", plottype = "point")
 
@@ -59,9 +62,10 @@ bs_autoplot(c("Troglodytes_troglodytes", "Fringilla_coelebs"),
 get_shifts(group = "Birds", continent = "Europe") |>
   bs_autoplot(plottype = "point")
 
-\dontrun{
+
 # Map requires downloaded polygons (see ?download_polygons)
 download_polygons(type = "SP")
 bs_autoplot("Troglodytes_troglodytes", plottype = "map")
 }
 }
+\keyword{internal}
