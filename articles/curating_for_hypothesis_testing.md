@@ -21,6 +21,7 @@ require(ggridges)
 require(ggthemes)
 require(plotrix)
 require(patchwork)
+require(broom)
 ```
 
 Here, we demonstrate how BioShifts and the BioShiftR package can be used
@@ -162,7 +163,8 @@ p2 <- shifts2 %>%
   group_by(article_id, poly_id, lat_cent_deg, lon_cent_deg) %>%
   summarize(lat_cent_deg = unique(lat_cent_deg),
             lon_cent_deg = unique(lon_cent_deg),
-            n = n()) %>%
+            n = n(),
+            .groups = "drop") %>%
   arrange(desc(n)) %>%
   
   # plot
@@ -200,7 +202,6 @@ p2 <- shifts2 %>%
   # labs
   labs(x = NULL, 
        y = NULL,
-       fill = "Avg. shift\nrate\n(km/yr)",
        size = "n in\ngroup",
        title = "Location of elevation shift estimates") 
 
@@ -402,7 +403,8 @@ shifts4_means <- shifts4 %>%
         se_trend = plotrix::std.error(trend_temp_mean),
         calc_rate = mean(calc_rate, na.rm= T),
         trend_temp_mean = mean(trend_temp_mean, na.rm=T),,
-        n = n()) 
+        n = n(),
+        .groups = "drop") 
 
 
 # plot mean data and basic model fit

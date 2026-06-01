@@ -88,7 +88,8 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggridges/" class="external-link">ggridges</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://jrnold.github.io/ggthemes/" class="external-link">ggthemes</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://plotrix.github.io/plotrix/" class="external-link">plotrix</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span></span></code></pre></div>
 <p>Here, we demonstrate how BioShifts and the BioShiftR package can be
 used to access, subset, and organize bioshifts data for research,
 hypothesis testing, and connecting to external data sources.</p>
@@ -215,7 +216,8 @@ Show Code
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">article_id</span>, <span class="va">poly_id</span>, <span class="va">lat_cent_deg</span>, <span class="va">lon_cent_deg</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>lat_cent_deg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">lat_cent_deg</span><span class="op">)</span>,</span>
 <span>            lon_cent_deg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">lon_cent_deg</span><span class="op">)</span>,</span>
-<span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  </span>
 <span>  <span class="co"># plot</span></span>
@@ -253,7 +255,6 @@ Show Code
 <span>  <span class="co"># labs</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, </span>
 <span>       y <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>       fill <span class="op">=</span> <span class="st">"Avg. shift\nrate\n(km/yr)"</span>,</span>
 <span>       size <span class="op">=</span> <span class="st">"n in\ngroup"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Location of elevation shift estimates"</span><span class="op">)</span> </span>
 <span></span>
@@ -444,7 +445,8 @@ Show Code
 <span>        se_trend <span class="op">=</span> <span class="fu">plotrix</span><span class="fu">::</span><span class="fu"><a href="https://plotrix.github.io/plotrix/reference/std.error.html" class="external-link">std.error</a></span><span class="op">(</span><span class="va">trend_temp_mean</span><span class="op">)</span>,</span>
 <span>        calc_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">calc_rate</span>, na.rm<span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
 <span>        trend_temp_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">trend_temp_mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,,</span>
-<span>        n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span>
+<span>        n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> </span>
 <span></span>
 <span></span>
 <span><span class="co"># plot mean data and basic model fit</span></span>
