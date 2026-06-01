@@ -1,9 +1,8 @@
 # Add climate variable trends to range shift dataframe
 
 `add_trends()` supplements the range shifts dataframe with annual change
-in climate trends (temperature and/or precipitation) within the study
-areas or species-specific study areas of the shift detection over the
-study duration.
+in temperature within the study areas or species-specific study areas of
+the shift detection over the study duration.
 
 ## Usage
 
