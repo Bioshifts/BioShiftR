@@ -13,8 +13,8 @@ BioShifts is a rich resource for studying the effects of climate change on the b
 ## Package Installation
 
 ```r
-install.packages("devtools")
-devtools::install_github("Bioshifts/BioShiftR")
+install.packages("remotes")
+remotes::install_github("Bioshifts/BioShiftR")
 library(BioShiftR)
 ```
 

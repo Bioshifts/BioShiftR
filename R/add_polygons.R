@@ -34,7 +34,7 @@ add_polygons <- function(data,
 
   # make sure polygon gpkg exists in working directory or is specified
   if (!file.exists(path)) {
-    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of the defaul directory: ./BioShiftR_polygons.", call. = FALSE)
+    stop("Polygons not found locally. Please use download_polygons(), or specify directory if they are downloaded outside of the default directory: ./BioShiftR_polygons.", call. = FALSE)
   }
 
   polys <- readRDS(path)
