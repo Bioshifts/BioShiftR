@@ -137,4 +137,3 @@ dim_sep <- (dim(shifts)[1] * dim(shifts)[2] +
               dim(sp_cv)[1] * dim(sp_cv)[2]
 )
 
-
