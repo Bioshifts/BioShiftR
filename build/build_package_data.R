@@ -46,6 +46,8 @@ saveRDS(common_continent,
 #methods ---------
 files[7]
 methods <- readr::read_csv(file.path(path,"methods.csv"))
+# remove unneeded columns
+methods <- methods %>%  dplyr::select(-c(article_id, poly_id, type, param, method_id))
 saveRDS(methods,
         file.path(path.out,"methods.rds"))
 
@@ -136,4 +138,33 @@ dim_sep <- (dim(shifts)[1] * dim(shifts)[2] +
               dim(cv)[1] * dim(cv)[2] +
               dim(sp_cv)[1] * dim(sp_cv)[2]
 )
+
+
+dim_sep / full_dim * 100
+
+
+# save each as .csv -------------------------------------------------------
+out <- file.path("BioShiftR_tables_hardcopy")
+
+
+# save shifts
+readr::write_csv(shifts, file.path(out, "01-shifts.csv"))
+
+# shift specificities
+readr::write_csv(articles, file.path(out, "02-articles.csv"))
+readr::write_csv(author_reported, file.path(out, "03-author_reported.csv"))
+readr::write_csv(taxo, file.path(out, "04-taxo.csv"))
+readr::write_csv(methods, file.path(out, "05-methods.csv"))
+
+# derived exposure variables
+readr::write_csv(baselines, file.path(out, "06-baselines.csv"))
+readr::write_csv(sp_baselines, file.path(out, "07-sp_baselines.csv"))
+readr::write_csv(trends, file.path(out, "08-trends.csv"))
+readr::write_csv(sp_trends, file.path(out, "09-sp_trends.csv"))
+readr::write_csv(cv, file.path(out, "10-cv.csv"))
+readr::write_csv(sp_cv, file.path(out, "11-sp_cv.csv"))
+readr::write_csv(poly_info, file.path(out, "12-poly_info.csv"))
+readr::write_csv(sp_poly_info, file.path(out, "13-sp_poly_info.csv"))
+
+
 

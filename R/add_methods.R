@@ -16,8 +16,7 @@ add_methods <- function(data) {
   }
 
   # upload data
-  methods <- readRDS(system.file("extdata", "methods.rds", package = "BioShiftR")) %>%
-    dplyr::select(-c(article_id, poly_id, type, param, method_id)) # not needed for merge. covered in 'id'
+  methods <- readRDS(system.file("extdata", "methods.rds", package = "BioShiftR"))
 
 
   # merge
