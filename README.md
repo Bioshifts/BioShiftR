@@ -2,9 +2,9 @@
 
 ### An R package to access, manipulate, and organize the BioShifts database.
 
-  <!-- badges: start -->
-  [![R-CMD-check](https://github.com/Bioshifts/BioShiftR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bioshifts/BioShiftR/actions/workflows/R-CMD-check.yaml)
-  <!-- badges: end -->
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/Bioshifts/BioShiftR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bioshifts/BioShiftR/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 *please note: some data aspects within this package are not finalized. Please contact package maintainers if you would like to use the development version of the package*
 
