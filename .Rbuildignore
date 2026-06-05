@@ -10,3 +10,4 @@
 ^Meta$
 R/get_bs_table.R
 BioShiftR_tables_hardcopy
+R/bs_autoplot.R
