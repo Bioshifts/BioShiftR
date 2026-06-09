@@ -4,3 +4,4 @@ docs
 BioShiftR_polygons
 /Meta/
 BioShiftR_tables_hardcopy
+R/bs_autoplot.R
