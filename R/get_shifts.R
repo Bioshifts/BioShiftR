@@ -27,8 +27,9 @@ get_shifts <- function(group = "All",
       dplyr::filter(sp_name_publication %in% unname(unlist(common_taxa[c(group)])))
   }
 
+
   if (!identical(eco, c("All"))) {
-    shifts <- shifts |> dplyr::filter(eco == eco)
+    shifts <- shifts |> dplyr::filter(.data$eco == .env$eco)
     if (eco == "Mar") {
       warning("Note: Marine realm includes intertidal species, to differentiate, further filtering is required.")
     }
@@ -50,7 +51,7 @@ get_shifts <- function(group = "All",
 
   # filter to selected type
   shifts <- shifts |>
-    dplyr::filter(type %in% !!type)
+    dplyr::filter(.data$type %in% .env$type)
 
   return(shifts)
 }
