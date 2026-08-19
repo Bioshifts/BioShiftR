@@ -72,21 +72,20 @@ get_shifts() |> add_baselines()
 #> #   baseline_res <chr>
 get_shifts(eco = "Mar") |> add_baselines(res = "25km")
 #> Warning: Note: Marine realm includes intertidal species, to differentiate, further filtering is required.
-#> Warning: Elevation shifts do not include 25km, 50km, or 110km baselines. NAs returned.
-#> # A tibble: 31,761 × 15
+#> # A tibble: 1,636 × 15
 #>    id         article_id poly_id method_id eco   type  param sp_name_publication
 #>    <chr>      <chr>      <chr>   <chr>     <chr> <chr> <chr> <chr>              
-#>  1 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ambloplites_rupest…
-#>  2 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Ameiurus_nebulosus 
-#>  3 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Chrosomus_eos      
-#>  4 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_gibbosus   
-#>  5 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Lepomis_macrochirus
-#>  6 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Luxilus_cornutus   
-#>  7 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_dolomi…
-#>  8 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Micropterus_salmoi…
-#>  9 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notemigonus_crysol…
-#> 10 A002_P1_L… A002       P1      M01       Ter   LAT   LE    Notropis_atherinoi…
-#> # ℹ 31,751 more rows
+#>  1 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Cellana_nigrolinea…
+#>  2 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Conus_ebraeus      
+#>  3 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Diloma_suavis      
+#>  4 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Echininus_cumingii 
+#>  5 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Eugina_mendicaria  
+#>  6 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Hormomya_mutabilis 
+#>  7 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Modiolus_auriculat…
+#>  8 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Montfortula_picta  
+#>  9 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Morula_granulata   
+#> 10 A042_P1_L… A042       P1      M01       Mar   LAT   LE    Nerita_albicilla   
+#> # ℹ 1,626 more rows
 #> # ℹ 7 more variables: sp_name_checked <chr>, subsp <chr>, calc_rate <dbl>,
 #> #   calc_unit <chr>, direction <chr>, baseline_temp_mean <dbl>,
 #> #   baseline_res <chr>
